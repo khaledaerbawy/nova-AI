@@ -2,10 +2,10 @@ package com.opendroid.ai.core.voice
 
 import android.content.Context
 import com.k2fsa.sherpa.onnx.KeywordSpotter
-import com.github.k2fsa.sherpa.onnx.KeywordSpotterConfig
-import com.github.k2fsa.sherpa.onnx.OnlineModelConfig
-import com.github.k2fsa.sherpa.onnx.OnlineTransducerModelConfig
-import com.github.k2fsa.sherpa.onnx.FeatureConfig
+import com.k2fsa.sherpa.onnx.KeywordSpotterConfig
+import com.k2fsa.sherpa.onnx.OnlineModelConfig
+import com.k2fsa.sherpa.onnx.OnlineTransducerModelConfig
+import com.k2fsa.sherpa.onnx.FeatureConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -143,7 +143,5 @@ N OW1 V AH0 @NOVA
 Y AA1 N OW1 F AH0 @YA_NOFA
 """
 
-        private fun modelDirectory(context: Context) =
-            File(File(context.filesDir, MODEL_PARENT), MODEL_DIR)
     }
 }
