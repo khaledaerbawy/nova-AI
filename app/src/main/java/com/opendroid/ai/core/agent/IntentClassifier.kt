@@ -26,7 +26,11 @@ class IntentClassifier @Inject constructor(
             "type", "scroll", "get", "show", "whatsapp", "call", "sms", "email", "alarm", "timer", "reminder",
             "note", "notes", "calendar", "weather", "news", "flashlight", "flash", "wifi", "bluetooth",
             "brightness", "volume", "screenshot", "dnd", "mute", "unmute", "remember", "save", "extract",
-            "post", "tweet", "social", "campaign"
+            "post", "tweet", "social", "campaign",
+            "افتح", "شغل", "اقفل", "اطفي", "ابعت", "ابعث", "ارسل", "أرسل", "كلم", "اتصل",
+            "ادفع", "اشتري", "احذف", "امسح", "احفظ", "افتكر", "فكرني", "ذكرني", "سجل",
+            "انشر", "منشور", "بوست", "جدول", "حملة", "تقارير", "رسائل", "روتين", "ماكرو",
+            "اعمل", "نفذ", "نفّذ", "صور", "لقطة شاشة", "كشاف", "فلاش", "واي فاي", "بلوتوث"
         )
         val hasActionKeyword = actionKeywords.any { query.contains(it, ignoreCase = true) }
 
@@ -47,13 +51,19 @@ class IntentClassifier @Inject constructor(
             "read screen", "remember this", "save this", "save to notes", "read notes", "my notes",
             "what did i save", "what did i remember",
             "social media", "social performance", "create post", "draft post",
-            "social report", "create campaign", "social inbox"
+            "social report", "create campaign", "social inbox",
+            "افتح تطبيق", "افتح", "شغل", "اقفل", "اطفي", "ابعت", "ابعث", "ارسل", "أرسل",
+            "كلم", "اتصل", "ادفع", "اشتري", "احذف", "امسح", "انشر", "اعمل منشور",
+            "اعمل بوست", "انشئ منشور", "جدول منشور", "حملة", "تقرير السوشيال",
+            "رسائل السوشيال", "شغل الروتين", "نفذ الروتين", "نفّذ الروتين",
+            "شغل الماكرو", "نفذ الماكرو", "نفّذ الماكرو", "اعمل ماكرو", "ذكرني", "فكرني",
+            "احفظ", "افتكر", "سجل ملاحظة", "خد لقطة شاشة"
         )
         val isForcedAction = forcedActionPatterns.any { query.contains(it, ignoreCase = true) }
         if (isForcedAction) return true
 
         return try {
-            val provider = llmProviderFactory.get().getActiveProvider()
+            val provider = llmProviderFactory.get().getHybridProvider(query, QueryComplexity.SIMPLE)
             val prompt = """
                 Classify the user's intent: "$query".
                 Does this request require executing one or more device/app actions (e.g. opening an app, toggling a setting like flashlight/wifi/bluetooth, setting volume/brightness, sending a message/email, making a call, setting an alarm/timer/reminder, playing music, booking a ride, checking weather/news, paying via UPI, etc.)?

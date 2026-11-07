@@ -53,6 +53,8 @@ data class LLMConfig(
     val copilotUrl: String = "",
     val multiAgentModeEnabled: Boolean = false,
     val showFloatingButton: Boolean = true,
+    /** Keep the local wake-word engine active whenever Android permits microphone foreground use. */
+    val wakeWordEnabled: Boolean = true,
     val isDarkMode: Boolean = true,
     val lastModelFetch: Map<String, Long> = emptyMap(), // Provider -> last fetch timestamp
     val modelCache: Map<String, List<AIModel>> = emptyMap() // Provider -> cached AIModels list

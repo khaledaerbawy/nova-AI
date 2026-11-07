@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import mockwebserver3.MockResponse
@@ -170,16 +171,22 @@ class TextToSpeechEngineTest {
         .body(Buffer().write(ByteArray(64) { 1 }))
         .build()
 
-    private fun settingsWithElevenLabsKey() = SettingsRepository(
-        dataStore = PreferenceDataStoreFactory.create(
-            scope = CoroutineScope(SupervisorJob() + Dispatchers.Unconfined),
-            produceFile = {
-                Files.createTempDirectory("opendroid-tts-test").resolve("settings.preferences_pb").toFile()
-            }
-        ),
-        providerCredentialStore = ElevenLabsOnlyCredentialStore(),
-        runStartupMigration = false
-    )
+    private fun settingsWithElevenLabsKey(): SettingsRepository {
+        val repository = SettingsRepository(
+            dataStore = PreferenceDataStoreFactory.create(
+                scope = CoroutineScope(SupervisorJob() + Dispatchers.Unconfined),
+                produceFile = {
+                    Files.createTempDirectory("opendroid-tts-test").resolve("settings.preferences_pb").toFile()
+                }
+            ),
+            providerCredentialStore = ElevenLabsOnlyCredentialStore(),
+            runStartupMigration = false
+        )
+        runBlocking {
+            repository.updateConfig { it.copy(elevenLabsVoiceId = "test-multilingual-voice") }
+        }
+        return repository
+    }
 
     private class ElevenLabsOnlyCredentialStore : ProviderCredentialStore {
         override val recoveryState: StateFlow<ProviderCredentialRecoveryState> =

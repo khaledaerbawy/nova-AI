@@ -10,7 +10,18 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url = 'https://jitpack.io' }
+        // Official sherpa-onnx Android AAR is published as a GitHub release asset,
+        // not as a Maven-layout artifact. Resolve it through an artifact-only Ivy repo.
+        ivy {
+            name = "SherpaOnnxGitHubRelease"
+            url = uri("https://github.com/k2-fsa/sherpa-onnx/releases/download/v2.0.1/")
+            patternLayout {
+                artifact("[artifact]-[revision].[ext]")
+            }
+            metadataSources {
+                artifact()
+            }
+        }
     }
 }
 rootProject.name = "OpenDroid"

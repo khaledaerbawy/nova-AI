@@ -328,7 +328,8 @@ object ActionSchema {
             description = "Makes a phone call to a contact or number",
             params = listOf(ParamDefinition("contact", ParamType.STRING, true, "Contact name or phone number")),
             examples = listOf("call dad", "call mom", "call 9876543210", "phone John"),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "SEND_WHATSAPP",
@@ -338,7 +339,8 @@ object ActionSchema {
                 ParamDefinition("message", ParamType.STRING, true, "Message to send")
             ),
             examples = listOf("send hi to dad on whatsapp", "whatsapp mom I'm coming home"),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "SEND_WHATSAPP_GROUP",
@@ -348,7 +350,8 @@ object ActionSchema {
                 ParamDefinition("message", ParamType.STRING, true, "Message to send")
             ),
             examples = listOf("send hi to family group on whatsapp"),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "SEND_TELEGRAM",
@@ -363,7 +366,8 @@ object ActionSchema {
                 "telegram mom I will be late",
                 "send message to +1234567890 on telegram"
             ),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "OPEN_TELEGRAM",
@@ -382,7 +386,8 @@ object ActionSchema {
                 ParamDefinition("message", ParamType.STRING, true, "SMS message text")
             ),
             examples = listOf("send sms to dad", "text mom"),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "SEND_EMAIL",
@@ -396,6 +401,7 @@ object ActionSchema {
             ),
             examples = listOf("send email to boss", "email John"),
             category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true,
             isSimple = false
         ),
         ActionDefinition(
@@ -406,7 +412,8 @@ object ActionSchema {
                 ParamDefinition("app", ParamType.ENUM, false, "Video call app", listOf("whatsapp", "meet", "zoom"), "whatsapp")
             ),
             examples = listOf("video call mom", "zoom call with team"),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "READ_MESSAGES",
@@ -464,7 +471,7 @@ object ActionSchema {
                 ParamDefinition("datetime", ParamType.STRING, true, "When to remind"),
                 ParamDefinition("repeat", ParamType.STRING, false, "Repeat schedule")
             ),
-            examples = listOf("remind me to take medicine at 8pm"),
+            examples = listOf("remind me to take medicine at 8pm", "فكرني بكرة الساعة 8", "ذكرني أكلم محمد بعد ساعة"),
             category = ActionCategory.PRODUCTIVITY
         ),
         ActionDefinition(
@@ -474,7 +481,7 @@ object ActionSchema {
                 ParamDefinition("duration", ParamType.STRING, true, "Timer duration e.g. 5 minutes"),
                 ParamDefinition("label", ParamType.STRING, false, "Timer label", defaultValue = "Timer")
             ),
-            examples = listOf("set timer 5 minutes", "timer 30 seconds"),
+            examples = listOf("set timer 5 minutes", "timer 30 seconds", "اضبط تايمر خمس دقايق", "شغل مؤقت لمدة نص ساعة"),
             category = ActionCategory.PRODUCTIVITY
         ),
         ActionDefinition(
@@ -991,8 +998,9 @@ object ActionSchema {
             name = "RUN_MACRO",
             description = "Runs a saved macro (sequence of actions)",
             params = listOf(ParamDefinition("macroName", ParamType.STRING, true, "Macro name")),
-            examples = listOf("run morning routine", "execute macro"),
-            category = ActionCategory.MACRO
+            examples = listOf("run morning routine", "execute macro", "شغل الماكرو", "نفذ الماكرو", "شغل ماكرو الصبح"),
+            category = ActionCategory.MACRO,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "CREATE_MACRO",
@@ -1001,7 +1009,7 @@ object ActionSchema {
                 ParamDefinition("name", ParamType.STRING, true, "Macro name"),
                 ParamDefinition("steps", ParamType.STRING, true, "JSON steps definition")
             ),
-            examples = listOf("create morning routine macro"),
+            examples = listOf("create morning routine macro", "اعمل ماكرو جديد", "سجل الخطوات دي في ماكرو"),
             category = ActionCategory.MACRO,
             isSimple = false
         ),
@@ -1012,8 +1020,9 @@ object ActionSchema {
                 ParamDefinition("macroName", ParamType.STRING, true, "Macro name"),
                 ParamDefinition("cronExpression", ParamType.STRING, true, "Cron schedule expression")
             ),
-            examples = listOf("schedule morning routine at 7am daily"),
+            examples = listOf("schedule morning routine at 7am daily", "جدول الماكرو كل يوم الساعة 7", "شغل الماكرو يومياً الصبح"),
             category = ActionCategory.MACRO,
+            neverAutoApprove = true,
             isSimple = false
         ),
         ActionDefinition(
@@ -1039,8 +1048,9 @@ object ActionSchema {
                 ParamDefinition("routineName", ParamType.STRING, false, "Name of the routine (e.g. Morning Routine)"),
                 ParamDefinition("routineId", ParamType.STRING, false, "ID of the routine")
             ),
-            examples = listOf("run morning routine", "start morning briefing", "execute daily routine", "run evening wrap up"),
-            category = ActionCategory.MACRO
+            examples = listOf("run morning routine", "start morning briefing", "execute daily routine", "run evening wrap up", "شغل الروتين الصباحي", "نفذ روتين المساء"),
+            category = ActionCategory.MACRO,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "GET_MORNING_BRIEFING",
@@ -1321,7 +1331,8 @@ object ActionSchema {
             ),
             examples = listOf(
                 "create a post announcing OpenDroid v1.1", "write an announcement for OpenDroid",
-                "draft an instagram post about the new release", "post on x about our update"
+                "draft an instagram post about the new release", "post on x about our update",
+                "اعمل منشور عن المنتج الجديد", "اكتب بوست عن العرض", "جهز بوست للإنستجرام"
             ),
             category = ActionCategory.SOCIAL
         ),
@@ -1330,10 +1341,11 @@ object ActionSchema {
             description = "Schedules a drafted post for future publication",
             params = listOf(
                 ParamDefinition("postId", ParamType.STRING, true, "ID of the post to schedule"),
-                ParamDefinition("hours", ParamType.INT, false, "Hours from now to schedule (default: 24)", defaultValue = 24)
+                ParamDefinition("hours", ParamType.INT, false, "Hours from now to schedule; ask the user if unspecified")
             ),
-            examples = listOf("schedule this for tomorrow", "schedule post 12 for 5 hours from now"),
-            category = ActionCategory.SOCIAL
+            examples = listOf("schedule this for tomorrow", "schedule post 12 for 5 hours from now", "جدول المنشور لبكرة", "انشر المسودة بعد ساعتين"),
+            category = ActionCategory.SOCIAL,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "SOCIAL_CHECK_INBOX",
@@ -1374,13 +1386,13 @@ object ActionSchema {
             description = "Generates an end-to-end multi-platform marketing campaign strategy with scheduled post drafts",
             params = listOf(
                 ParamDefinition("name", ParamType.STRING, false, "Campaign name", defaultValue = "OpenDroid Launch"),
-                ParamDefinition("objective", ParamType.STRING, false, "Core campaign objective", defaultValue = "Drive adoption and awareness"),
+                ParamDefinition("objective", ParamType.STRING, true, "Core campaign objective; ask the user if unspecified"),
                 ParamDefinition("days", ParamType.INT, false, "Duration in days", defaultValue = 7)
             ),
             examples = listOf(
                 "create a campaign for the next OpenDroid release",
                 "create a one-week campaign for OpenDroid v1.1",
-                "plan a social media campaign"
+                "plan a social media campaign", "اعمل حملة تسويقية للمنتج", "جهز حملة للسوشيال ميديا"
             ),
             category = ActionCategory.SOCIAL
         )

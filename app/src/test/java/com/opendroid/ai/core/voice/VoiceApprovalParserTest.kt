@@ -101,6 +101,20 @@ class VoiceApprovalParserTest {
     }
 
     @Test
+    fun `Egyptian Arabic affirmatives approve`() {
+        for (utterance in listOf("أيوه", "ايوه", "اه", "تمام", "موافق", "نفذ", "نفذها")) {
+            assertEquals(utterance, VoiceApprovalIntent.APPROVE, VoiceApprovalParser.parse(utterance))
+        }
+    }
+
+    @Test
+    fun `Egyptian Arabic refusals never approve`() {
+        for (utterance in listOf("لا", "لأ", "بلاش", "وقف", "ألغى", "ما تنفذش")) {
+            assertEquals(utterance, VoiceApprovalIntent.REJECT, VoiceApprovalParser.parse(utterance))
+        }
+    }
+
+    @Test
     fun `anything else is a no-op`() {
         assertEquals(VoiceApprovalIntent.NONE, VoiceApprovalParser.parse("what's the weather"))
         assertEquals(VoiceApprovalIntent.NONE, VoiceApprovalParser.parse(""))

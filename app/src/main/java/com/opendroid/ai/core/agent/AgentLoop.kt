@@ -813,9 +813,9 @@ class AgentLoop @Inject constructor(
                 // 2. Intent Classification
                 val requiresAction = intentClassifier.requiresAction(query)
                 if (requiresAction) {
-                    generatePlan(userMsg, context, sessionId)
+                    generatePlan(userMsg, context, sessionId, complexity)
                 } else {
-                    executeSimpleQuery(userMsg, sessionId)
+                    executeSimpleQuery(userMsg, sessionId, complexity)
                 }
     }
 
@@ -889,16 +889,19 @@ class AgentLoop @Inject constructor(
         _agentState.value = AgentState.Error(error.title())
     }
 
-    private suspend fun executeSimpleQuery(userMsg: ChatMessage, sessionId: String) {
+    private suspend fun executeSimpleQuery(userMsg: ChatMessage, sessionId: String, complexity: QueryComplexity) {
         val runId = UUID.randomUUID().toString()
         val requestId = userMsg.id
         try {
-            val provider = llmProviderFactory.getActiveProvider()
+            val provider = llmProviderFactory.getHybridProvider(userMsg.text, complexity)
             val relevantContext = memoryManager.getRelevantContext(userMsg.text)
             val autoModeLabel = settingsRepository.llmConfig.first().approvalSettings().mode.name
 
             val systemPrompt = """
-                You are OpenDroid, a friendly and helpful Android AI assistant.
+                You are NOVA, a friendly Android AI assistant.
+                Default to natural Egyptian Arabic (Masri) for replies, including voice replies.
+                If the user speaks English, reply in English; if the user mixes Arabic and English, mirror that mix naturally.
+                Use Egyptian everyday phrasing, not Modern Standard Arabic. Preserve contact names, app names, brands and technical identifiers exactly.
                 Talk like a real person — warm, casual, and natural. Avoid sounding robotic.
                 Keep your answers short and to the point, but feel free to be friendly.
                 
@@ -1022,9 +1025,9 @@ class AgentLoop @Inject constructor(
         }
     }
 
-    private suspend fun generatePlan(userMsg: ChatMessage, context: Context, sessionId: String) {
+    private suspend fun generatePlan(userMsg: ChatMessage, context: Context, sessionId: String, complexity: QueryComplexity) {
         try {
-            val provider = llmProviderFactory.getActiveProvider()
+            val provider = llmProviderFactory.getHybridProvider(userMsg.text, complexity)
             val relevantContext = memoryManager.getRelevantContext(userMsg.text)
             val isOnDevice = ProviderCatalog.isOnDevice(provider.name)
 
@@ -1180,7 +1183,7 @@ class AgentLoop @Inject constructor(
         } catch (e: Exception) {
             android.util.Log.e("AgentLoop", "Failed to log plan generation failure: ${e.localizedMessage}")
         }
-        executeSimpleQuery(userMsg, sessionId)
+        executeSimpleQuery(userMsg, sessionId, complexity)
     }
 
     /**

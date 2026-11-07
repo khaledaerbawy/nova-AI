@@ -7,6 +7,7 @@ import android.provider.ContactsContract
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.opendroid.ai.core.memory.MemoryManager
+import com.opendroid.ai.core.voice.EgyptianArabicNormalizer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -125,10 +126,17 @@ open class ContactResolver @Inject constructor(
             allMatches.isEmpty() ->
                 ContactResolution.NotFound(query)
 
-            // Exactly one match → use it
+            // A single fuzzy/alias match is still not proof of identity.
+            // Require an explicit pick unless the name was exact (score >= 90).
             allMatches.size == 1 -> {
-                Log.d(TAG, "  → Single match: ${allMatches.first().name}")
-                ContactResolution.Found(allMatches.first())
+                val onlyMatch = allMatches.first()
+                if (onlyMatch.matchScore >= 90) {
+                    Log.d(TAG, "  → Exact single match: ${onlyMatch.name}")
+                    ContactResolution.Found(onlyMatch)
+                } else {
+                    Log.d(TAG, "  → Single fuzzy match requires confirmation: ${onlyMatch.name}")
+                    ContactResolution.Ambiguous(query = query, matches = allMatches)
+                }
             }
 
             else -> {
@@ -247,7 +255,30 @@ open class ContactResolver @Inject constructor(
             }
         }
 
-        // Search 4: Relationship aliases (score=50)
+        // Search 4: Arabic orthographic variants and common ASR spelling noise.
+        // Query the contact list only for Arabic input, then compare normalized keys.
+        if (query.any { it in '\\u0600'..'\\u06FF' }) {
+            val queryKey = EgyptianArabicNormalizer.matchingKey(query)
+            queryContacts(
+                uri,
+                projection,
+                "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} LIKE ?",
+                arrayOf("%")
+            ).forEach { contact ->
+                val contactKey = EgyptianArabicNormalizer.matchingKey(contact.name)
+                val score = when {
+                    contactKey == queryKey -> 92
+                    contactKey.startsWith("$queryKey ") -> 80
+                    contactKey.contains(" $queryKey ") -> 60
+                    else -> 0
+                }
+                if (score > 0 && seen.add(contact.phoneNumber)) {
+                    results.add(contact.copy(matchScore = score))
+                }
+            }
+        }
+
+        // Search 5: Relationship aliases (score=50)
         val aliases = getRelationshipAliases(query)
         aliases.forEach { alias ->
             queryContacts(uri, projection,

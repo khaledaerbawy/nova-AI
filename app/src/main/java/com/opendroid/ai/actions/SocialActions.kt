@@ -3,6 +3,7 @@ package com.opendroid.ai.actions
 import android.content.Context
 import com.opendroid.ai.actions.base.Action
 import com.opendroid.ai.actions.base.ActionResult
+import com.opendroid.ai.core.voice.EgyptianArabicNormalizer
 import com.opendroid.ai.data.models.Memory
 import com.opendroid.ai.data.models.MemoryType
 import com.opendroid.ai.data.repository.MemoryRepository
@@ -39,6 +40,18 @@ class SocialActions @Inject constructor(
         CreateSocialCampaignAction()
     )
 
+    private fun parseScheduleHours(raw: String): Long? {
+        val normalized = EgyptianArabicNormalizer.normalizeTranscript(raw).lowercase(Locale.ROOT).trim()
+        normalized.toLongOrNull()?.let { return it }
+        when (normalized) {
+            "ساعة", "بعد ساعة", "بعد ساعه" -> return 1L
+            "بكرة", "بكره", "غدا", "بعد يوم", "بعد 24 ساعة" -> return 24L
+            "بعد يومين", "بعد 48 ساعة" -> return 48L
+        }
+        val match = Regex("""(\d+)\s*(ساعة|ساعات|ساعه|hour|hours)""").find(normalized)
+        return match?.groupValues?.get(1)?.toLongOrNull()
+    }
+
     inner class ShowSocialPerformanceAction : Action {
         override val name: String = "SOCIAL_SHOW_PERFORMANCE"
         override suspend fun execute(params: Map<String, String>, context: Context): ActionResult {
@@ -63,7 +76,11 @@ class SocialActions @Inject constructor(
     inner class CreateSocialPostAction : Action {
         override val name: String = "SOCIAL_CREATE_POST"
         override suspend fun execute(params: Map<String, String>, context: Context): ActionResult {
-            val topic = params["topic"] ?: params["content"] ?: "OpenDroid milestone announcement"
+            val topic = params["topic"] ?: params["content"]
+                ?: return ActionResult.NeedsInput(
+                    question = "تحب المنشور يتكلم عن إيه؟",
+                    metadata = mapOf("param" to "topic")
+                )
             val platformStr = params["platform"] ?: "X"
             val platform = SocialPlatform.fromId(platformStr)
             val toneStr = params["tone"] ?: "PROFESSIONAL"
@@ -97,7 +114,17 @@ class SocialActions @Inject constructor(
         override val name: String = "SOCIAL_SCHEDULE_POST"
         override suspend fun execute(params: Map<String, String>, context: Context): ActionResult {
             val postId = params["postId"] ?: params["id"]
-            val hoursFromNow = params["hours"]?.toLongOrNull() ?: 24L
+                ?: return ActionResult.NeedsInput(
+                    question = "أنهي منشور تحب أجدوله؟",
+                    metadata = mapOf("param" to "postId")
+                )
+            val hoursFromNow = params["hours"]?.let(::parseScheduleHours)
+                ?: return ActionResult.NeedsInput(
+                    question = "تحب أجدول المنشور بعد كام ساعة؟",
+                    options = listOf("بعد ساعة", "بعد 24 ساعة", "بعد 48 ساعة"),
+                    metadata = mapOf("param" to "hours")
+                )
+            if (hoursFromNow <= 0L) return ActionResult.NeedsInput("اختار وقتاً في المستقبل.")
             val scheduledTime = System.currentTimeMillis() + (hoursFromNow * 3600_000L)
 
             return try {
@@ -211,9 +238,14 @@ class SocialActions @Inject constructor(
     inner class CreateSocialCampaignAction : Action {
         override val name: String = "SOCIAL_CREATE_CAMPAIGN"
         override suspend fun execute(params: Map<String, String>, context: Context): ActionResult {
-            val name = params["name"] ?: "OpenDroid v1.1 Launch"
-            val objective = params["objective"] ?: "Announce rollout, drive developer adoption, and showcase local AI"
+            val name = params["name"] ?: "حملة جديدة"
+            val objective = params["objective"]
+                ?: return ActionResult.NeedsInput(
+                    question = "إيه الهدف الأساسي من الحملة؟",
+                    metadata = mapOf("param" to "objective")
+                )
             val days = params["days"]?.toIntOrNull() ?: 7
+            if (days !in 1..90) return ActionResult.NeedsInput("مدة الحملة لازم تكون من يوم إلى 90 يوم.")
 
             return try {
                 val plan = campaignGenerator.generateCampaignPlan(name, objective, days)

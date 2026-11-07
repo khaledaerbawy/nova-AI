@@ -32,6 +32,7 @@ class TextToSpeechEngine(
 ) : TextToSpeech.OnInitListener {
 
     private var tts: TextToSpeech? = null
+    private val egyptianArabic = Locale("ar", "EG")
     private var isInitialized = false
     private val scope = CoroutineScope(SupervisorJob() + dispatcher)
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
@@ -72,9 +73,23 @@ class TextToSpeechEngine(
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            val result = tts?.setLanguage(Locale.getDefault())
-            if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
+            val egyptianResult = tts?.setLanguage(egyptianArabic) ?: TextToSpeech.LANG_NOT_SUPPORTED
+            if (egyptianResult != TextToSpeech.LANG_MISSING_DATA &&
+                egyptianResult != TextToSpeech.LANG_NOT_SUPPORTED
+            ) {
                 isInitialized = true
+            } else {
+                // Prefer a generic Arabic voice before falling back to the device language.
+                val arabicResult = tts?.setLanguage(Locale("ar")) ?: TextToSpeech.LANG_NOT_SUPPORTED
+                if (arabicResult != TextToSpeech.LANG_MISSING_DATA &&
+                    arabicResult != TextToSpeech.LANG_NOT_SUPPORTED
+                ) {
+                    isInitialized = true
+                } else {
+                    val fallbackResult = tts?.setLanguage(Locale.getDefault()) ?: TextToSpeech.LANG_NOT_SUPPORTED
+                    isInitialized = fallbackResult != TextToSpeech.LANG_MISSING_DATA &&
+                        fallbackResult != TextToSpeech.LANG_NOT_SUPPORTED
+                }
             }
         }
     }
@@ -89,9 +104,9 @@ class TextToSpeechEngine(
             staleClipCleanup.join()
             val config = settingsRepository.llmConfig.first()
             val apiKey = config.elevenLabsApiKey
-            val voiceId = config.elevenLabsVoiceId.ifEmpty { "21m00Tcm4TlvDq8ikWAM" } // default Rachel voice
+            val voiceId = config.elevenLabsVoiceId.trim()
 
-            if (apiKey.isNotEmpty()) {
+            if (apiKey.isNotEmpty() && voiceId.isNotEmpty()) {
                 try {
                     val success = playElevenLabsTts(text, apiKey, voiceId, utteranceId, speechGeneration)
                     if (success) return@launch
@@ -128,7 +143,7 @@ class TextToSpeechEngine(
         val jsonPayload = """
             {
               "text": "$escapedText",
-              "model_id": "eleven_monolingual_v1",
+              "model_id": "eleven_multilingual_v2",
               "voice_settings": {
                 "stability": 0.5,
                 "similarity_boost": 0.75

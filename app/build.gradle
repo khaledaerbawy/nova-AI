@@ -262,6 +262,11 @@ dependencies {
     // LiteRT-LM: On-device LLM inference fallback (no AI Core dependency)
     implementation 'com.google.ai.edge.litertlm:litertlm-android:0.14.0'
 
+    // Local keyword spotting; the wake-word model is downloaded on first enable,
+    // not bundled in the APK. JitPack publishes the official Android AAR.
+    implementation 'com.k2fsa.sherpa.onnx:sherpa-onnx:2.0.1@aar'
+    implementation 'org.apache.commons:commons-compress:1.27.1'
+
     // Testing
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.room:room-testing:2.8.4'

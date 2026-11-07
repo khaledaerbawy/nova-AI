@@ -57,7 +57,27 @@ class ContactResolverTest {
 
         val resolved = resolver().resolveWithDisambiguation("brother")
 
-        assertEquals("5550101", (resolved as ContactResolution.Found).contact.phoneNumber)
+        val confirmation = resolved as ContactResolution.Ambiguous
+        assertEquals("Anna (Chennai)", confirmation.matches.single().name)
+    }
+
+    @Test
+    fun `a single fuzzy name match still requires confirmation`() = runBlocking {
+        LookupKeyContactsProvider.rows += LookupKeyContactRow("Mohamed Ali", "5550144", "key-mohamed")
+
+        val resolved = resolver().resolveWithDisambiguation("moh")
+
+        assertTrue(resolved is ContactResolution.Ambiguous)
+    }
+
+    @Test
+    fun `Arabic hamza variants are matched but still require confirmation for partial names`() = runBlocking {
+        LookupKeyContactsProvider.rows += LookupKeyContactRow("أحمد علي", "5550177", "key-ahmed")
+
+        val resolved = resolver().resolveWithDisambiguation("احمد")
+
+        val confirmation = resolved as ContactResolution.Ambiguous
+        assertEquals("أحمد علي", confirmation.matches.single().name)
     }
 
     @Test

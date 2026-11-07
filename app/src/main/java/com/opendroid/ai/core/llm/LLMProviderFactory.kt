@@ -5,6 +5,8 @@ import com.opendroid.ai.actions.ActionDispatcher
 import com.opendroid.ai.core.agent.ActionSchema
 import com.opendroid.ai.core.agent.DeviceStateProvider
 import com.opendroid.ai.core.agent.IntentClassifier
+import com.opendroid.ai.core.agent.QueryComplexity
+import com.opendroid.ai.core.agent.ActionRisk
 import com.opendroid.ai.core.llm.error.LLMErrorMapper
 import com.opendroid.ai.core.llm.error.SecretRegistry
 import com.opendroid.ai.core.llm.providers.*
@@ -95,6 +97,48 @@ class LLMProviderFactory @Inject constructor(
     }
 
     /**
+     * Selects a provider for NOVA's hybrid brain.
+     *
+     * Simple, read-only conversation is local-first. Complex work honours the
+     * user's active provider. Only read-only work may fall back automatically;
+     * calls, messages, payments, deletion and publishing never cross a provider
+     * boundary silently.
+     */
+    suspend fun getHybridProvider(query: String, complexity: QueryComplexity): LLMProvider {
+        val config = settingsRepository.llmConfig.first()
+        val activeName = ProviderCatalog.canonicalName(config.activeProvider)
+        val active = getProviderByName(activeName)
+        val local = getProviderByName("On-Device AI")
+        val preferLocal = HybridProviderRoutingPolicy.shouldPreferLocal(query, complexity)
+        val safeFallback = HybridProviderRoutingPolicy.allowsFallback(query)
+
+        if (preferLocal && isProviderRuntimeAvailable("On-Device AI", local)) {
+            return local
+        }
+        if (isProviderRuntimeAvailable(activeName, active)) {
+            return active
+        }
+
+        if (safeFallback) {
+            val fallbackNames = ProviderSelectionPolicy.explicitFallbacks(
+                activeProvider = activeName,
+                configuredFallbacks = config.fallbackProviders,
+                risk = ActionRisk.READ_ONLY
+            )
+            for (providerName in fallbackNames) {
+                if (!isConfigured(config, providerName)) continue
+                val fallback = getProviderByName(providerName)
+                if (isProviderRuntimeAvailable(providerName, fallback)) return fallback
+            }
+            if (isProviderRuntimeAvailable("On-Device AI", local)) return local
+        }
+
+        // Preserve the explicitly selected provider for sensitive work, even if
+        // it is currently unavailable, so the caller receives its real error.
+        return active
+    }
+
+    /**
      * Returns the active planner followed only by explicitly configured,
      * available fallbacks. Risk is evaluated before any alternate provider is
      * contacted; high-impact plans never cross a provider boundary silently.
@@ -120,6 +164,12 @@ class LLMProviderFactory @Inject constructor(
 
     suspend fun recordPlanningLatency(response: LLMResponse): LatencyBudgetResult? =
         runCatching { onDeviceLatencyTracker.recordPlanning(response) }.getOrNull()
+
+    private fun isProviderRuntimeAvailable(providerName: String, provider: LLMProvider): Boolean {
+        val isOnDevice = ProviderCatalog.isOnDevice(ProviderCatalog.canonicalName(providerName))
+        if (!isOnDevice && !deviceStateProvider.hasInternet) return false
+        return runCatching { provider.isAvailable() }.getOrDefault(false)
+    }
 
     private fun isConfigured(config: LLMConfig, providerName: String): Boolean {
         val provider = ProviderCatalog.canonicalName(providerName)
