@@ -40,7 +40,7 @@ class PlanApprovalSummaryTest {
     fun `the step count comes from the steps, not the model's estimate`() {
         val lied = validated.copy(estimatedSteps = 1)
         assertEquals(3, PlanApprovalSummary.stepLines(lied).size)
-        assertTrue(PlanApprovalSummary.spokenPrompt(lied).startsWith("I've planned 3 steps:"))
+        assertTrue(PlanApprovalSummary.spokenPrompt(lied).startsWith("جهزت خطة من 3 خطوات:"))
     }
 
     @Test
@@ -53,7 +53,7 @@ class PlanApprovalSummaryTest {
         )
         assertEquals(listOf("Get weather", "Send SMS to +19005550100"), PlanApprovalSummary.stepLines(plan))
         assertEquals(
-            "I've planned 2 steps: Get weather, Send SMS to +19005550100. Say approve to run, or cancel.",
+            "جهزت خطة من خطوتين: معرفة حالة الطقس، إرسال رسالة نصية لـ +19005550100. تحب أنفذها؟ قول موافق أو لا.",
             PlanApprovalSummary.spokenPrompt(plan)
         )
     }
@@ -126,7 +126,7 @@ class PlanApprovalSummaryTest {
     @Test
     fun `one step reads as singular`() {
         val plan = validated.copy(steps = listOf(step("s1", 1, "GET_WEATHER")))
-        assertEquals("I've planned 1 step: Get weather. Say approve to run, or cancel.", PlanApprovalSummary.spokenPrompt(plan))
+        assertEquals("جهزت خطة من خطوة واحدة: معرفة حالة الطقس. تحب أنفذها؟ قول موافق أو لا.", PlanApprovalSummary.spokenPrompt(plan))
     }
 
     @Test
