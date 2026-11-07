@@ -63,7 +63,7 @@ class IntentClassifier @Inject constructor(
         if (isForcedAction) return true
 
         return try {
-            val provider = llmProviderFactory.get().getActiveProvider()
+            val provider = llmProviderFactory.get().getHybridProvider(query, QueryComplexity.SIMPLE)
             val prompt = """
                 Classify the user's intent: "$query".
                 Does this request require executing one or more device/app actions (e.g. opening an app, toggling a setting like flashlight/wifi/bluetooth, setting volume/brightness, sending a message/email, making a call, setting an alarm/timer/reminder, playing music, booking a ride, checking weather/news, paying via UPI, etc.)?
