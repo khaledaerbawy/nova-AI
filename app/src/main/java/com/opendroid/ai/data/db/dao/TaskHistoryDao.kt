@@ -12,6 +12,9 @@ interface TaskHistoryDao {
     @Query("SELECT * FROM task_history WHERE planId = :planId ORDER BY timestamp ASC, id ASC")
     suspend fun getTaskHistoryForPlan(planId: String): List<TaskHistoryEntity>
 
+    @Query("SELECT * FROM task_history WHERE timestamp >= :fromTimestamp AND timestamp < :toTimestamp AND actionType IN ('SEND_WHATSAPP', 'SEND_SMS', 'SEND_TELEGRAM') AND success = 1 ORDER BY timestamp DESC LIMIT :limit")
+    suspend fun getSuccessfulMessagingHistory(fromTimestamp: Long, toTimestamp: Long, limit: Int): List<TaskHistoryEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHistory(task: TaskHistoryEntity)
 

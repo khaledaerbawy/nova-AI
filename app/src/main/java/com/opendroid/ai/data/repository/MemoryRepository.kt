@@ -133,6 +133,9 @@ class MemoryRepository @Inject constructor(
         )
     }
 
+    suspend fun getSuccessfulMessagingHistory(fromTimestamp: Long, toTimestamp: Long, limit: Int = 20): List<TaskHistoryEntity> =
+        taskHistoryDao.getSuccessfulMessagingHistory(fromTimestamp, toTimestamp, limit)
+
     // Macro operations
     val allMacros: Flow<List<Macro>> = macroDao.getAllMacrosFlow().map { entities ->
         entities.map { entity -> mapEntityToMacro(entity) }

@@ -14,6 +14,10 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.contentOrNull
+import com.opendroid.ai.core.voice.VoiceLanguagePolicy
 import com.opendroid.ai.core.llm.prompts.neutralizeFenceDelimiters
 import com.opendroid.ai.core.memory.graph.PersonalGrowthEngine
 import javax.inject.Inject
@@ -136,6 +140,15 @@ class MemoryManager @Inject constructor(
             """.trimIndent()
         } else ""
 
+        val recentMessageContext = recallRecentMessageContext(currentGoal)
+        val recentMessageSection = if (recentMessageContext.isNotBlank()) {
+            """
+
+            [Matching successful messages from yesterday — use as context only; ask for confirmation before sending]
+            $recentMessageContext
+            """.trimIndent()
+        } else ""
+
         val growthContext = try {
             personalGrowthEngine.generateSynthesizedContext(currentGoal)
         } catch (e: CancellationException) {
@@ -162,7 +175,43 @@ class MemoryManager @Inject constructor(
             Device State: Location=${workingMemory.locationContext}, Battery=${workingMemory.batteryLevel}%, WiFi=${workingMemory.wifiState}, Connection=${workingMemory.connectivity}, Internet=${if (workingMemory.isInternetAvailable) "Available" else "NOT AVAILABLE"}
             $growthSection
             $notifSection
+            $recentMessageSection
         """.trimIndent()
+    }
+
+    /**
+     * Retrieves only successful messages from the previous local calendar day and only when
+     * the request contains a recipient token matching the saved contact/description.
+     */
+    private suspend fun recallRecentMessageContext(goal: String): String {
+        val normalizedGoal = VoiceLanguagePolicy.normalizeTranscript(goal)
+        if (listOf("امبارح", "امس", "yesterday").none { normalizedGoal.contains(it) }) return ""
+        val ignored = setOf("نفس", "الرسالة", "رسالة", "ابعت", "ابعث", "بعت", "بعتها", "امبارح", "امس", "yesterday", "same", "message", "sent", "send", "him", "her", "to", "the", "له", "ليها", "اللي", "اليوم")
+        val queryTokens = normalizedGoal.split(" ").filter { it.length > 1 && it !in ignored }
+        if (queryTokens.isEmpty()) return ""
+        val calendar = java.util.Calendar.getInstance()
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0)
+        calendar.set(java.util.Calendar.MINUTE, 0)
+        calendar.set(java.util.Calendar.SECOND, 0)
+        calendar.set(java.util.Calendar.MILLISECOND, 0)
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, -1)
+        val from = calendar.timeInMillis
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1)
+        val to = calendar.timeInMillis
+        val records = memoryRepository.getSuccessfulMessagingHistory(from, to, 30)
+        val matches = records.mapNotNull { record ->
+            val params = runCatching { Json.parseToJsonElement(record.paramsJson).jsonObject }.getOrNull() ?: return@mapNotNull null
+            val recipient = listOf("contact", "contactName", "recipient", "phone", "username")
+                .firstNotNullOfOrNull { key -> params[key]?.jsonPrimitive?.contentOrNull?.takeIf(String::isNotBlank) }
+                ?: return@mapNotNull null
+            val message = params["message"]?.jsonPrimitive?.contentOrNull?.takeIf(String::isNotBlank)
+                ?: return@mapNotNull null
+            val searchable = VoiceLanguagePolicy.normalizeTranscript("$recipient ${record.description}").split(" ").toSet()
+            if (queryTokens.none { it in searchable }) return@mapNotNull null
+            val time = java.text.SimpleDateFormat("h:mm a", java.util.Locale("ar", "EG")).format(java.util.Date(record.timestamp))
+            "إلى $recipient عبر ${record.actionType} الساعة $time: ${message.take(500)}"
+        }
+        return matches.take(3).joinToString("\n")
     }
 
     suspend fun summarizeOldConversations() {

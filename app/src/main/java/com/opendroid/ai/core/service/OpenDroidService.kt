@@ -48,7 +48,8 @@ class OpenDroidService : Service() {
     private lateinit var textToSpeechEngine: TextToSpeechEngine
 
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var showFloatingButton = false
+    private var assistantOperatingMode = "always"
+    private val voiceWakeEnabled: Boolean get() = assistantOperatingMode.equals("always", ignoreCase = true)
     private val pendingApprovalListen = PendingApprovalListen()
     private val approvalListenGate = ApprovalListenGate()
     private var foregroundStarted = false
@@ -116,12 +117,8 @@ class OpenDroidService : Service() {
         // Monitor floating button config to start/stop wake word detection dynamically
         serviceScope.launch {
             settingsRepository.llmConfig.collectLatest { config ->
-                showFloatingButton = config.showFloatingButton
-                if (showFloatingButton) {
-                    stopWakeWordDetection()
-                } else {
-                    startWakeWordDetection()
-                }
+                assistantOperatingMode = config.assistantOperatingMode
+                if (voiceWakeEnabled) startWakeWordDetection() else stopWakeWordDetection()
             }
         }
 
@@ -139,7 +136,7 @@ class OpenDroidService : Service() {
                     // Armed with the prompt's own id before it is queued, so only the
                     // prompt finishing opens the mic, never an earlier utterance.
                     val promptId = UUID.randomUUID().toString()
-                    if (!showFloatingButton) {
+                    if (voiceWakeEnabled) {
                         pendingApprovalListen.arm(state.plan.planId)
                         approvalListenGate.armFor(promptId)
                     } else {
