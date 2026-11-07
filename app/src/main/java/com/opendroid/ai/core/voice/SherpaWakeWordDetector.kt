@@ -131,6 +131,6 @@ internal object WakeWordMatcher {
             .replace('_', ' ')
             .trim()
             .uppercase()
-        return normalized in setOf("NOFA", "NOVA", "YA NOFA")
+        return normalized in setOf("NOFA", "NOVA", "YA NOFA", "YA NOVA")
     }
 }
