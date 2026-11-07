@@ -32,10 +32,6 @@ class MainActivity : ComponentActivity() {
         enableOpenDroidEdgeToEdge(isDarkTheme = true)
         super.onCreate(savedInstanceState)
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            OpenDroidService.start(this)
-        }
-
         setContent {
             val config by settingsRepository.llmConfig.collectAsState(
                 initial = com.opendroid.ai.data.models.LLMConfig()
@@ -51,6 +47,16 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // A visible activity start is the safe point to start/promote the microphone FGS.
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            OpenDroidService.start(this)
         }
     }
 
