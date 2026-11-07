@@ -752,10 +752,10 @@ fun ChatBubble(
     val timeFormat = remember { SimpleDateFormat("h:mm a", Locale.getDefault()) }
 
     // If this is a جهة اتصال picker message, render the ContactPickerCard instead
-    if (isAgent && message.جهة اتصالPickerData != null) {
+    if (isAgent && message.contactPickerData != null) {
         val matches: List<Map<String, String>> = try {
             Json { ignoreUnknownKeys = true }
-                .decodeFromString<List<Map<String, String>>>(message.جهة اتصالPickerData)
+                .decodeFromString<List<Map<String, String>>>(message.contactPickerData)
         } catch (_: Exception) {
             emptyList()
         }
