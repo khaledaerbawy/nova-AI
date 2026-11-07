@@ -50,7 +50,7 @@ class IntentClassifier @Inject constructor(
             "social report", "create campaign", "social inbox"
         )
         val isForcedAction = forcedActionPatterns.any { query.contains(it, ignoreCase = true) }
-        if (isForcedAction) return true
+        if (isForcedAction || ArabicCommandHeuristics.requiresAction(query)) return true
 
         return try {
             val provider = llmProviderFactory.get().getActiveProvider()

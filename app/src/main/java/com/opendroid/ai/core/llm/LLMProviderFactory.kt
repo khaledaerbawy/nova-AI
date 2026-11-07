@@ -104,6 +104,17 @@ class LLMProviderFactory @Inject constructor(
         val activeName = ProviderCatalog.canonicalName(config.activeProvider)
         val active = getProviderByName(activeName)
         val risk = ActionSchema.highestRisk(actionNames)
+        val offlineProviderName = ProviderSelectionPolicy.offlineHybridProvider(
+            activeProvider = activeName,
+            reasoningMode = config.reasoningMode,
+            risk = risk
+        )
+        if (offlineProviderName != null) {
+            val offlineProvider = getProviderByName(offlineProviderName)
+            if (runCatching { offlineProvider.isAvailable() }.getOrDefault(false)) {
+                return listOf(offlineProvider)
+            }
+        }
         val fallbackNames = ProviderSelectionPolicy.explicitFallbacks(
             activeProvider = activeName,
             configuredFallbacks = config.fallbackProviders,

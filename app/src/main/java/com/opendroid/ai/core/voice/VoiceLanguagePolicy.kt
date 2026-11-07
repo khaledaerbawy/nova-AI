@@ -19,7 +19,9 @@ object VoiceLanguagePolicy {
 
     fun containsWakePhrase(transcript: String): Boolean {
         val tokens = normalizeTranscript(transcript).split(' ').filter(String::isNotBlank)
-        return "نوفا" in tokens || "نوفه" in tokens ||
-            tokens == listOf("nova") || tokens == listOf("hey", "nova")
+        return tokens.firstOrNull() in setOf("نوفا", "نوفه", "nova") ||
+            tokens.take(2) == listOf("يا", "نوفا") ||
+            tokens.take(2) == listOf("يا", "نوفه") ||
+            tokens.take(2) == listOf("hey", "nova")
     }
 }

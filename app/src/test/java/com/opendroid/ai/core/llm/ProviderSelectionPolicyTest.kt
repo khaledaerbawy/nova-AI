@@ -51,6 +51,13 @@ class ProviderSelectionPolicyTest {
     }
 
     @Test
+    fun offlineHybridRoutingUsesLocalProviderOnlyForLowRiskPlans() {
+        assertEquals(ProviderCatalog.ON_DEVICE, ProviderSelectionPolicy.offlineHybridProvider("OpenAI", "hybrid", ActionRisk.READ_ONLY))
+        assertEquals(null, ProviderSelectionPolicy.offlineHybridProvider("OpenAI", "hybrid", ActionRisk.IRREVERSIBLE))
+        assertEquals(null, ProviderSelectionPolicy.offlineHybridProvider("OpenAI", "cloud", ActionRisk.READ_ONLY))
+    }
+
+    @Test
     fun `only malformed output can escalate and local exhaustion is explicit`() {
         assertTrue(ProviderSelectionPolicy.shouldEscalateMalformed(LLMError.MalformedResponse, true))
         assertFalse(ProviderSelectionPolicy.shouldEscalateMalformed(LLMError.Network, true))

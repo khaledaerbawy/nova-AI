@@ -29,6 +29,14 @@ object ProviderSelectionPolicy {
     fun acceptsOutput(isFallback: Boolean, outputActions: Collection<String>): Boolean =
         !isFallback || ActionRiskPolicy.allowsAutomaticFallback(ActionSchema.highestRisk(outputActions))
 
+    /** Offline hybrid routing is limited to low-impact plans. */
+    fun offlineHybridProvider(activeProvider: String, reasoningMode: String, risk: ActionRisk): String? {
+        if (!reasoningMode.equals("hybrid", ignoreCase = true)) return null
+        if (ProviderCatalog.isOnDevice(activeProvider)) return null
+        if (!ActionRiskPolicy.allowsAutomaticFallback(risk)) return null
+        return ProviderCatalog.ON_DEVICE
+    }
+
     fun shouldEscalateMalformed(error: LLMError, hasNextProvider: Boolean): Boolean =
         error == LLMError.MalformedResponse && hasNextProvider
 
