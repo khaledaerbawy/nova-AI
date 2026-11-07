@@ -41,7 +41,14 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
         private const val KEYWORD = "NOVA"
         private const val MODEL_DIR = "sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01"
         private const val MODEL_ARCHIVE = "https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2"
-        private val REQUIRED_FILES = listOf("encoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx", "decoder-epoch-12-avg-2-chunk-16-left-64.onnx", "joiner-epoch-12-avg-2-chunk-16-left-64.int8.onnx", "tokens.txt", "keywords.txt")
+        private const val ENCODER_FLOAT = "encoder-epoch-12-avg-2-chunk-16-left-64.onnx"
+        private const val ENCODER_INT8 = "encoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx"
+        private const val DECODER = "decoder-epoch-12-avg-2-chunk-16-left-64.onnx"
+        private const val JOINER_FLOAT = "joiner-epoch-12-avg-2-chunk-16-left-64.onnx"
+        private const val JOINER_INT8 = "joiner-epoch-12-avg-2-chunk-16-left-64.int8.onnx"
+        private val REQUIRED_FILES = listOf(DECODER, "tokens.txt", "keywords.txt")
+        private val MODEL_CANDIDATES = listOf(ENCODER_FLOAT, ENCODER_INT8, JOINER_FLOAT, JOINER_INT8)
+        private val ALL_MODEL_FILES = REQUIRED_FILES + MODEL_CANDIDATES
     }
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val mainHandler = Handler(Looper.getMainLooper())
@@ -60,7 +67,11 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) throw IllegalStateException("Microphone permission is not granted")
                 val modelDir = ensureModelInstalled()
                 val modelConfig = OnlineModelConfig(
-                    transducer = OnlineTransducerModelConfig(encoder = File(modelDir, REQUIRED_FILES[0]).absolutePath, decoder = File(modelDir, REQUIRED_FILES[1]).absolutePath, joiner = File(modelDir, REQUIRED_FILES[2]).absolutePath),
+                    transducer = OnlineTransducerModelConfig(
+                        encoder = chooseModelFile(modelDir, ENCODER_INT8, ENCODER_FLOAT),
+                        decoder = File(modelDir, DECODER).absolutePath,
+                        joiner = chooseModelFile(modelDir, JOINER_INT8, JOINER_FLOAT)
+                    ),
                     tokens = File(modelDir, "tokens.txt").absolutePath, numThreads = 1, provider = "cpu", modelType = "zipformer2"
                 )
                 val config = KeywordSpotterConfig(featConfig = FeatureConfig(sampleRate = SAMPLE_RATE, featureDim = 80), modelConfig = modelConfig, keywordsFile = File(modelDir, "keywords.txt").absolutePath, keywordsScore = 2.0f, keywordsThreshold = 0.15f)
@@ -86,7 +97,7 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
     private suspend fun ensureModelInstalled(): File = withContext(Dispatchers.IO) {
         val root = File(context.filesDir, "voice-models")
         val modelDir = File(root, MODEL_DIR)
-        if (REQUIRED_FILES.all { File(modelDir, it).isFile && File(modelDir, it).length() > 0L }) return@withContext modelDir
+        if (hasInstalledModel(modelDir)) return@withContext modelDir
         if (!root.exists() && !root.mkdirs()) throw IllegalStateException("تعذر إنشاء مجلد نماذج الصوت")
         val archive = File(root, "$MODEL_DIR.tar.bz2")
         val request = Request.Builder().url(MODEL_ARCHIVE).build()
@@ -102,14 +113,27 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
                     val entry = tar.nextTarEntry ?: break
                     if (entry.isDirectory) continue
                     val name = entry.name.substringAfterLast("/")
-                    if (name !in REQUIRED_FILES) continue
+                    if (name !in ALL_MODEL_FILES) continue
                     FileOutputStream(File(modelDir, name)).use { output -> tar.copyTo(output) }
                 }
             }
         }
         archive.delete()
-        if (!REQUIRED_FILES.all { File(modelDir, it).isFile && File(modelDir, it).length() > 0L }) { modelDir.deleteRecursively(); throw IllegalStateException("نموذج كلمة التنبيه لم يكتمل تنزيله") }
+        if (!hasInstalledModel(modelDir)) { modelDir.deleteRecursively(); throw IllegalStateException("نموذج كلمة التنبيه لم يكتمل تنزيله") }
         modelDir
+    }
+
+    private fun hasInstalledModel(directory: File): Boolean {
+        val requiredPresent = REQUIRED_FILES.all { File(directory, it).isFile && File(directory, it).length() > 0L }
+        val encoderPresent = listOf(ENCODER_INT8, ENCODER_FLOAT).any { File(directory, it).isFile && File(directory, it).length() > 0L }
+        val joinerPresent = listOf(JOINER_INT8, JOINER_FLOAT).any { File(directory, it).isFile && File(directory, it).length() > 0L }
+        return requiredPresent && encoderPresent && joinerPresent
+    }
+
+    private fun chooseModelFile(directory: File, preferred: String, fallback: String): String {
+        val selected = listOf(preferred, fallback).firstOrNull { File(directory, it).isFile && File(directory, it).length() > 0L }
+            ?: throw IllegalStateException("ملفات نموذج كلمة التنبيه غير مكتملة")
+        return File(directory, selected).absolutePath
     }
 
     private suspend fun runMicrophoneLoop(kws: KeywordSpotter, stream: OnlineStream) {
