@@ -826,6 +826,17 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun updateWakeWordEnabled(enabled: Boolean) {
+        _llmConfig.value = _llmConfig.value.copy(wakeWordEnabled = enabled)
+        viewModelScope.launch {
+            configSaver.save(
+                revert = { stored -> copy(wakeWordEnabled = stored.wakeWordEnabled) }
+            ) { current ->
+                current.copy(wakeWordEnabled = enabled)
+            }
+        }
+    }
+
     fun updateDarkMode(enabled: Boolean) {
         _llmConfig.value = _llmConfig.value.copy(isDarkMode = enabled)
         viewModelScope.launch {
