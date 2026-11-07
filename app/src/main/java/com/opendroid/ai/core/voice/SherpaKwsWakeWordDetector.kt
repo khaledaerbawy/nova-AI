@@ -66,7 +66,15 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
                 val config = KeywordSpotterConfig(featConfig = FeatureConfig(sampleRate = SAMPLE_RATE, featureDim = 80), modelConfig = modelConfig, keywordsFile = File(modelDir, "keywords.txt").absolutePath, keywordsScore = 2.0f, keywordsThreshold = 0.15f)
                 val kws = KeywordSpotter(config = config)
                 spotter = kws
-                val stream = kws.createStream(KEYWORD)
+                val vocabulary = File(modelDir, "tokens.txt").readLines()
+                    .mapNotNull { line -> line.trim().split(Regex("\\s+")).firstOrNull() }
+                    .toSet()
+                val encodedKeywords = listOf("NOVA", "YA NOVA", "HEY NOVA")
+                    .flatMap { BpeKeywordTokenizer.alternatives(it, vocabulary) }
+                    .distinct()
+                    .joinToString("/")
+                if (encodedKeywords.isBlank()) throw IllegalStateException("تعذر ترميز كلمة التنبيه لنموذج الصوت")
+                val stream = kws.createStream(encodedKeywords)
                 activeStream = stream
                 runMicrophoneLoop(kws, stream)
             } catch (cancelled: CancellationException) { throw cancelled }
