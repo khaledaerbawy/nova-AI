@@ -81,6 +81,7 @@ class WakeWordModelInstaller(
                 if (entry.isDirectory) continue
                 val name = File(entry.name).name
                 if (name !in required) continue
+                check(entry.size in 1..MAX_MODEL_FILE_BYTES) { "Invalid wake-word model file size" }
                 val output = File(destination, name)
                 FileOutputStream(output).use { stream -> tar.copyTo(stream) }
             }
@@ -122,6 +123,7 @@ class WakeWordModelInstaller(
         const val SAMPLE_RATE = 16_000
         private const val MODEL_PARENT = "voice"
         private const val MODEL_DIR = "sherpa-kws-zh-en"
+        private const val MAX_MODEL_FILE_BYTES = 20L * 1024L * 1024L
         private const val MODEL_URL =
             "https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2"
 
