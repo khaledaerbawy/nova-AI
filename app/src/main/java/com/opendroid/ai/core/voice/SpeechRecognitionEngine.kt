@@ -8,7 +8,13 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import java.util.Locale
 
-class SpeechRecognitionEngine(private val context: Context) {
+class SpeechRecognitionEngine(
+    private val context: Context,
+    private val languageTag: String = EGYPTIAN_ARABIC_TAG
+) {
+    companion object {
+        const val EGYPTIAN_ARABIC_TAG = "ar-EG"
+    }
 
     private var speechRecognizer: SpeechRecognizer? = null
     private var recognizerIntent: Intent? = null
@@ -31,7 +37,9 @@ class SpeechRecognitionEngine(private val context: Context) {
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
             recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE, languageTag)
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, languageTag)
+                putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5)
                 putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
                 putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                 // Prolong listening limits to avoid early cut-offs
@@ -86,7 +94,7 @@ class SpeechRecognitionEngine(private val context: Context) {
                 if (sessionId != activeSessionId) return
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 if (!matches.isNullOrEmpty()) {
-                    onResult(matches[0])
+                    onResult(EgyptianArabicNormalizer.normalizeTranscript(matches[0]))
                 } else {
                     onError("No transcription results found")
                 }
@@ -96,7 +104,7 @@ class SpeechRecognitionEngine(private val context: Context) {
                 if (sessionId != activeSessionId) return
                 val matches = partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 if (!matches.isNullOrEmpty()) {
-                    onPartialResult(matches[0])
+                    onPartialResult(EgyptianArabicNormalizer.normalizeTranscript(matches[0]))
                 }
             }
 
