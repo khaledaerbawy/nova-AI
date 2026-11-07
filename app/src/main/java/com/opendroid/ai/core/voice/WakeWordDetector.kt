@@ -12,7 +12,7 @@ class WakeWordDetector(
     onStatus: (String) -> Unit = {}
 ) {
     private val localDetector = SherpaWakeWordDetector(context, onStatus = onStatus)
-    private val compatibilityDetector = LegacySpeechWakeWordDetector(context)
+    @Volatile private var compatibilityDetector: LegacySpeechWakeWordDetector? = null
     @Volatile private var listening = false
     @Volatile private var callback: (() -> Unit)? = null
 
@@ -24,7 +24,10 @@ class WakeWordDetector(
             onWakeWordDetected = { deliverWakeWord() },
             onUnavailable = {
                 if (listening) {
-                    compatibilityDetector.startListening { deliverWakeWord() }
+                    val fallback = synchronized(this) {
+                        compatibilityDetector ?: LegacySpeechWakeWordDetector(context).also { compatibilityDetector = it }
+                    }
+                    fallback.startListening { deliverWakeWord() }
                 }
             }
         )
@@ -41,12 +44,13 @@ class WakeWordDetector(
         listening = false
         callback = null
         localDetector.stopListening()
-        compatibilityDetector.stopListening()
+        compatibilityDetector?.stopListening()
     }
 
     fun destroy() {
         stopListening()
         localDetector.destroy()
-        compatibilityDetector.destroy()
+        compatibilityDetector?.destroy()
+        compatibilityDetector = null
     }
 }
