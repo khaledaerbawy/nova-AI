@@ -43,7 +43,7 @@ fun SocialReportsTab(
     val dateRange = if (weeklyReport != null) {
         "${timeFormat.format(Date(weeklyReport.startDate))} – ${timeFormat.format(Date(weeklyReport.endDate))}"
     } else {
-        "Current Week"
+        "الأسبوع الحالي"
     }
 
     val reportText = buildString {
@@ -155,7 +155,7 @@ fun SocialReportsTab(
                     Text("نظرة تنفيذية عامة", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        weeklyReport?.aiSummary ?: "Data is being aggregated from connected platforms. Insights will refresh automatically as activity logs accrue.",
+                        weeklyReport?.aiSummary ?: "يتم تجميع البيانات من المنصات المتصلة. ستتحدث الرؤى تلقائياً مع تسجيل نشاط جديد.",
                         color = theme.textSecondary,
                         fontSize = 12.sp,
                         lineHeight = 18.sp
@@ -182,9 +182,9 @@ fun SocialReportsTab(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     val recs = weeklyReport?.recommendations ?: listOf(
-                        "Increase X posting frequency between 14:00 - 17:00 UTC for optimal developer engagement.",
-                        "Publish community updates to Telegram 15 minutes before global platform posts.",
-                        "Add explicit Call-To-Action buttons on high-performing announcements to drive GitHub stars."
+                        "زِد وتيرة النشر على X بين 14:00 و17:00 UTC لتحسين تفاعل المطورين.",
+                        "انشر تحديثات المجتمع على تيليجرام قبل المنشورات العامة بـ 15 دقيقة.",
+                        "أضف أزرار دعوة واضحة لاتخاذ إجراء في الإعلانات الأعلى أداءً لزيادة نجوم GitHub."
                     )
 
                     recs.forEachIndexed { index, rec ->
