@@ -106,9 +106,9 @@ fun SettingsScreen(
         "DeepSeek",
         "Copilot API",
         "Opencode-Go",
-        "Custom OpenAI Compatible",
+        "متوافق مع OpenAI",
         "Ollama",
-        "On-Device AI"
+        "ذكاء اصطناعي على الجهاز"
     )
 
     var providerDropdownExpanded by remember { mutableStateOf(false) }
@@ -184,9 +184,9 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "Saved provider credentials cannot be read on this device, so " +
-                                    "new API keys will not be saved. Other settings still save. " +
-                                    "Clear unavailable records, then enter your API keys again.",
+                                text = "تعذر قراءة بيانات الدخول المحفوظة على هذا الجهاز، لذلك " +
+                                    "لن يتم حفظ مفاتيح API الجديدة. باقي الإعدادات ستُحفظ. " +
+                                    "امسح السجلات غير المتاحة، ثم أدخل مفاتيح API مرة أخرى.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -220,16 +220,16 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "The MCP access token and saved MCP servers cannot be read on " +
-                                    "this device, so MCP requests are refused. Resetting discards them; " +
-                                    "pair your MCP client and add your servers again afterwards.",
+                                text = "تعذر قراءة رمز MCP والخوادم المحفوظة على " +
+                                    "هذا الجهاز، لذلك تم إيقاف طلبات MCP. إعادة الضبط ستحذفها؛ " +
+                                    "أعد ربط عميل MCP وأضف الخوادم مرة أخرى.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
                             if (mcpResetFailed) {
                                 Spacer(modifier = Modifier.height(6.dp))
                                 Text(
-                                    text = "Reset failed. Try again.",
+                                    text = "فشلت إعادة الضبط. حاول مرة أخرى.",
                                     fontSize = 12.sp,
                                     color = Color(0xFFFF9800)
                                 )
@@ -266,8 +266,8 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "App storage is unavailable. Existing settings and credentials " +
-                                    "were preserved; check device storage and try again.",
+                                text = "مساحة تخزين التطبيق غير متاحة. تم الحفاظ على الإعدادات وبيانات الدخول " +
+                                    "الحالية؛ تحقق من مساحة الجهاز وحاول مرة أخرى.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -312,7 +312,7 @@ fun SettingsScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = if (config.activeProvider == "On-Device AI" || config.activeProvider == "Gemma 4 (On-device)") "On-Device AI" else config.activeProvider,
+                                    text = if (config.activeProvider == "ذكاء اصطناعي على الجهاز" || config.activeProvider == "Gemma 4 (On-device)") "ذكاء اصطناعي على الجهاز" else config.activeProvider,
                                     color = TextPrimary,
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.SemiBold
@@ -346,9 +346,9 @@ fun SettingsScreen(
                                     onClick = {}
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("On-Device AI", color = TextPrimary, modifier = Modifier.padding(start = 8.dp)) },
+                                    text = { Text("ذكاء اصطناعي على الجهاز", color = TextPrimary, modifier = Modifier.padding(start = 8.dp)) },
                                     onClick = {
-                                        viewModel.updateActiveProvider("On-Device AI")
+                                        viewModel.updateActiveProvider("ذكاء اصطناعي على الجهاز")
                                         providerDropdownExpanded = false
                                     }
                                 )
@@ -368,7 +368,7 @@ fun SettingsScreen(
                                     enabled = false,
                                     onClick = {}
                                 )
-                                val cloudProvidersList = providers.filter { it != "On-Device AI" }
+                                val cloudProvidersList = providers.filter { it != "ذكاء اصطناعي على الجهاز" }
                                 cloudProvidersList.forEach { name ->
                                     val displayName = when (name) {
                                         "Google Gemini" -> "Gemini"
@@ -488,7 +488,7 @@ fun SettingsScreen(
                                                                     .padding(horizontal = 4.dp, vertical = 2.dp)
                                                             ) {
                                                                 Text(
-                                                                    text = "REC",
+                                                                    text = "موصى به",
                                                                     color = AccentCyan,
                                                                     fontSize = 9.sp,
                                                                     fontWeight = FontWeight.Bold
@@ -505,7 +505,7 @@ fun SettingsScreen(
                                                                     .padding(horizontal = 4.dp, vertical = 2.dp)
                                                             ) {
                                                                 Text(
-                                                                    text = "FREE",
+                                                                    text = "مجاني",
                                                                     color = AccentCyan,
                                                                     fontSize = 9.sp,
                                                                     fontWeight = FontWeight.Bold
@@ -522,7 +522,7 @@ fun SettingsScreen(
                                                                     .padding(horizontal = 4.dp, vertical = 2.dp)
                                                             ) {
                                                                 Text(
-                                                                    text = "PRO",
+                                                                    text = "احترافي",
                                                                     color = Color(0xFFFFD700),
                                                                     fontSize = 9.sp,
                                                                     fontWeight = FontWeight.Bold
@@ -551,13 +551,13 @@ fun SettingsScreen(
                             color = AccentCyan
                         )
                         Text(
-                            text = "Only selected providers may receive a retry after an unusable low-impact local plan. High-impact plans never switch automatically.",
+                            text = "قد تتم إعادة المحاولة عبر مزود آخر في المهام البسيطة فقط. المهام الحساسة لا تنتقل تلقائياً.",
                             fontSize = 10.sp,
                             color = TextSecondary,
                             modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                         )
                         providers
-                            .filter { it != config.activeProvider && it != "On-Device AI" }
+                            .filter { it != config.activeProvider && it != "ذكاء اصطناعي على الجهاز" }
                             .forEach { fallbackProvider ->
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -672,7 +672,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "Use local LAN IP (e.g. http://192.168.1.50:11434) if testing from a physical Android device.",
+                                text = "استخدم عنوان IP المحلي للشبكة عند الاختبار على هاتف فعلي.",
                                 fontSize = 10.sp,
                                 color = TextSecondary
                             )
@@ -729,7 +729,7 @@ fun SettingsScreen(
             }
 
             // On-Device AI Status Card (Visible when On-Device AI or legacy Gemma provider is selected)
-            if (config.activeProvider == "On-Device AI" || config.activeProvider == "Gemma 4 (On-device)") {
+            if (config.activeProvider == "ذكاء اصطناعي على الجهاز" || config.activeProvider == "Gemma 4 (On-device)") {
                 item {
                     Card(
                         modifier = Modifier
@@ -775,9 +775,9 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             
-                            var gemma4Status by remember { mutableStateOf("Checking...") }
+                            var gemma4Status by remember { mutableStateOf("جاري التحقق...") }
                             var showGemma4Download by remember { mutableStateOf(false) }
-                            var gemma3nStatus by remember { mutableStateOf("Checking...") }
+                            var gemma3nStatus by remember { mutableStateOf("جاري التحقق...") }
                             var showGemma3nDownload by remember { mutableStateOf(false) }
                             
                             LaunchedEffect(Unit) {
@@ -786,17 +786,17 @@ fun SettingsScreen(
                                     val client = Generation.getClient()
                                     val status = client.checkStatus()
                                     gemma4Status = when (status) {
-                                        FeatureStatus.AVAILABLE -> "Available and ready"
+                                        FeatureStatus.AVAILABLE -> "متاح وجاهز"
                                         FeatureStatus.DOWNLOADABLE -> {
                                             showGemma4Download = true
-                                            "Download needed"
+                                            "يحتاج إلى تنزيل"
                                         }
-                                        FeatureStatus.DOWNLOADING -> "Downloading..."
-                                        FeatureStatus.UNAVAILABLE -> "Not supported on this device"
-                                        else -> "Unknown"
+                                        FeatureStatus.DOWNLOADING -> "جاري التنزيل..."
+                                        FeatureStatus.UNAVAILABLE -> "غير مدعوم على هذا الجهاز"
+                                        else -> "غير معروف"
                                     }
                                 } catch (e: Exception) {
-                                    gemma4Status = "Not supported on this device"
+                                    gemma4Status = "غير مدعوم على هذا الجهاز"
                                 }
                                 
                                 // Check Gemma 3n (preview/fast)
@@ -810,17 +810,17 @@ fun SettingsScreen(
                                     val client3n = Generation.getClient(previewConfig)
                                     val status3n = client3n.checkStatus()
                                     gemma3nStatus = when (status3n) {
-                                        FeatureStatus.AVAILABLE -> "Available and ready"
+                                        FeatureStatus.AVAILABLE -> "متاح وجاهز"
                                         FeatureStatus.DOWNLOADABLE -> {
                                             showGemma3nDownload = true
-                                            "Download needed"
+                                            "يحتاج إلى تنزيل"
                                         }
-                                        FeatureStatus.DOWNLOADING -> "Downloading..."
-                                        FeatureStatus.UNAVAILABLE -> "Not supported on this device"
-                                        else -> "Unknown"
+                                        FeatureStatus.DOWNLOADING -> "جاري التنزيل..."
+                                        FeatureStatus.UNAVAILABLE -> "غير مدعوم على هذا الجهاز"
+                                        else -> "غير معروف"
                                     }
                                 } catch (e: Exception) {
-                                    gemma3nStatus = "Not supported on this device"
+                                    gemma3nStatus = "غير مدعوم على هذا الجهاز"
                                 }
                             }
                             
@@ -834,7 +834,7 @@ fun SettingsScreen(
                                 Text(
                                     text = gemma4Status,
                                     fontSize = 11.sp,
-                                    color = if (gemma4Status.contains("ready")) AccentCyan else TextSecondary
+                                    color = if (gemma4Status.contains("جاهز")) AccentCyan else TextSecondary
                                 )
                             }
                             if (showGemma4Download) {
@@ -844,12 +844,12 @@ fun SettingsScreen(
                                         coroutineScope.launch {
                                             try {
                                                 val client = Generation.getClient()
-                                                gemma4Status = "Downloading..."
+                                                gemma4Status = "جاري التنزيل..."
                                                 showGemma4Download = false
                                                 client.download().collect { }
-                                                gemma4Status = "Download complete"
+                                                gemma4Status = "اكتمل التنزيل"
                                             } catch (e: Exception) {
-                                                gemma4Status = "Download failed: ${e.localizedMessage}"
+                                                gemma4Status = "فشل التنزيل: ${e.localizedMessage}"
                                                 showGemma4Download = true
                                             }
                                         }
@@ -857,7 +857,7 @@ fun SettingsScreen(
                                     colors = ButtonDefaults.buttonColors(containerColor = TextPrimary),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
-                                    Text("Download Gemma 4 (AI Core)", color = DarkBackground)
+                                    Text("تنزيل Gemma 4 (AI Core)", color = DarkBackground)
                                 }
                             }
                             
@@ -869,11 +869,11 @@ fun SettingsScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text("Gemma 3n Multimodal", fontSize = 13.sp, color = TextPrimary, fontWeight = FontWeight.SemiBold)
+                                Text("Gemma 3n متعدد الوسائط", fontSize = 13.sp, color = TextPrimary, fontWeight = FontWeight.SemiBold)
                                 Text(
                                     text = gemma3nStatus,
                                     fontSize = 11.sp,
-                                    color = if (gemma3nStatus.contains("ready")) AccentCyan else TextSecondary
+                                    color = if (gemma3nStatus.contains("جاهز")) AccentCyan else TextSecondary
                                 )
                             }
                             if (showGemma3nDownload) {
@@ -889,12 +889,12 @@ fun SettingsScreen(
                                                     }
                                                 }
                                                 val client3n = Generation.getClient(previewConfig)
-                                                gemma3nStatus = "Downloading..."
+                                                gemma3nStatus = "جاري التنزيل..."
                                                 showGemma3nDownload = false
                                                 client3n.download().collect { }
-                                                gemma3nStatus = "Download complete"
+                                                gemma3nStatus = "اكتمل التنزيل"
                                             } catch (e: Exception) {
-                                                gemma3nStatus = "Download failed: ${e.localizedMessage}"
+                                                gemma3nStatus = "فشل التنزيل: ${e.localizedMessage}"
                                                 showGemma3nDownload = true
                                             }
                                         }
@@ -902,7 +902,7 @@ fun SettingsScreen(
                                     colors = ButtonDefaults.buttonColors(containerColor = AccentCyan),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
-                                    Text("Download Gemma 3n (AI Core)", color = DarkBackground)
+                                    Text("تنزيل Gemma 3n (AI Core)", color = DarkBackground)
                                 }
                             }
                             
@@ -999,18 +999,18 @@ fun SettingsScreen(
 
                                     // Status display
                                     val statusDisplay = when (validationStatus) {
-                                        "Valid" -> "✓ Token Valid"
-                                        "Invalid" -> "✗ Invalid Token"
-                                        "Verifying..." -> "Checking token..."
-                                        "Unable to verify" -> "Unable to verify token."
-                                        else -> "⚠ Token Required"
+                                        "صالح" -> "✓ الرمز صالح"
+                                        "غير صالح" -> "✗ الرمز غير صالح"
+                                        "جاري التحقق..." -> "جاري فحص الرمز..."
+                                        "تعذر التحقق" -> "تعذر التحقق من الرمز."
+                                        else -> "⚠ الرمز مطلوب"
                                     }
 
                                     val statusColor = when (validationStatus) {
-                                        "Valid" -> AccentCyan
-                                        "Invalid" -> Color.Red
-                                        "Verifying..." -> AccentCyan
-                                        "Unable to verify" -> Color.Yellow
+                                        "صالح" -> AccentCyan
+                                        "غير صالح" -> Color.Red
+                                        "جاري التحقق..." -> AccentCyan
+                                        "تعذر التحقق" -> Color.Yellow
                                         else -> TextSecondary
                                     }
 
@@ -1020,9 +1020,9 @@ fun SettingsScreen(
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Column {
-                                            Text("Status: $statusDisplay", fontSize = 11.sp, color = statusColor, fontWeight = FontWeight.Bold)
-                                            Text("Last Verified: $lastVerified", fontSize = 9.sp, color = TextSecondary)
-                                            Text("Storage: Encrypted", fontSize = 9.sp, color = TextSecondary)
+                                            Text("الحالة: $statusDisplay", fontSize = 11.sp, color = statusColor, fontWeight = FontWeight.Bold)
+                                            Text("آخر تحقق: $lastVerified", fontSize = 9.sp, color = TextSecondary)
+                                            Text("التخزين: مشفر", fontSize = 9.sp, color = TextSecondary)
                                         }
 
                                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -1121,7 +1121,7 @@ fun SettingsScreen(
                                                                 .padding(horizontal = 4.dp, vertical = 2.dp)
                                                         ) {
                                                             Text(
-                                                                text = "REC",
+                                                                text = "موصى به",
                                                                 color = Color(0xFFFF9800),
                                                                 fontSize = 8.sp,
                                                                 fontWeight = FontWeight.Bold
@@ -1139,7 +1139,7 @@ fun SettingsScreen(
                                                             .padding(horizontal = 4.dp, vertical = 2.dp)
                                                     ) {
                                                         Text(
-                                                            text = if (spec.authRequired) "GATED · HF TOKEN" else "PUBLIC · NO TOKEN",
+                                                            text = if (spec.authRequired) "يتطلب رمز Hugging Face" else "عام · لا يحتاج رمزاً",
                                                             color = if (spec.authRequired) Color(0xFFFF9800) else AccentCyan,
                                                             fontSize = 8.sp,
                                                             fontWeight = FontWeight.Bold
@@ -1149,12 +1149,12 @@ fun SettingsScreen(
                                                 Text(
                                                     text = if (managedDownloadAvailable) {
                                                         if (spec.authRequired) {
-                                                            "Backend: LiteRT-LM · Gated Hugging Face download"
+                                                            "المحرك: LiteRT-LM · تنزيل يتطلب رمز Hugging Face"
                                                         } else {
-                                                            "Backend: LiteRT-LM · Public download (no token)"
+                                                            "المحرك: LiteRT-LM · تنزيل عام (بدون رمز)"
                                                         }
                                                     } else {
-                                                        "Backend: LiteRT-LM · In-app download unavailable; local import only"
+                                                        "المحرك: LiteRT-LM · التنزيل من التطبيق غير متاح؛ الاستيراد المحلي فقط"
                                                     },
                                                     fontSize = 10.sp,
                                                     color = TextSecondary
@@ -1171,14 +1171,14 @@ fun SettingsScreen(
                                             }
                                             
                                             val statusText = when {
-                                                !isApiCompatible -> "API ${spec.minSdk}+ Req"
-                                                status == ModelStatus.READY -> "Downloaded"
-                                                !managedDownloadAvailable -> "In-app unavailable"
+                                                !isApiCompatible -> "يتطلب API ${spec.minSdk} أو أحدث"
+                                                status == ModelStatus.READY -> "تم التنزيل"
+                                                !managedDownloadAvailable -> "غير متاح من داخل التطبيق"
                                                 status == ModelStatus.DOWNLOADING -> "${progress}%"
-                                                status == ModelStatus.PAUSED -> "Paused"
-                                                status == ModelStatus.LOADING -> "Loading..."
-                                                status == ModelStatus.FAILED -> "Failed"
-                                                else -> "Not Downloaded"
+                                                status == ModelStatus.PAUSED -> "متوقف مؤقتاً"
+                                                status == ModelStatus.LOADING -> "جاري التحميل..."
+                                                status == ModelStatus.FAILED -> "فشل"
+                                                else -> "لم يتم التنزيل"
                                             }
                                             
                                             Text(
@@ -1215,7 +1215,7 @@ fun SettingsScreen(
                                                 )
                                                 if (status == ModelStatus.DOWNLOADING && eta.isNotEmpty()) {
                                                     Text(
-                                                        text = "ETA: $eta",
+                                                        text = "الوقت المتبقي: $eta",
                                                         fontSize = 9.sp,
                                                         color = TextSecondary
                                                     )
@@ -1234,9 +1234,9 @@ fun SettingsScreen(
                                                         modifier = Modifier.height(28.dp).padding(horizontal = 4.dp),
                                                         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                                                     ) {
-                                                        Icon(Icons.Default.Pause, contentDescription = "Pause", modifier = Modifier.size(12.dp), tint = TextPrimary)
+                                                        Icon(Icons.Default.Pause, contentDescription = "إيقاف مؤقت", modifier = Modifier.size(12.dp), tint = TextPrimary)
                                                         Spacer(modifier = Modifier.width(4.dp))
-                                                        Text("Pause", fontSize = 10.sp, color = TextPrimary)
+                                                        Text("إيقاف مؤقت", fontSize = 10.sp, color = TextPrimary)
                                                     }
                                                 } else if (status == ModelStatus.PAUSED) {
                                                     Button(
@@ -1251,9 +1251,9 @@ fun SettingsScreen(
                                                         modifier = Modifier.height(28.dp).padding(horizontal = 4.dp),
                                                         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                                                     ) {
-                                                        Icon(Icons.Default.PlayArrow, contentDescription = "Resume", modifier = Modifier.size(12.dp), tint = DarkBackground)
+                                                        Icon(Icons.Default.PlayArrow, contentDescription = "استئناف", modifier = Modifier.size(12.dp), tint = DarkBackground)
                                                         Spacer(modifier = Modifier.width(4.dp))
-                                                        Text("Resume", fontSize = 10.sp, color = DarkBackground)
+                                                        Text("استئناف", fontSize = 10.sp, color = DarkBackground)
                                                     }
                                                 }
                                                 Spacer(modifier = Modifier.width(6.dp))
@@ -1263,21 +1263,21 @@ fun SettingsScreen(
                                                     modifier = Modifier.height(28.dp).padding(horizontal = 4.dp),
                                                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                                                 ) {
-                                                    Text("Cancel", fontSize = 10.sp, color = Color.White)
+                                                    Text("إلغاء", fontSize = 10.sp, color = Color.White)
                                                 }
                                             }
                                         }
 
                                         if (isApiCompatible && status == ModelStatus.FAILED) {
                                             Spacer(modifier = Modifier.height(8.dp))
-                                            val errorText = modelEntity?.etaString ?: "Download failed"
+                                            val errorText = modelEntity?.etaString ?: "فشل التنزيل"
                                             Text(
                                                 text = errorText,
                                                 fontSize = 10.sp,
                                                 color = Color.Red,
                                                 fontWeight = FontWeight.SemiBold
                                             )
-                                            if (spec.licenseUrl.isNotEmpty() && (errorText.contains("permission", ignoreCase = true) || errorText.contains("license", ignoreCase = true))) {
+                                            if (spec.licenseUrl.isNotEmpty() && (errorText.contains("الصلاحيات", ignoreCase = true) || errorText.contains("الترخيص", ignoreCase = true))) {
                                                 Spacer(modifier = Modifier.height(6.dp))
                                                 val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
                                                 Button(
@@ -1396,7 +1396,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Import any .task or .litertlm file as its own model (not tied to a catalog slot). GGUF is not supported yet.",
+                                text = "استورد ملف .task أو .litertlm كنموذج مستقل. ملفات GGUF غير مدعومة حالياً.",
                                 fontSize = 10.sp,
                                 color = TextSecondary
                             )
@@ -1451,13 +1451,13 @@ fun SettingsScreen(
                                                     fontWeight = FontWeight.SemiBold
                                                 )
                                                 Text(
-                                                    text = "Custom LiteRT · ${formatBytes(entity.size)} · no token",
+                                                    text = "LiteRT مخصص · ${formatBytes(entity.size)} · بدون رمز",
                                                     fontSize = 10.sp,
                                                     color = TextSecondary
                                                 )
                                             }
                                             Text(
-                                                text = if (config.activeModel == entity.id) "نشط" else "Ready",
+                                                text = if (config.activeModel == entity.id) "نشط" else "جاهز",
                                                 fontSize = 10.sp,
                                                 color = AccentCyan,
                                                 fontWeight = FontWeight.Bold
@@ -1541,7 +1541,7 @@ fun SettingsScreen(
                                     color = TextPrimary
                                 )
                                 Text(
-                                    text = "${((totalSpace - freeSpace) * 100 / (totalSpace.coerceAtLeast(1L)))}% Used",
+                                    text = "${((totalSpace - freeSpace) * 100 / (totalSpace.coerceAtLeast(1L)))}% مستخدم",
                                     fontSize = 11.sp,
                                     color = TextSecondary
                                 )
@@ -1558,7 +1558,7 @@ fun SettingsScreen(
                              )
                              Spacer(modifier = Modifier.height(6.dp))
                              Text(
-                                 text = "OpenDroid models occupy ${formatBytes(usedByApp)} of on-device storage.",
+                                 text = "نماذج NOVA تشغل ${formatBytes(usedByApp)} من مساحة الجهاز.",
                                  fontSize = 10.sp,
                                  color = TextSecondary
                              )
@@ -1609,7 +1609,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "Use local LAN IP (e.g. http://192.168.1.50:4141) if testing from a physical Android device.",
+                                text = "استخدم عنوان IP المحلي للشبكة عند الاختبار على هاتف فعلي.",
                                 fontSize = 10.sp,
                                 color = TextSecondary
                             )
@@ -1619,7 +1619,7 @@ fun SettingsScreen(
             }
 
             // Custom OpenAI Compatible Endpoint Config Card (Visible only when Custom OpenAI Compatible is selected)
-            if (config.activeProvider == "Custom OpenAI Compatible") {
+            if (config.activeProvider == "متوافق مع OpenAI") {
                 item {
                     Card(
                         modifier = Modifier
@@ -1637,8 +1637,8 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(12.dp))
                             OutlinedTextField(
-                                value = config.customEndpoints["Custom OpenAI Compatible"] ?: "",
-                                onValueChange = { viewModel.updateCustomEndpoint("Custom OpenAI Compatible", it) },
+                                value = config.customEndpoints["متوافق مع OpenAI"] ?: "",
+                                onValueChange = { viewModel.updateCustomEndpoint("متوافق مع OpenAI", it) },
                                 label = { Text("الرابط الأساسي للخدمة", fontSize = 12.sp) },
                                 singleLine = true,
                                 colors = OutlinedTextFieldDefaults.colors(
@@ -1651,7 +1651,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "Provide the custom OpenAI-compatible API base URL (e.g. from Pollination, Aqua Dev, Portkey, etc.)",
+                                text = "أدخل الرابط الأساسي لخدمة API المتوافقة مع OpenAI.",
                                 fontSize = 10.sp,
                                 color = TextSecondary
                             )
@@ -1685,7 +1685,7 @@ fun SettingsScreen(
                             )
                             Icon(
                                 imageVector = if (keysSectionExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                                contentDescription = "Toggle Keys Section",
+                                contentDescription = "فتح أو إغلاق قسم المفاتيح",
                                 tint = AccentCyan
                             )
                         }
@@ -1695,14 +1695,14 @@ fun SettingsScreen(
                                 modifier = Modifier.padding(top = 16.dp),
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                val inputProviders = providers.filter { it != "Ollama" && it != "On-Device AI" }
+                                val inputProviders = providers.filter { it != "Ollama" && it != "ذكاء اصطناعي على الجهاز" }
                                 inputProviders.forEach { providerName ->
                                     val keyVal = config.apiKeys[providerName] ?: ""
                                     val connectionState = connectionResults[providerName]
                                     SecureApiKeyField(
                                         value = keyVal,
                                         onValueChange = { viewModel.updateApiKey(providerName, it) },
-                                        label = "$providerName API Key"
+                                        label = "مفتاح API لخدمة $providerName"
                                     )
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
@@ -1723,13 +1723,13 @@ fun SettingsScreen(
                                         }
                                     }
                                     Text(
-                                        text = "Sends one minimal request to $providerName; provider charges may apply.",
+                                        text = "يرسل طلب اختبار صغيراً إلى $providerName وقد تُحتسب رسوم من المزود.",
                                         fontSize = 10.sp,
                                         color = TextSecondary
                                     )
                                     if (providerName == "Opencode-Go") {
                                         Text(
-                                            text = "OpenDroid adds the required User-Agent and x-opencode-session headers automatically. Only an API key is needed.",
+                                            text = "تضيف NOVA ترويسات الاتصال المطلوبة تلقائياً. تحتاج فقط إلى مفتاح API.",
                                             fontSize = 10.sp,
                                             color = AccentCyan
                                         )
@@ -1766,7 +1766,7 @@ fun SettingsScreen(
                             )
                             Icon(
                                 imageVector = if (voiceSectionExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                                contentDescription = "Toggle Voice Section",
+                                contentDescription = "فتح أو إغلاق قسم الصوت",
                                 tint = AccentCyan
                             )
                         }
@@ -1795,7 +1795,7 @@ fun SettingsScreen(
                                     modifier = Modifier.fillMaxWidth()
                                 )
                                 Text(
-                                    text = "If ElevenLabs key is not set, OpenDroid automatically falls back to native offline Android Text-to-Speech.",
+                                    text = "إذا لم تضف مفتاح ElevenLabs، سيستخدم التطبيق محرك تحويل النص إلى كلام المدمج في أندرويد.",
                                     fontSize = 10.sp,
                                     color = TextSecondary
                                 )
@@ -1830,7 +1830,7 @@ fun SettingsScreen(
                             )
                             Icon(
                                 imageVector = if (planningSectionExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                                contentDescription = "Toggle Planning Section",
+                                contentDescription = "فتح أو إغلاق قسم التخطيط",
                                 tint = AccentCyan
                             )
                         }
@@ -1848,7 +1848,7 @@ fun SettingsScreen(
                             color = TextPrimary
                         )
                         Text(
-                            text = "Auto runs plans whose every step you've allowed. YOLO runs everything without asking.",
+                            text = "التلقائي ينفذ الخطوات التي سمحت بها. الوضع الكامل ينفذ دون طلب موافقة إضافية.",
                             fontSize = 12.sp,
                             color = TextSecondary
                         )
@@ -1871,9 +1871,9 @@ fun SettingsScreen(
                                 ) {
                                     Text(
                                         text = when (mode) {
-                                            AutoMode.OFF -> "Off"
-                                            AutoMode.AUTO -> "Auto"
-                                            AutoMode.YOLO -> "YOLO"
+                                            AutoMode.OFF -> "إيقاف"
+                                            AutoMode.AUTO -> "تلقائي"
+                                            AutoMode.YOLO -> "كامل"
                                         },
                                         fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
                                     )
@@ -1888,10 +1888,10 @@ fun SettingsScreen(
                                 title = { Text("تفعيل وضع التنفيذ الكامل؟", color = AccentRed, fontWeight = FontWeight.Bold) },
                                 text = {
                                     Text(
-                                        "YOLO runs EVERY plan without asking — including actions that " +
-                                        "spend money (UPI payments, food and cab orders) and irreversible " +
-                                        "ones (installing apps, deleting files, restarting the device). " +
-                                        "No approval gate remains.",
+                                        "الوضع الكامل ينفذ كل الخطط دون سؤالك، بما فيها إجراءات قد " +
+                                        "تنفق أموالاً أو لا يمكن التراجع عنها مثل حذف الملفات أو " +
+                                        "تثبيت التطبيقات أو إعادة تشغيل الجهاز. " +
+                                        "لن تكون هناك خطوة موافقة قبل التنفيذ.",
                                         color = TextPrimary
                                     )
                                 },
@@ -1903,7 +1903,7 @@ fun SettingsScreen(
                                 },
                                 dismissButton = {
                                     TextButton(onClick = { showYoloWarning = false }) {
-                                        Text("Cancel", color = TextSecondary)
+                                        Text("إلغاء", color = TextSecondary)
                                     }
                                 }
                             )
@@ -1930,13 +1930,13 @@ fun SettingsScreen(
                                     Column(modifier = Modifier.weight(1f)) {
                                         Text(text = action, fontSize = 13.sp, fontFamily = FontFamily.Monospace, color = TextPrimary)
                                         Text(
-                                            text = if (grantedAt == 0L) "Default" else "Granted ${dateFormat.format(java.util.Date(grantedAt))}",
+                                            text = if (grantedAt == 0L) "افتراضي" else "تم السماح في ${dateFormat.format(java.util.Date(grantedAt))}",
                                             fontSize = 11.sp,
                                             color = TextSecondary
                                         )
                                     }
                                     TextButton(onClick = { viewModel.revokeGrant(action) }) {
-                                        Text("Revoke", color = AccentRed, fontSize = 12.sp)
+                                        Text("إلغاء السماح", color = AccentRed, fontSize = 12.sp)
                                     }
                                 }
                             }
@@ -1963,7 +1963,7 @@ fun SettingsScreen(
                                     color = TextPrimary
                                 )
                                 Text(
-                                    text = "Use critic and plan merger agents for safer, more robust plan generation.",
+                                    text = "استخدم وكلاء مراجعة ودمج الخطط لتحسين الأمان وجودة التنفيذ.",
                                     fontSize = 12.sp,
                                     color = TextSecondary
                                 )
@@ -2000,7 +2000,7 @@ fun SettingsScreen(
                                     color = TextPrimary
                                 )
                                 Text(
-                                    text = "Show a tiny floating bubble to launch the app or record commands directly.",
+                                    text = "إظهار فقاعة عائمة صغيرة لفتح التطبيق أو تسجيل الأوامر مباشرة.",
                                     fontSize = 12.sp,
                                     color = TextSecondary
                                 )
@@ -2037,7 +2037,7 @@ fun SettingsScreen(
                                     color = TextPrimary
                                 )
                                 Text(
-                                    text = "Switch between dark and light appearance.",
+                                    text = "التبديل بين المظهر الداكن والفاتح.",
                                     fontSize = 12.sp,
                                     color = TextSecondary
                                 )
@@ -2091,7 +2091,7 @@ fun SettingsScreen(
                         }
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = "Go",
+                            contentDescription = "فتح",
                             tint = TextSecondary
                         )
                     }
@@ -2132,7 +2132,7 @@ fun SettingsScreen(
                         }
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = "Go",
+                            contentDescription = "فتح",
                             tint = TextSecondary
                         )
                     }
@@ -2178,7 +2178,7 @@ fun SettingsScreen(
                         }
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = "Go",
+                            contentDescription = "فتح",
                             tint = TextSecondary
                         )
                     }
@@ -2219,7 +2219,7 @@ fun SettingsScreen(
                         }
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = "Go",
+                            contentDescription = "فتح",
                             tint = TextSecondary
                         )
                     }
@@ -2260,7 +2260,7 @@ fun SettingsScreen(
                         }
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = "Go",
+                            contentDescription = "فتح",
                             tint = TextSecondary
                         )
                     }
@@ -2299,14 +2299,14 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "How OpenDroid handles your data and privacy.",
+                                text = "كيف تتعامل NOVA مع بياناتك وخصوصيتك.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
                         }
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = "Go",
+                            contentDescription = "فتح",
                             tint = TextSecondary
                         )
                     }
@@ -2345,14 +2345,14 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Usage terms and conditions for OpenDroid.",
+                                text = "شروط وأحكام استخدام NOVA.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
                         }
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = "Go",
+                            contentDescription = "فتح",
                             tint = TextSecondary
                         )
                     }
@@ -2398,7 +2398,7 @@ fun SettingsScreen(
                         }
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = "Go",
+                            contentDescription = "فتح",
                             tint = TextSecondary
                         )
                     }
@@ -2437,14 +2437,14 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Open-source license and third-party credits.",
+                                text = "ترخيص المصدر المفتوح واعتمادات المكتبات الخارجية.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
                         }
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = "Go",
+                            contentDescription = "فتح",
                             tint = TextSecondary
                         )
                     }
@@ -2483,14 +2483,14 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Version info, features, and technology stack.",
+                                text = "معلومات الإصدار والمميزات والتقنيات المستخدمة.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
                         }
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowRight,
-                            contentDescription = "Go",
+                            contentDescription = "فتح",
                             tint = TextSecondary
                         )
                     }
@@ -2533,9 +2533,9 @@ fun SettingsScreen(
             title = { Text("مطلوب تسجيل الدخول", color = TextPrimary) },
             text = {
                 Text(
-                    text = "This model is gated on Hugging Face and needs an Access Token to download.\n\n" +
+                    text = "هذا النموذج مقيّد على Hugging Face ويحتاج إلى رمز وصول للتنزيل.\n\n" +
                         "Models tagged PUBLIC (for example Qwen 2.5 and the Gemma 4 community mirrors) do not need a token — only the ones tagged GATED do. " +
-                        "Add a read-only token in the Hugging Face section above, or pick a PUBLIC model.",
+                        "أضف رمز قراءة فقط في قسم Hugging Face أو اختر نموذجاً عاماً.",
                     color = TextSecondary
                 )
             },
@@ -2549,7 +2549,7 @@ fun SettingsScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showAuthRequiredDialog = null }) {
-                    Text("Cancel", color = TextSecondary)
+                    Text("إلغاء", color = TextSecondary)
                 }
             },
             containerColor = CardBackground,
@@ -2565,7 +2565,7 @@ fun SettingsScreen(
             title = { Text("تنبيه استخدام بيانات الهاتف", color = TextPrimary) },
             text = {
                 Text(
-                    text = "You are downloading model on cellular network, data charges may apply.",
+                    text = "أنت تقوم بتنزيل نموذج باستخدام بيانات الهاتف وقد تُحتسب رسوم.",
                     color = TextSecondary
                 )
             },
@@ -2582,7 +2582,7 @@ fun SettingsScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showCellularWarningDialog = null }) {
-                    Text("Cancel", color = TextSecondary)
+                    Text("إلغاء", color = TextSecondary)
                 }
             },
             containerColor = CardBackground,
@@ -2598,7 +2598,7 @@ fun SettingsScreen(
             title = { Text("تنبيه استخدام بيانات الهاتف", color = TextPrimary) },
             text = {
                 Text(
-                    text = "You are downloading model on cellular network, data charges may apply.",
+                    text = "أنت تقوم بتنزيل نموذج باستخدام بيانات الهاتف وقد تُحتسب رسوم.",
                     color = TextSecondary
                 )
             },
@@ -2610,12 +2610,12 @@ fun SettingsScreen(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
                 ) {
-                    Text("Resume", color = DarkBackground)
+                    Text("استئناف", color = DarkBackground)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { pendingCellularResumeModelId = null }) {
-                    Text("Cancel", color = TextSecondary)
+                    Text("إلغاء", color = TextSecondary)
                 }
             },
             containerColor = CardBackground,
@@ -2626,7 +2626,7 @@ fun SettingsScreen(
 
     if (localImportStatus != null) {
         val isImporting = localImportStatus == "جاري الاستيراد..."
-        val isSuccess = localImportStatus == "Success"
+        val isSuccess = localImportStatus == "نجاح"
         AlertDialog(
             onDismissRequest = {
                 if (!isImporting) {
@@ -2636,7 +2636,7 @@ fun SettingsScreen(
             title = {
                 Text(
                     text = when {
-                        isImporting -> "Importing Model"
+                        isImporting -> "جاري استيراد النموذج"
                         isSuccess -> "تم الاستيراد بنجاح"
                         else -> "فشل الاستيراد"
                     },
@@ -2649,15 +2649,15 @@ fun SettingsScreen(
                         isImporting -> {
                             CircularProgressIndicator(color = Color(0xFFFF9800))
                             Spacer(modifier = Modifier.height(12.dp))
-                            Text("Copying and verifying the model file. This may take a minute...", color = TextSecondary)
+                            Text("جاري نسخ ملف النموذج والتحقق منه. قد يستغرق ذلك دقيقة...", color = TextSecondary)
                         }
                         isSuccess -> {
-                            Text("The model was imported and verified successfully. You can now load it.", color = TextSecondary)
+                            Text("تم استيراد النموذج والتحقق منه بنجاح. يمكنك تحميله الآن.", color = TextSecondary)
                         }
                         else -> {
                             Text(
                                 text = localImportStatus
-                                    ?: "Failed to import model. Please make sure it is a valid LiteRT model file (.task or .litertlm) and is not corrupted.",
+                                    ?: "فشل استيراد النموذج. تأكد أن الملف بصيغة LiteRT صحيحة وغير تالف.",
                                 color = Color.Red
                             )
                         }
@@ -2697,7 +2697,7 @@ private fun connectionStatusLabel(state: ConnectionTestState?): String = when (s
         LLMError.AuthMissing -> "مطلوب مفتاح API"
         else -> "مطلوب إكمال الإعدادات"
     }
-    else -> "Not tested"
+    else -> "لم يتم الاختبار"
 }
 
 private fun formatBytes(bytes: Long): String {
