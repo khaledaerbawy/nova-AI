@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Arrowرجوع
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.opendroid.ai.core.llm.ConnectionاختبارPlanner
-import com.opendroid.ai.core.llm.ConnectionاختبارState
+import com.opendroid.ai.core.llm.ConnectionTestPlanner
+import com.opendroid.ai.core.llm.ConnectionTestState
 import com.opendroid.ai.core.llm.error.LLMError
 import com.opendroid.ai.ui.theme.*
 import com.opendroid.ai.ui.viewmodel.SettingsViewModel
@@ -28,7 +28,7 @@ import com.opendroid.ai.ui.viewmodel.SettingsViewModel
 @Composable
 fun BenchmarkScreen(
     viewModel: SettingsViewModel,
-    onNavigateرجوع: () -> Unit,
+    onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val config by viewModel.llmConfig.collectAsState()
@@ -36,7 +36,7 @@ fun BenchmarkScreen(
     val batchProgress by viewModel.connectionBatchProgress.collectAsState()
     var showConfirm by remember { mutableStateOf(false) }
 
-    val providers = ConnectionاختبارPlanner.cloudProviders()
+    val providers = ConnectionTestPlanner.cloudProviders()
         .filter { it != "متوافق مع OpenAI" }
 
     Scaffold(
@@ -53,13 +53,13 @@ fun BenchmarkScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateرجوع) {
-                        Icon(Icons.Default.Arrowرجوع, contentDescription = "رجوع", tint = TextPrimary)
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "رجوع", tint = TextPrimary)
                     }
                 },
                 actions = {
                     if (batchProgress != null) {
-                        TextButton(onClick = { viewModel.cancelConnectionاختبارs() }) {
+                        TextButton(onClick = { viewModel.cancelConnectionTests() }) {
                             Text("إلغاء", fontSize = 11.sp, color = AccentRed)
                         }
                     } else {
@@ -67,7 +67,7 @@ fun BenchmarkScreen(
                             onClick = { showConfirm = true },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = TextPrimary,
-                                contentColor = Darkرجوعground
+                                contentColor = DarkBackground
                             ),
                             shape = RoundedCornerShape(8.dp),
                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
@@ -82,14 +82,14 @@ fun BenchmarkScreen(
                         }
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Darkرجوعground)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkBackground)
             )
         },
-        containerColor = Darkرجوعground,
+        containerColor = DarkBackground,
         modifier = modifier
     ) { padding ->
         if (showConfirm) {
-            val configuredCount = ConnectionاختبارPlanner.configuredProviders(config).size
+            val configuredCount = ConnectionTestPlanner.configuredProviders(config).size
             AlertDialog(
                 onDismissRequest = { showConfirm = false },
                 title = { Text("اختبار كل الخدمات المعدّة?") },
@@ -126,7 +126,7 @@ fun BenchmarkScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, BorderColor, RoundedCornerShape(12.dp)),
-                    colors = CardDefaults.cardColors(containerColor = Cardرجوعground)
+                    colors = CardDefaults.cardColors(containerColor = CardBackground)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
@@ -156,7 +156,7 @@ fun BenchmarkScreen(
                     providerName = provider,
                     state = result,
                     legacyLatencyMs = legacyLatency,
-                    onاختبار = { viewModel.testConnection(provider) }
+                    onTest = { viewModel.testConnection(provider) }
                 )
             }
         }
@@ -166,15 +166,15 @@ fun BenchmarkScreen(
 @Composable
 fun ProviderConnectionRow(
     providerName: String,
-    state: ConnectionاختبارState?,
+    state: ConnectionTestState?,
     legacyLatencyMs: Long?,
-    onاختبار: () -> Unit
+    onTest: () -> Unit
 ) {
     val statusText = when (state) {
-        is ConnectionاختبارState.اختبارing -> "جاري الاختبار…"
-        is ConnectionاختبارState.Connected -> "متصل · ${state.latencyMs} مللي ثانية · ${state.model}"
-        is ConnectionاختبارState.فشل -> connectionFailureLabel(state.error)
-        is ConnectionاختبارState.ConfigMissing -> when (state.reason) {
+        is ConnectionTestState.Testing -> "جاري الاختبار…"
+        is ConnectionTestState.Connected -> "متصل · ${state.latencyMs} مللي ثانية · ${state.model}"
+        is ConnectionTestState.Failed -> connectionFailureLabel(state.error)
+        is ConnectionTestState.ConfigMissing -> when (state.reason) {
             LLMError.AuthMissing -> "مطلوب مفتاح API"
             else -> "مطلوب إكمال الإعدادات"
         }
@@ -182,9 +182,9 @@ fun ProviderConnectionRow(
             ?: "لم يتم الاختبار"
     }
     val barColor = when (state) {
-        is ConnectionاختبارState.Connected -> AccentCyan
-        is ConnectionاختبارState.فشل, is ConnectionاختبارState.ConfigMissing -> AccentRed
-        is ConnectionاختبارState.اختبارing -> AccentCyan
+        is ConnectionTestState.Connected -> AccentCyan
+        is ConnectionTestState.Failed, is ConnectionTestState.ConfigMissing -> AccentRed
+        is ConnectionTestState.Testing -> AccentCyan
         else -> BorderColor
     }
 
@@ -192,7 +192,7 @@ fun ProviderConnectionRow(
         modifier = Modifier
             .fillMaxWidth()
             .border(1.dp, BorderColor, RoundedCornerShape(12.dp)),
-        colors = CardDefaults.cardColors(containerColor = Cardرجوعground)
+        colors = CardDefaults.cardColors(containerColor = CardBackground)
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
             Row(
@@ -206,7 +206,7 @@ fun ProviderConnectionRow(
                     fontWeight = FontWeight.Bold,
                     color = TextPrimary
                 )
-                TextButton(onClick = onاختبار) {
+                TextButton(onClick = onTest) {
                     Text("اختبار", fontSize = 11.sp)
                 }
             }
@@ -226,10 +226,10 @@ fun ProviderConnectionRow(
                     .background(BorderColor)
             ) {
                 val fraction = when (state) {
-                    is ConnectionاختبارState.Connected ->
+                    is ConnectionTestState.Connected ->
                         (state.latencyMs / 3000f).coerceIn(0.1f, 1f)
-                    is ConnectionاختبارState.فشل, is ConnectionاختبارState.ConfigMissing -> 1f
-                    is ConnectionاختبارState.اختبارing -> 0.35f
+                    is ConnectionTestState.Failed, is ConnectionTestState.ConfigMissing -> 1f
+                    is ConnectionTestState.Testing -> 0.35f
                     else -> 0.05f
                 }
                 Box(
