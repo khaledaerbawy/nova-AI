@@ -112,10 +112,10 @@ class LLMProviderFactory @Inject constructor(
         val preferLocal = HybridProviderRoutingPolicy.shouldPreferLocal(query, complexity)
         val safeFallback = HybridProviderRoutingPolicy.allowsFallback(query)
 
-        if (preferLocal && runCatching { local.isAvailable() }.getOrDefault(false)) {
+        if (preferLocal && isProviderRuntimeAvailable("On-Device AI", local)) {
             return local
         }
-        if (runCatching { active.isAvailable() }.getOrDefault(false)) {
+        if (isProviderRuntimeAvailable(activeName, active)) {
             return active
         }
 
@@ -128,9 +128,9 @@ class LLMProviderFactory @Inject constructor(
             for (providerName in fallbackNames) {
                 if (!isConfigured(config, providerName)) continue
                 val fallback = getProviderByName(providerName)
-                if (runCatching { fallback.isAvailable() }.getOrDefault(false)) return fallback
+                if (isProviderRuntimeAvailable(providerName, fallback)) return fallback
             }
-            if (runCatching { local.isAvailable() }.getOrDefault(false)) return local
+            if (isProviderRuntimeAvailable("On-Device AI", local)) return local
         }
 
         // Preserve the explicitly selected provider for sensitive work, even if
@@ -164,6 +164,12 @@ class LLMProviderFactory @Inject constructor(
 
     suspend fun recordPlanningLatency(response: LLMResponse): LatencyBudgetResult? =
         runCatching { onDeviceLatencyTracker.recordPlanning(response) }.getOrNull()
+
+    private fun isProviderRuntimeAvailable(providerName: String, provider: LLMProvider): Boolean {
+        val isOnDevice = ProviderCatalog.isOnDevice(ProviderCatalog.canonicalName(providerName))
+        if (!isOnDevice && !deviceStateProvider.hasInternet) return false
+        return runCatching { provider.isAvailable() }.getOrDefault(false)
+    }
 
     private fun isConfigured(config: LLMConfig, providerName: String): Boolean {
         val provider = ProviderCatalog.canonicalName(providerName)
