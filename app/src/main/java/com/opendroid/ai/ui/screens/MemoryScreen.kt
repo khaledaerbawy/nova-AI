@@ -800,7 +800,7 @@ fun ProceduralMemoryView(viewModel: MemoryViewModel, searchQuery: String) {
                             }
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "Trigger: \"${macro.trigger}\"",
+                                text = "عبارة التشغيل: \"${macro.trigger}\"",
                                 fontSize = 12.sp,
                                 color = TextPrimary,
                                 fontWeight = FontWeight.SemiBold
