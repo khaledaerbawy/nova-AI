@@ -47,7 +47,7 @@ class OpenDroidService : Service() {
     private lateinit var textToSpeechEngine: TextToSpeechEngine
 
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var showFloatingButton = false
+    private var wakeWordEnabled = true
     private val pendingApprovalListen = PendingApprovalListen()
     private val approvalListenGate = ApprovalListenGate()
     private var foregroundStarted = false
@@ -118,11 +118,11 @@ class OpenDroidService : Service() {
 
         mcpServer.start()
 
-        // Monitor floating button config to start/stop wake word detection dynamically
+        // Keep the always-on wake-word preference independent from the optional floating button.
         serviceScope.launch {
             settingsRepository.llmConfig.collectLatest { config ->
-                showFloatingButton = config.showFloatingButton
-                if (showFloatingButton || !microphoneForegroundStarted) {
+                wakeWordEnabled = config.wakeWordEnabled
+                if (!wakeWordEnabled || !microphoneForegroundStarted) {
                     wakeWordDetector.stopListening()
                 } else {
                     startWakeWordDetection()
@@ -144,7 +144,7 @@ class OpenDroidService : Service() {
                     // Armed with the prompt's own id before it is queued, so only the
                     // prompt finishing opens the mic, never an earlier utterance.
                     val promptId = UUID.randomUUID().toString()
-                    if (!showFloatingButton) {
+                    if (wakeWordEnabled) {
                         pendingApprovalListen.arm(state.plan.planId)
                         approvalListenGate.armFor(promptId)
                     } else {
@@ -212,7 +212,7 @@ class OpenDroidService : Service() {
     }
 
     private fun startWakeWordDetection() {
-        if (!microphoneForegroundStarted || showFloatingButton) return
+        if (!microphoneForegroundStarted || !wakeWordEnabled) return
         wakeWordDetector.startListening {
             // Wake word detected! Prompt user with a sound or greeting and start listing for query
             textToSpeechEngine.speak("أيوه، معاك.")
@@ -237,7 +237,7 @@ class OpenDroidService : Service() {
             onResult = { query ->
                 agentLoop.processQuery(query, this)
                 // Resume wake word detection only if floating button is disabled
-                if (!showFloatingButton) {
+                if (wakeWordEnabled) {
                     wakeWordDetector.startListening {
                         textToSpeechEngine.speak("أيوه، معاك.")
                         startListeningForQuery()
@@ -275,7 +275,7 @@ class OpenDroidService : Service() {
                     VoiceApprovalIntent.REJECT -> agentLoop.rejectProposedPlan()
                     VoiceApprovalIntent.NONE -> Unit
                 }
-                if (!showFloatingButton) startWakeWordDetection()
+                if (wakeWordEnabled) startWakeWordDetection()
             },
             onError = { _ ->
                 if (!showFloatingButton) startWakeWordDetection()
@@ -332,7 +332,7 @@ class OpenDroidService : Service() {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("NOVA Active")
             .setContentText(
-                if (microphoneForegroundStarted && !showFloatingButton) {
+                if (microphoneForegroundStarted && wakeWordEnabled) {
                     voiceStatus
                 } else if (microphoneForegroundStarted) {
                     "NOVA نشط — اضغط زر الميكروفون للتحدث"
