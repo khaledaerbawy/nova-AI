@@ -61,7 +61,7 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.ui.platform.LocalContext
 import android.content.Context
 import kotlinx.coroutines.launch
@@ -1352,7 +1352,7 @@ fun SettingsScreen(
                                                              contentPadding = PaddingValues(horizontal = 4.dp)
                                                          ) {
                                                              Icon(
-                                                                 if (config.activeModel == spec.id) Icons.Default.Check else Icons.Default.ArrowForward,
+                                                                 if (config.activeModel == spec.id) Icons.Default.Check else Icons.AutoMirrored.Filled.ArrowForward,
                                                                  contentDescription = null,
                                                                  modifier = Modifier.size(12.dp),
                                                                  tint = DarkBackground
