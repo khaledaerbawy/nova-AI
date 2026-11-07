@@ -100,9 +100,9 @@ fun PrivacyPolicyScreen(
             item {
                 PolicySection(
                     title = "1. OVERVIEW",
-                    content = "OpenDroid is an autonomous AI assistant that runs entirely on your Android device. " +
-                            "We are committed to protecting your privacy and ensuring transparency about how your data is handled. " +
-                            "This policy explains what data OpenDroid collects, how it is used, and your rights regarding that data."
+                    content = "NOVA مساعد ذكاء اصطناعي مستقل يعمل على جهاز أندرويد. " +
+                            "نلتزم بحماية خصوصيتك وتوضيح كيفية التعامل مع بياناتك. " +
+                            "توضح هذه السياسة البيانات التي يتعامل معها التطبيق وكيفية استخدامها وحقوقك المتعلقة بها."
                 )
             }
 
@@ -110,13 +110,13 @@ fun PrivacyPolicyScreen(
             item {
                 PolicySection(
                     title = "2. DATA COLLECTION",
-                    content = "OpenDroid processes the following data locally on your device:\n\n" +
-                            "• Voice commands and text queries you provide\n" +
-                            "• Device state information (battery level, WiFi status, connectivity)\n" +
-                            "• Contact names for resolving communication actions\n" +
-                            "• Conversation history for context-aware responses\n" +
-                            "• User preferences and semantic memory facts you share\n\n" +
-                            "All data is stored in a local Room database on your device. No data is collected by the OpenDroid developers."
+                    content = "تعالج NOVA البيانات التالية محلياً على جهازك:\n\n" +
+                            "• الأوامر الصوتية والاستفسارات النصية التي تقدمها\n" +
+                            "• حالة الجهاز مثل البطارية والواي فاي والاتصال\n" +
+                            "• أسماء جهات الاتصال لتنفيذ إجراءات التواصل\n" +
+                            "• سجل المحادثات لتقديم ردود تراعي السياق\n" +
+                            "• تفضيلاتك والمعلومات التي تختار حفظها في الذاكرة\n\n" +
+                            "تُخزّن البيانات في قاعدة بيانات Room محلية على جهازك. لا يجمع مطورو NOVA هذه البيانات."
                 )
             }
 
@@ -124,11 +124,11 @@ fun PrivacyPolicyScreen(
             item {
                 PolicySection(
                     title = "3. THIRD-PARTY LLM PROVIDERS",
-                    content = "OpenDroid sends your queries to the LLM provider you configure (e.g., Google Gemini, OpenAI, Anthropic, Groq, etc.) " +
-                            "to generate responses and action plans. Each provider has its own privacy policy governing how they handle your data.\n\n" +
-                            "• Your API keys are stored locally on your device and are never transmitted to OpenDroid servers.\n" +
-                            "• Query data sent to LLM providers is subject to their respective privacy policies.\n" +
-                            "• You can switch providers or use local models (Ollama) at any time to keep data fully on-device."
+                    content = "ترسل NOVA استفساراتك إلى مزود الذكاء الاصطناعي الذي تختاره مثل Google Gemini أو OpenAI أو Anthropic أو Groq " +
+                            "لإنشاء الردود وخطط التنفيذ. ولكل مزود سياسة خصوصية خاصة به تحدد طريقة تعامله مع بياناتك.\n\n" +
+                            "• تُخزّن مفاتيح API محلياً على جهازك ولا تُرسل إلى خوادم NOVA.\n" +
+                            "• تخضع الاستفسارات المرسلة إلى مزودي الذكاء الاصطناعي لسياسات الخصوصية الخاصة بهم.\n" +
+                            "• يمكنك تغيير المزود أو استخدام نماذج محلية مثل Ollama لإبقاء المعالجة على جهازك."
                 )
             }
 
@@ -136,16 +136,16 @@ fun PrivacyPolicyScreen(
             item {
                 PolicySection(
                     title = "4. DEVICE PERMISSIONS",
-                    content = "OpenDroid requests the following permissions to function:\n\n" +
-                            "• Microphone — For voice command input\n" +
-                            "• Accessibility Service — For automating app interactions (WhatsApp, etc.)\n" +
-                            "• Contacts — For resolving contact names to phone numbers\n" +
-                            "• Phone — For placing calls\n" +
-                            "• SMS — For sending text messages\n" +
-                            "• Camera — For taking photos/flashlight control\n" +
-                            "• Storage — For file management actions\n" +
-                            "• Location — For weather and directions features\n\n" +
-                            "All permissions are optional. Features requiring ungranted permissions will gracefully degrade or prompt you."
+                    content = "تطلب NOVA الصلاحيات التالية لتشغيل ميزاتها:\n\n" +
+                            "• الميكروفون — لاستقبال الأوامر الصوتية\n" +
+                            "• إمكانية الوصول — للتفاعل مع التطبيقات وأتمتة بعض الإجراءات\n" +
+                            "• جهات الاتصال — للوصول إلى أرقام الأشخاص الذين تحددهم\n" +
+                            "• الهاتف — لإجراء المكالمات\n" +
+                            "• الرسائل — لإرسال الرسائل النصية\n" +
+                            "• الكاميرا — لالتقاط الصور والتحكم في الكشاف\n" +
+                            "• التخزين — لإدارة الملفات\n" +
+                            "• الموقع — لخدمات الطقس والاتجاهات\n\n" +
+                            "كل الصلاحيات اختيارية. الميزات التي تحتاج إلى صلاحية غير ممنوحة ستطلب تفعيلها أو لن تعمل."
                 )
             }
 
@@ -153,17 +153,17 @@ fun PrivacyPolicyScreen(
             item {
                 PolicySection(
                     title = "4b. ACCESSIBILITY SERVICE",
-                    content = "OpenDroid uses Android Accessibility Service to automate app interactions " +
-                            "(such as sending WhatsApp messages) when you explicitly request it.\n\n" +
-                            "The Accessibility Service:\n\n" +
-                            "• Only activates when you enable it in Android Settings\n" +
-                            "• Only acts when you give OpenDroid a command\n" +
-                            "• Does NOT run in the background without your command\n" +
-                            "• Does NOT read passwords or banking information\n" +
-                            "• Does NOT record or log screen content passively\n" +
-                            "• Does NOT collect, store, or transmit any data observed through the Accessibility Service to external servers\n\n" +
-                            "The service is used solely to perform on-screen actions you request, such as tapping buttons or typing text in other apps. " +
-                            "You can revoke Accessibility Service access at any time from Android Settings > Accessibility > OpenDroid."
+                    content = "تستخدم NOVA خدمة إمكانية الوصول في أندرويد لأتمتة التفاعل مع التطبيقات " +
+                            "(مثل إرسال رسائل واتساب) عندما تطلب ذلك صراحةً.\n\n" +
+                            "تعمل خدمة إمكانية الوصول وفق الضوابط التالية:\n\n" +
+                            "• لا تعمل إلا بعد تفعيلها من إعدادات أندرويد\n" +
+                            "• تنفذ الإجراءات عندما تطلب من NOVA ذلك\n" +
+                            "• لا تنفذ إجراءات في الخلفية دون أمرك\n" +
+                            "• لا تقرأ كلمات المرور أو المعلومات البنكية\n" +
+                            "• لا تسجل محتوى الشاشة بشكل سلبي\n" +
+                            "• لا تجمع أو تحفظ أو ترسل إلى خوادم خارجية بيانات تمت ملاحظتها عبر الخدمة\n\n" +
+                            "تُستخدم الخدمة فقط لتنفيذ الإجراءات التي تطلبها على الشاشة، مثل الضغط على الأزرار أو الكتابة داخل التطبيقات. " +
+                            "يمكنك إلغاء صلاحية إمكانية الوصول في أي وقت من إعدادات أندرويد ← إمكانية الوصول ← NOVA."
                 )
             }
 
@@ -171,12 +171,12 @@ fun PrivacyPolicyScreen(
             item {
                 PolicySection(
                     title = "5. DATA STORAGE & RETENTION",
-                    content = "• All conversation history, memory facts, and task logs are stored in a local SQLite database on your device.\n" +
-                            "• Memory entries support time-to-live (TTL) and are automatically cleaned on expiration.\n" +
-                            "• Execution history remains until you clear it from System Logs or uninstall the app.\n" +
-                            "• Saving a completed task as a macro is an explicit user action; API keys, tokens, passwords, and recognized credentials are replaced with [REDACTED] before recording.\n" +
-                            "• You can clear any memory type (Working, Episodic, Semantic, Procedural) from the Memory screen.\n" +
-                            "• Uninstalling the app removes all stored data permanently."
+                    content = "• يُحفظ سجل المحادثات والذاكرة وسجل المهام في قاعدة بيانات SQLite محلية على جهازك.\n" +
+                            "• تدعم عناصر الذاكرة مدة صلاحية (TTL) وتُمسح تلقائياً عند انتهائها.\n" +
+                            "• يظل سجل التنفيذ محفوظاً حتى تمسحه من سجل النظام أو تحذف التطبيق.\n" +
+                            "• حفظ المهمة كأمر مخصص يتم بطلب منك؛ وتُستبعد مفاتيح API والرموز وكلمات المرور من التسجيل.\n" +
+                            "• يمكنك مسح أي نوع من الذاكرة من شاشة الذاكرة.\n" +
+                            "• يؤدي حذف التطبيق إلى إزالة البيانات المخزنة محلياً."
                 )
             }
 
@@ -184,12 +184,12 @@ fun PrivacyPolicyScreen(
             item {
                 PolicySection(
                     title = "6. DATA SHARING",
-                    content = "OpenDroid does NOT:\n\n" +
-                            "• Sell, rent, or share your personal data with third parties\n" +
-                            "• Collect analytics, telemetry, or usage statistics\n" +
-                            "• Transmit data to any server owned by the OpenDroid team\n" +
-                            "• Display advertisements or use ad-tracking technologies\n\n" +
-                            "The only external data transmission occurs when your queries are sent to the LLM provider you have configured."
+                    content = "لا تقوم NOVA بما يلي:\n\n" +
+                            "• بيع بياناتك الشخصية أو تأجيرها أو مشاركتها مع أطراف خارجية\n" +
+                            "• جمع بيانات التحليلات أو إحصاءات الاستخدام\n" +
+                            "• إرسال البيانات إلى خوادم يملكها فريق NOVA\n" +
+                            "• عرض إعلانات أو استخدام تقنيات تتبع إعلاني\n\n" +
+                            "يحدث الإرسال الخارجي فقط عند إرسال استفساراتك إلى مزود الذكاء الاصطناعي الذي قمت بإعداده."
                 )
             }
 
@@ -197,14 +197,14 @@ fun PrivacyPolicyScreen(
             item {
                 PolicySection(
                     title = "7. SECURITY",
-                    content = "• API keys are stored with Android Keystore AES-256-GCM encryption on your device.\n" +
-                            "• Your profile name and birth date are encrypted the same way, with a separate device key.\n" +
-                            "• Encryption keys never leave the device's hardware-backed keystore, so encrypted values cannot be read on another device or restored from a backup.\n" +
-                            "• If a key is invalidated, the affected values are not recoverable and are never rewritten unencrypted; the app asks you to enter them again.\n" +
-                            "• Ordinary non-personal settings, such as whether onboarding is complete, are stored unencrypted in app-private storage.\n" +
-                            "• All LLM API communication uses HTTPS encryption.\n" +
-                            "• The accessibility service only activates when explicitly enabled by you.\n" +
-                            "• Destructive actions (device restart, file deletion) require user confirmation."
+                    content = "• تُخزّن مفاتيح API بتشفير AES-256-GCM باستخدام Android Keystore على جهازك.\n" +
+                            "• يُشفّر اسم ملفك الشخصي وتاريخ ميلادك بالطريقة نفسها باستخدام مفتاح منفصل.\n" +
+                            "• لا تغادر مفاتيح التشفير مخزن المفاتيح المحمي بالجهاز، لذلك لا يمكن قراءة البيانات المشفرة على جهاز آخر أو استعادتها من نسخة احتياطية.\n" +
+                            "• إذا أصبح المفتاح غير صالح، لا يمكن استعادة القيم المتأثرة ولا تُحفظ دون تشفير؛ سيطلب منك التطبيق إدخالها مجدداً.\n" +
+                            "• تُحفظ الإعدادات العامة غير الشخصية، مثل اكتمال الإعداد الأولي، في مساحة التطبيق الخاصة دون تشفير.\n" +
+                            "• تستخدم اتصالات API تشفير HTTPS.\n" +
+                            "• لا تعمل خدمة إمكانية الوصول إلا بعد تفعيلها منك.\n" +
+                            "• تتطلب الإجراءات الخطيرة مثل إعادة تشغيل الجهاز أو حذف الملفات موافقتك."
                 )
             }
 
@@ -212,8 +212,8 @@ fun PrivacyPolicyScreen(
             item {
                 PolicySection(
                     title = "8. CHILDREN'S PRIVACY",
-                    content = "OpenDroid is not intended for use by children under 13 years of age. " +
-                            "We do not knowingly collect information from children."
+                    content = "لا يُنصح باستخدام NOVA للأطفال دون 13 عاماً. " +
+                            "ولا نجمع عن قصد معلومات من الأطفال."
                 )
             }
 
@@ -222,7 +222,7 @@ fun PrivacyPolicyScreen(
                 PolicySection(
                     title = "9. CHANGES TO THIS POLICY",
                     content = "We may update this privacy policy from time to time. Any changes will be reflected in the app with an updated \"Last updated\" date. " +
-                            "Continued use of OpenDroid after changes constitutes acceptance of the updated policy."
+                            "استمرارك في استخدام NOVA بعد التعديلات يعني موافقتك على السياسة المحدّثة."
                 )
             }
 
@@ -230,8 +230,8 @@ fun PrivacyPolicyScreen(
             item {
                 PolicySection(
                     title = "10. CONTACT",
-                    content = "If you have questions about this privacy policy or OpenDroid's data practices, " +
-                            "please open an issue on our GitHub repository (JMAN730/opendroid) or reach the development team on Discord."
+                    content = "إذا كانت لديك أسئلة حول سياسة الخصوصية أو طريقة تعامل NOVA مع البيانات، " +
+                            "يمكنك التواصل مع فريق التطوير عبر مستودع المشروع على GitHub أو مجتمع Discord."
                 )
             }
         }
