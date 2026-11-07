@@ -28,6 +28,7 @@ object EgyptianArabicNormalizer {
                 else -> char
             }
         }
+        .joinToString("")
         .replace(repeatedWhitespace, " ")
         .trim()
 
