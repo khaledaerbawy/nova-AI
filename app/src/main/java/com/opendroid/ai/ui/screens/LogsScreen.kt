@@ -303,23 +303,23 @@ fun UnknownActionCard(error: UnknownActionEntity) {
     val dateFormat = remember { SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) }
 
     val statusColor = when (error.fixStatus) {
-        "تم الإصلاح تلقائياً" -> AccentCyan
-        "إعادة تخطيط" -> AccentCyan
-        "فشل" -> AccentRed
+        "AUTO_FIXED" -> AccentCyan
+        "REPLANNED" -> AccentCyan
+        "FAILED" -> AccentRed
         else -> AccentCyan
     }
 
     val statusText = when (error.fixStatus) {
-        "تم الإصلاح تلقائياً" -> "تم الإصلاح تلقائياً"
-        "إعادة تخطيط" -> "إعادة تخطيط"
-        "فشل" -> "فشل"
+        "AUTO_FIXED" -> "تم الإصلاح تلقائياً"
+        "REPLANNED" -> "إعادة تخطيط"
+        "FAILED" -> "فشل"
         else -> error.fixStatus
     }
 
     val explanation = when (error.fixStatus) {
-        "تم الإصلاح تلقائياً" -> "تم التصحيح تلقائياً بواسطة محرك الإصلاح."
-        "إعادة تخطيط" -> "تم إعادة تخطيط التنفيذ وتجاوز الأمر غير المعروف."
-        "فشل" -> "فشل تنفيذ أمر نظام غير معروف."
+        "AUTO_FIXED" -> "تم التصحيح تلقائياً بواسطة محرك الإصلاح."
+        "REPLANNED" -> "تم إعادة تخطيط التنفيذ وتجاوز الأمر غير المعروف."
+        "FAILED" -> "فشل تنفيذ أمر نظام غير معروف."
         else -> "تم تسجيل خلل بالنظام."
     }
 
