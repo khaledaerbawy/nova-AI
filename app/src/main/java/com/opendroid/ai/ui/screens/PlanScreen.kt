@@ -170,8 +170,15 @@ fun PlanHeaderCard(
                         PlanStatus.COMPLETED -> AccentCyan
                         PlanStatus.RUNNING -> AccentCyan
                         PlanStatus.FAILED -> AccentRed
-                        PlanStatus.CANCELLED -> Color(0xFFFFB300) // Amber, matches PlanStepCard's in-between/warning states
+                        PlanStatus.CANCELLED -> Color(0xFFFFB300)
                         else -> TextSecondary
+                    }
+                    val statusLabel = when (plan.status) {
+                        PlanStatus.COMPLETED -> "مكتملة"
+                        PlanStatus.RUNNING -> "قيد التنفيذ"
+                        PlanStatus.FAILED -> "فشلت"
+                        PlanStatus.CANCELLED -> "تم الإلغاء"
+                        else -> "في الانتظار"
                     }
                     Box(
                         modifier = Modifier
@@ -181,7 +188,7 @@ fun PlanHeaderCard(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = plan.status.name,
+                        text = statusLabel,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = statusColor,
@@ -358,7 +365,7 @@ fun PastPlanRow(
                     PlanStatus.CANCELLED -> Icons.Default.Cancel
                     else -> Icons.Default.Info
                 },
-                contentDescription = plan.status.name,
+                contentDescription = statusLabel,
                 tint = when (plan.status) {
                     PlanStatus.COMPLETED -> AccentCyan
                     PlanStatus.FAILED -> AccentRed
