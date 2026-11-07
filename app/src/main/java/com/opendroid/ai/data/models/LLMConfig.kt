@@ -52,6 +52,9 @@ data class LLMConfig(
     val ollamaTimeoutSeconds: Int = OllamaTimeout.DEFAULT_SECONDS,
     val copilotUrl: String = "",
     val multiAgentModeEnabled: Boolean = false,
+    val assistantOperatingMode: String = "always",
+    val reasoningMode: String = "hybrid",
+    val voiceLocale: String = "ar-EG",
     val showFloatingButton: Boolean = true,
     val isDarkMode: Boolean = true,
     val lastModelFetch: Map<String, Long> = emptyMap(), // Provider -> last fetch timestamp

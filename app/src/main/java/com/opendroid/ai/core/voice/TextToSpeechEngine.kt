@@ -72,7 +72,8 @@ class TextToSpeechEngine(
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            val result = tts?.setLanguage(Locale.getDefault())
+            val egyptianResult = tts?.setLanguage(VoiceLanguagePolicy.locale)
+            val result = if (egyptianResult == TextToSpeech.LANG_MISSING_DATA || egyptianResult == TextToSpeech.LANG_NOT_SUPPORTED) tts?.setLanguage(Locale("ar")) else egyptianResult
             if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
                 isInitialized = true
             }
@@ -89,9 +90,9 @@ class TextToSpeechEngine(
             staleClipCleanup.join()
             val config = settingsRepository.llmConfig.first()
             val apiKey = config.elevenLabsApiKey
-            val voiceId = config.elevenLabsVoiceId.ifEmpty { "21m00Tcm4TlvDq8ikWAM" } // default Rachel voice
+            val voiceId = config.elevenLabsVoiceId.trim()
 
-            if (apiKey.isNotEmpty()) {
+            if (apiKey.isNotEmpty() && voiceId.isNotEmpty()) {
                 try {
                     val success = playElevenLabsTts(text, apiKey, voiceId, utteranceId, speechGeneration)
                     if (success) return@launch
@@ -128,7 +129,7 @@ class TextToSpeechEngine(
         val jsonPayload = """
             {
               "text": "$escapedText",
-              "model_id": "eleven_monolingual_v1",
+              "model_id": "eleven_multilingual_v2",
               "voice_settings": {
                 "stability": 0.5,
                 "similarity_boost": 0.75

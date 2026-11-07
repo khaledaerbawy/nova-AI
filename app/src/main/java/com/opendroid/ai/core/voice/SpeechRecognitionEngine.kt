@@ -3,10 +3,10 @@ package com.opendroid.ai.core.voice
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Build
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import java.util.Locale
 
 class SpeechRecognitionEngine(private val context: Context) {
 
@@ -28,11 +28,13 @@ class SpeechRecognitionEngine(private val context: Context) {
 
     private fun initializeRecognizer() {
         if (SpeechRecognizer.isRecognitionAvailable(context)) {
-            speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
+            speechRecognizer = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && SpeechRecognizer.isOnDeviceRecognitionAvailable(context)) SpeechRecognizer.createOnDeviceSpeechRecognizer(context) else SpeechRecognizer.createSpeechRecognizer(context)
             recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-                putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE, VoiceLanguagePolicy.LOCALE_TAG)
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, VoiceLanguagePolicy.LOCALE_TAG)
+                putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true)
+                putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5)
                 putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                 // Prolong listening limits to avoid early cut-offs
                 putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 3000L)
