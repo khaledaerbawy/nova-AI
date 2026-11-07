@@ -328,6 +328,8 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                             "RUNNING" -> "قيد التنفيذ"
                             "COMPLETED" -> "مكتملة"
                             "FAILED" -> "فشلت"
+                            "CANCELLED" -> "تم الإلغاء"
+                            "PENDING" -> "في الانتظار"
                             else -> plan.status.name
                         }
                         Row(verticalAlignment = Alignment.CenterVertically) {
