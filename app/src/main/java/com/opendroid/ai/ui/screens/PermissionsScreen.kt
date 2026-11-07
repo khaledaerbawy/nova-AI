@@ -427,7 +427,7 @@ private fun PermissionsPanelContent(
                     .fillMaxWidth()
                     .height(50.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (allRequirementsHeld) TextPrimary else CardBackground,
+                    containerColor = if (allRequirementsHeld) AccentGreenButton else CardBackground,
                     contentColor = if (allRequirementsHeld) DarkBackground else TextPrimary,
                 ),
                 border = if (allRequirementsHeld) null else BorderStroke(1.dp, BorderColor),
@@ -456,8 +456,8 @@ private fun ManualSettingsHeader() {
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "أندرويد مش بيسمح للتطبيق بتفعيل الصلاحيات دي مباشرة. "  +
-                "\"تفعيل كل الصلاحيات\" cannot cover them → open each one yourself.",
+            text = "أندرويد مش بيسمح للتطبيق بتفعيل الصلاحيات دي مباشرة. " +
+                "زر «تفعيل كل الصلاحيات» مش هيقدر يفعّلها؛ افتح كل صلاحية وفعّلها بنفسك.",
             fontSize = 12.sp,
             color = TextSecondary,
         )
@@ -520,7 +520,7 @@ private fun PermissionCard(
             onClick = onAction,
             enabled = buttonEnabled,
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (buttonHasError) AccentRed else TextPrimary,
+                containerColor = if (buttonHasError) AccentRed else AccentGreenButton,
                 contentColor = if (buttonHasError) Color.White else DarkBackground,
                 disabledContainerColor = BorderColor,
                 disabledContentColor = TextSecondary,
