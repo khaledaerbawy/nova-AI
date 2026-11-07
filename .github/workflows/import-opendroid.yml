@@ -1,8 +1,8 @@
 name: Import OpenDroid source
 
+# Upstream imports are deliberately manual. Automatic imports on every push
+# could overwrite NOVA-specific development changes.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -14,7 +14,6 @@ concurrency:
 
 jobs:
   import-source:
-    if: ${{ !contains(github.event.head_commit.message, '[nova-import-complete]') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout NOVA repository
@@ -23,13 +22,11 @@ jobs:
           fetch-depth: 1
 
       - name: Fetch upstream OpenDroid source
-        run: |
-          git clone --depth 1 https://github.com/JMAN730/opendroid.git /tmp/opendroid
+        run: git clone --depth 1 https://github.com/JMAN730/opendroid.git /tmp/opendroid
 
       - name: Copy upstream source and preserve attribution
         run: |
-          rsync -a --delete --exclude='.git' --exclude='.github/workflows/***' /tmp/opendroid/ ./ 
-          mkdir -p docs
+          rsync -a --delete --exclude='.git' --exclude='.github/workflows/***' /tmp/opendroid/ ./
           cat > UPSTREAM.md <<'EOF'
           # Upstream source attribution
 
@@ -38,10 +35,7 @@ jobs:
 
           The upstream project is licensed under Apache License 2.0. The original
           LICENSE and applicable copyright notices are retained in this repository.
-          NOVA-specific modifications will be documented as they are made.
-
-          This repository is an independent derivative project and is not the
-          official OpenDroid project.
+          NOVA-specific modifications are maintained separately.
           EOF
 
       - name: Commit imported source
