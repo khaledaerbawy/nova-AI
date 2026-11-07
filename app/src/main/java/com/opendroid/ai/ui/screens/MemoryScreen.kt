@@ -363,7 +363,7 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                                     )
                                     if (!step.result.isNullOrBlank()) {
                                         Text(
-                                            text = "Result: ${step.result}",
+                                            text = "النتيجة: ${step.result}",
                                             fontSize = 10.sp,
                                             color = AccentCyan,
                                             fontFamily = FontFamily.Monospace,
@@ -372,7 +372,7 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                                     }
                                     if (!step.error.isNullOrBlank()) {
                                         Text(
-                                            text = "Error: ${step.error}",
+                                            text = "الخطأ: ${step.error}",
                                             fontSize = 10.sp,
                                             color = AccentRed,
                                             fontFamily = FontFamily.Monospace,
@@ -728,7 +728,7 @@ fun MemoryItemCard(
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "Indexed: ${dateFormat.format(Date(memory.timestamp))}",
+                    text = "تاريخ الحفظ: ${dateFormat.format(Date(memory.timestamp))}",
                     fontSize = 9.sp,
                     color = TextSecondary
                 )
@@ -908,7 +908,7 @@ fun KnowledgeGraphView(
                 FilterChip(
                     selected = selectedTierFilter == null,
                     onClick = { selectedTierFilter = null },
-                    label = { Text("All Levels (${allNodes.size})", fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
+                    label = { Text("كل المستويات (${allNodes.size})", fontSize = 11.sp, fontFamily = FontFamily.Monospace) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = TextPrimary,
                         selectedLabelColor = DarkBackground,
@@ -920,10 +920,10 @@ fun KnowledgeGraphView(
             items(MemoryTier.values()) { tier ->
                 val count = allNodes.count { it.tier == tier }
                 val (label, icon) = when (tier) {
-                    MemoryTier.TEMPORARY -> "Level 1: Temp" to "⚡"
-                    MemoryTier.LONG_TERM -> "Level 2: Long-Term" to "🧠"
-                    MemoryTier.LEARNED_PATTERN -> "Level 3: Patterns" to "📈"
-                    MemoryTier.SENSITIVE -> "Level 4: Sensitive" to "🔒"
+                    MemoryTier.TEMPORARY -> "المستوى 1: مؤقت" to "⚡"
+                    MemoryTier.LONG_TERM -> "المستوى 2: طويل المدى" to "🧠"
+                    MemoryTier.LEARNED_PATTERN -> "المستوى 3: الأنماط" to "📈"
+                    MemoryTier.SENSITIVE -> "المستوى 4: حساس" to "🔒"
                 }
                 FilterChip(
                     selected = selectedTierFilter == tier,
@@ -1242,7 +1242,7 @@ fun KnowledgeNodeCard(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (node.tier == MemoryTier.LEARNED_PATTERN) {
                         Text(
-                            text = "${(node.confidence * 100).toInt()}% conf",
+                            text = "ثقة ${(node.confidence * 100).toInt()}%",
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
