@@ -64,7 +64,7 @@ fun SocialSettingsTab(
                 AutomationLevelCard(
                     level = AutomationLevel.APPROVAL,
                     title = "موافقة مطلوبة (متوازن)",
-                    subtitle = "Low-risk comments and routine summaries run autonomously. All new posts and sensitive replies require your approval.",
+                    subtitle = "تعمل الردود منخفضة المخاطر وملخصات الروتين تلقائياً. أما المنشورات الجديدة والردود الحساسة فتحتاج موافقتك.",
                     isSelected = currentLevel == AutomationLevel.APPROVAL,
                     onSelect = { onSelectLevel(AutomationLevel.APPROVAL) }
                 )
@@ -72,7 +72,7 @@ fun SocialSettingsTab(
                 AutomationLevelCard(
                     level = AutomationLevel.AUTONOMOUS,
                     title = "الوضع المستقل (تنفيذ كامل)",
-                    subtitle = "Approved campaigns, scheduled queue, and high-confidence comment replies publish automatically based on rules.",
+                    subtitle = "تُنشر الحملات المعتمدة والمنشورات المجدولة والردود عالية الثقة تلقائياً وفق القواعد.",
                     isSelected = currentLevel == AutomationLevel.AUTONOMOUS,
                     onSelect = { onSelectLevel(AutomationLevel.AUTONOMOUS) }
                 )
@@ -261,13 +261,13 @@ private fun RuleCard(
 
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                "Trigger: ${rule.triggerType} • Action: ${rule.actionType}",
+                "المحفز: ${rule.triggerType} • الإجراء: ${rule.actionType}",
                 color = theme.textSecondary,
                 fontSize = 11.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                "Confidence Threshold: ${(rule.confidenceThreshold * 100).toInt()}%",
+                "حد الثقة: ${(rule.confidenceThreshold * 100).toInt()}%",
                 color = theme.accentCyan,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.SemiBold
@@ -330,8 +330,8 @@ private fun AddRuleDialog(
 ) {
     val theme = AppTheme.colors
     var ruleName by remember { mutableStateOf("") }
-    var selectedTrigger by remember { mutableStateOf("SENTIMENT_POSITIVE") }
-    var selectedAction by remember { mutableStateOf("AUTO_REPLY") }
+    var selectedTrigger by remember { mutableStateOf("مشاعر إيجابية") }
+    var selectedAction by remember { mutableStateOf("رد تلقائي") }
     var confidence by remember { mutableFloatStateOf(0.85f) }
 
     AlertDialog(
@@ -344,7 +344,7 @@ private fun AddRuleDialog(
                     value = ruleName,
                     onValueChange = { ruleName = it },
                     label = { Text("اسم القاعدة", fontSize = 12.sp) },
-                    placeholder = { Text("e.g. Auto reply to positive comments", fontSize = 11.sp) },
+                    placeholder = { Text("مثال: الرد تلقائياً على التعليقات الإيجابية", fontSize = 11.sp) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -355,7 +355,7 @@ private fun AddRuleDialog(
                     )
                 )
 
-                Text("Confidence Threshold: ${(confidence * 100).toInt()}%", color = theme.textPrimary, fontSize = 12.sp)
+                Text("حد الثقة: ${(confidence * 100).toInt()}%", color = theme.textPrimary, fontSize = 12.sp)
                 Slider(
                     value = confidence,
                     onValueChange = { confidence = it },
