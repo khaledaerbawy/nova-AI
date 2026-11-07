@@ -32,6 +32,7 @@ class TextToSpeechEngine(
 ) : TextToSpeech.OnInitListener {
 
     private var tts: TextToSpeech? = null
+    private val egyptianArabic = Locale("ar", "EG")
     private var isInitialized = false
     private val scope = CoroutineScope(SupervisorJob() + dispatcher)
     private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
@@ -72,9 +73,16 @@ class TextToSpeechEngine(
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            val result = tts?.setLanguage(Locale.getDefault())
-            if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
+            val egyptianResult = tts?.setLanguage(egyptianArabic) ?: TextToSpeech.LANG_NOT_SUPPORTED
+            if (egyptianResult != TextToSpeech.LANG_MISSING_DATA &&
+                egyptianResult != TextToSpeech.LANG_NOT_SUPPORTED
+            ) {
                 isInitialized = true
+            } else {
+                // Keep the assistant usable on devices without an installed ar-EG TTS voice.
+                val fallbackResult = tts?.setLanguage(Locale.getDefault()) ?: TextToSpeech.LANG_NOT_SUPPORTED
+                isInitialized = fallbackResult != TextToSpeech.LANG_MISSING_DATA &&
+                    fallbackResult != TextToSpeech.LANG_NOT_SUPPORTED
             }
         }
     }
@@ -128,7 +136,7 @@ class TextToSpeechEngine(
         val jsonPayload = """
             {
               "text": "$escapedText",
-              "model_id": "eleven_monolingual_v1",
+              "model_id": "eleven_multilingual_v2",
               "voice_settings": {
                 "stability": 0.5,
                 "similarity_boost": 0.75
