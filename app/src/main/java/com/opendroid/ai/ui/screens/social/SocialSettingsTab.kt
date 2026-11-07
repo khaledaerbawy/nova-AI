@@ -46,8 +46,8 @@ fun SocialSettingsTab(
         // ── 1. AUTOMATION LEVEL SELECTOR ─────────────────────────────
         item {
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text("Automation Guardrails", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Text("Configure autonomy boundaries and approval workflows.", color = theme.textSecondary, fontSize = 11.sp)
+                Text("ضوابط الأتمتة", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("حدد حدود التشغيل التلقائي وطريقة الموافقة.", color = theme.textSecondary, fontSize = 11.sp)
             }
         }
 
@@ -55,15 +55,15 @@ fun SocialSettingsTab(
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 AutomationLevelCard(
                     level = AutomationLevel.SAFE,
-                    title = "Safe Mode (Draft Only)",
-                    subtitle = "AI creates drafts only. Every post, schedule, and reply requires explicit user confirmation.",
+                    title = "الوضع الآمن (مسودات فقط)",
+                    subtitle = "ينشئ الذكاء الاصطناعي مسودات فقط، وكل نشر أو جدولة أو رد يحتاج موافقتك.",
                     isSelected = currentLevel == AutomationLevel.SAFE,
                     onSelect = { onSelectLevel(AutomationLevel.SAFE) }
                 )
 
                 AutomationLevelCard(
                     level = AutomationLevel.APPROVAL,
-                    title = "Approval Required (Balanced)",
+                    title = "موافقة مطلوبة (متوازن)",
                     subtitle = "Low-risk comments and routine summaries run autonomously. All new posts and sensitive replies require your approval.",
                     isSelected = currentLevel == AutomationLevel.APPROVAL,
                     onSelect = { onSelectLevel(AutomationLevel.APPROVAL) }
@@ -71,7 +71,7 @@ fun SocialSettingsTab(
 
                 AutomationLevelCard(
                     level = AutomationLevel.AUTONOMOUS,
-                    title = "Autonomous Mode (Full Agent)",
+                    title = "الوضع المستقل (تنفيذ كامل)",
                     subtitle = "Approved campaigns, scheduled queue, and high-confidence comment replies publish automatically based on rules.",
                     isSelected = currentLevel == AutomationLevel.AUTONOMOUS,
                     onSelect = { onSelectLevel(AutomationLevel.AUTONOMOUS) }
@@ -87,8 +87,8 @@ fun SocialSettingsTab(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column {
-                    Text("Custom Automation Rules", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                    Text("Custom trigger criteria and confidence gates", color = theme.textSecondary, fontSize = 11.sp)
+                    Text("قواعد أتمتة مخصصة", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("شروط تشغيل مخصصة وحدود للثقة", color = theme.textSecondary, fontSize = 11.sp)
                 }
 
                 Button(
@@ -99,7 +99,7 @@ fun SocialSettingsTab(
                 ) {
                     Icon(Icons.Default.Add, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Add Rule", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text("إضافة قاعدة", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -113,7 +113,7 @@ fun SocialSettingsTab(
                     colors = CardDefaults.cardColors(containerColor = theme.cardBackground)
                 ) {
                     Box(modifier = Modifier.fillMaxWidth().padding(20.dp), contentAlignment = Alignment.Center) {
-                        Text("No custom rules defined yet. Default guardrails are active.", color = theme.textSecondary, fontSize = 12.sp)
+                        Text("لم يتم تحديد قواعد مخصصة. الضوابط الافتراضية مفعّلة.", color = theme.textSecondary, fontSize = 12.sp)
                     }
                 }
             }
@@ -130,8 +130,8 @@ fun SocialSettingsTab(
         // ── 3. KEYSTORE ENCRYPTION & AUDIT LOG ───────────────────────
         item {
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text("Security & Audit Trail", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Text("Hardware-isolated cryptographic logs and agent activity", color = theme.textSecondary, fontSize = 11.sp)
+                Text("الأمان وسجل المراجعة", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("سجلات مشفرة ومعزولة لنشاط المساعد", color = theme.textSecondary, fontSize = 11.sp)
             }
         }
 
@@ -151,8 +151,8 @@ fun SocialSettingsTab(
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Column {
-                        Text("Android KeyStore Protected", color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
-                        Text("AES-256-GCM AEAD encrypted. Strict zero-plaintext policy.", color = theme.textSecondary, fontSize = 11.sp)
+                        Text("محمي بواسطة Android KeyStore", color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                        Text("تشفير AES-256-GCM، دون حفظ البيانات الحساسة كنص مكشوف.", color = theme.textSecondary, fontSize = 11.sp)
                     }
                 }
             }
@@ -160,7 +160,7 @@ fun SocialSettingsTab(
 
         if (auditLogs.isEmpty()) {
             item {
-                Text("No recent audit log entries.", color = theme.textSecondary, fontSize = 12.sp)
+                Text("لا توجد أحداث حديثة في سجل المراجعة.", color = theme.textSecondary, fontSize = 12.sp)
             }
         } else {
             items(auditLogs.take(10), key = { it.id }) { log ->
@@ -276,7 +276,7 @@ private fun RuleCard(
             Spacer(modifier = Modifier.height(6.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 Text(
-                    "Delete Rule",
+                    "حذف القاعدة",
                     color = theme.accentRed,
                     fontSize = 11.sp,
                     modifier = Modifier.clickable { onDelete() }
@@ -303,7 +303,7 @@ private fun AuditLogItem(log: SocialAuditEntry) {
         ) {
             Box(
                 modifier = Modifier.size(6.dp).clip(CircleShape)
-                    .background(if (log.status == "SUCCESS") theme.accentCyan else theme.accentRed)
+                    .background(if (log.status == "نجاح") theme.accentCyan else theme.accentRed)
             )
 
             Spacer(modifier = Modifier.width(10.dp))
@@ -337,13 +337,13 @@ private fun AddRuleDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         containerColor = theme.cardBackground,
-        title = { Text("Add Automation Rule", color = theme.textPrimary, fontWeight = FontWeight.Bold) },
+        title = { Text("إضافة قاعدة أتمتة", color = theme.textPrimary, fontWeight = FontWeight.Bold) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedTextField(
                     value = ruleName,
                     onValueChange = { ruleName = it },
-                    label = { Text("Rule Name", fontSize = 12.sp) },
+                    label = { Text("اسم القاعدة", fontSize = 12.sp) },
                     placeholder = { Text("e.g. Auto reply to positive comments", fontSize = 11.sp) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -390,12 +390,12 @@ private fun AddRuleDialog(
                 enabled = ruleName.isNotBlank(),
                 colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
             ) {
-                Text("Save Rule", color = Color.Black, fontWeight = FontWeight.Bold)
+                Text("حفظ القاعدة", color = Color.Black, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = theme.textSecondary)
+                Text("إلغاء", color = theme.textSecondary)
             }
         }
     )
