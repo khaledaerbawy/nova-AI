@@ -222,6 +222,27 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
     val workingMemory = viewModel.workingMemory
     // Recompose the location row when the background geocode lands
     val resolvedLocation by workingMemory.resolvedLocation.collectAsState()
+    val wifiStateLabel = when (workingMemory.wifiState) {
+        "Active" -> "متصل"
+        "Inactive" -> "متوقف"
+        "Enabled" -> "مفعّل دون اتصال"
+        else -> "غير معروف"
+    }
+    val wifiStateColor = when (workingMemory.wifiState) {
+        "Active" -> AccentCyan
+        "Inactive" -> AccentRed
+        else -> TextSecondary
+    }
+    val connectivityLabel = when (workingMemory.connectivity) {
+        "None" -> "غير متصل"
+        "WiFi" -> "واي فاي"
+        "Mobile Data" -> "بيانات الهاتف"
+        "Ethernet" -> "إيثرنت"
+        "Connected" -> "متصل"
+        "Limited" -> "اتصال محدود"
+        else -> "غير معروف"
+    }
+    val locationLabel = workingMemory.locationContext.takeUnless { it == "Unknown" } ?: "غير معروف"
     
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -252,14 +273,14 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         StateItem("مستوى البطارية", "${workingMemory.batteryLevel}%", AccentCyan)
-                        StateItem("حالة الواي فاي", workingMemory.wifiState, if (workingMemory.wifiState == "نشط") AccentCyan else if (workingMemory.wifiState == "غير نشط") AccentRed else TextSecondary)
+                        StateItem("حالة الواي فاي", wifiStateLabel, wifiStateColor)
                     }
                     Spacer(modifier = Modifier.height(12.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        StateItem("الاتصال", workingMemory.connectivity, AccentCyan)
+                        StateItem("الاتصال", connectivityLabel, AccentCyan)
                         StateItem("الإنترنت", if (workingMemory.isInternetAvailable) "متاح" else "غير متاح", if (workingMemory.isInternetAvailable) AccentCyan else AccentRed)
                     }
                     Spacer(modifier = Modifier.height(12.dp))
@@ -268,7 +289,7 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         key(resolvedLocation) {
-                            StateItem("الموقع الحالي", workingMemory.locationContext, TextSecondary)
+                            StateItem("الموقع الحالي", locationLabel, TextSecondary)
                         }
                     }
                 }
