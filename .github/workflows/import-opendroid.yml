@@ -1,0 +1,53 @@
+name: Import OpenDroid source
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nova-source-import
+  cancel-in-progress: false
+
+jobs:
+  import-source:
+    if: ${{ !contains(github.event.head_commit.message, '[nova-import-complete]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout NOVA repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Fetch upstream OpenDroid source
+        run: |
+          git clone --depth 1 https://github.com/JMAN730/opendroid.git /tmp/opendroid
+
+      - name: Copy upstream source and preserve attribution
+        run: |
+          rsync -a --delete --exclude='.git' /tmp/opendroid/ ./ 
+          mkdir -p docs
+          cat > UPSTREAM.md <<'EOF'
+          # Upstream source attribution
+
+          NOVA is being developed from the open-source Android project OpenDroid:
+          https://github.com/JMAN730/opendroid
+
+          The upstream project is licensed under Apache License 2.0. The original
+          LICENSE and applicable copyright notices are retained in this repository.
+          NOVA-specific modifications will be documented as they are made.
+
+          This repository is an independent derivative project and is not the
+          official OpenDroid project.
+          EOF
+
+      - name: Commit imported source
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Import OpenDroid upstream source [nova-import-complete]" || echo "No changes to commit"
+          git push
