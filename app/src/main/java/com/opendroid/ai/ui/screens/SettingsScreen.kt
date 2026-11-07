@@ -312,7 +312,7 @@ fun SettingsScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = if (config.activeProvider == "ذكاء اصطناعي على الجهاز" || config.activeProvider == "Gemma 4 (On-device)") "ذكاء اصطناعي على الجهاز" else config.activeProvider,
+                                    text = if (config.activeProvider == "ذكاء اصطناعي على الجهاز" || config.activeProvider == "Gemma 4 (على الجهاز)") "ذكاء اصطناعي على الجهاز" else config.activeProvider,
                                     color = TextPrimary,
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.SemiBold
@@ -729,7 +729,7 @@ fun SettingsScreen(
             }
 
             // On-Device AI Status Card (Visible when On-Device AI or legacy Gemma provider is selected)
-            if (config.activeProvider == "ذكاء اصطناعي على الجهاز" || config.activeProvider == "Gemma 4 (On-device)") {
+            if (config.activeProvider == "ذكاء اصطناعي على الجهاز" || config.activeProvider == "Gemma 4 (على الجهاز)") {
                 item {
                     Card(
                         modifier = Modifier
@@ -2534,7 +2534,7 @@ fun SettingsScreen(
             text = {
                 Text(
                     text = "هذا النموذج مقيّد على Hugging Face ويحتاج إلى رمز وصول للتنزيل.\n\n" +
-                        "Models tagged PUBLIC (for example Qwen 2.5 and the Gemma 4 community mirrors) do not need a token — only the ones tagged GATED do. " +
+                        "النماذج المصنفة PUBLIC مثل Qwen 2.5 ونسخ Gemma 4 المجتمعية لا تحتاج إلى رمز؛ الرمز مطلوب فقط للنماذج المصنفة GATED. " +
                         "أضف رمز قراءة فقط في قسم Hugging Face أو اختر نموذجاً عاماً.",
                     color = TextSecondary
                 )
