@@ -324,23 +324,24 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                             color = TextPrimary
                         )
                         Spacer(modifier = Modifier.height(6.dp))
+                        val planStatusLabel = when (plan.status.name) {
+                            "RUNNING" -> "قيد التنفيذ"
+                            "COMPLETED" -> "مكتملة"
+                            "FAILED" -> "فشلت"
+                            else -> plan.status.name
+                        }
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Surface(
                                 color = when (plan.status.name) {
-                                    "قيد التنفيذ" -> AccentCyan.copy(alpha = 0.2f)
-                                    "مكتملة" -> AccentCyan.copy(alpha = 0.2f)
+                                    "RUNNING", "COMPLETED" -> AccentCyan.copy(alpha = 0.2f)
                                     else -> AccentRed.copy(alpha = 0.2f)
                                 },
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier.padding(end = 6.dp)
-                             ) {
+                            ) {
                                 Text(
-                                    text = plan.status.name,
-                                    color = when (plan.status.name) {
-                                        "قيد التنفيذ" -> AccentCyan
-                                        "مكتملة" -> AccentCyan
-                                        else -> AccentRed
-                                    },
+                                    text = planStatusLabel,
+                                    color = if (plan.status.name == "FAILED") AccentRed else AccentCyan,
                                     fontSize = 10.sp,
                                     fontFamily = FontFamily.Monospace,
                                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
@@ -361,15 +362,15 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                             ) {
                                 Text(
                                     text = when (step.status.name) {
-                                        "مكتملة" -> "●"
-                                        "قيد التنفيذ" -> "▶"
-                                        "فشلت" -> "✖"
+                                        "COMPLETED" -> "●"
+                                        "RUNNING" -> "▶"
+                                        "FAILED" -> "✖"
                                         else -> "○"
                                     },
                                     color = when (step.status.name) {
-                                        "مكتملة" -> AccentCyan
-                                        "قيد التنفيذ" -> AccentCyan
-                                        "فشلت" -> AccentRed
+                                        "COMPLETED" -> AccentCyan
+                                        "RUNNING" -> AccentCyan
+                                        "FAILED" -> AccentRed
                                         else -> TextSecondary
                                     },
                                     fontSize = 12.sp,
@@ -379,8 +380,8 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                                     Text(
                                         text = "${index + 1}. ${step.description}",
                                         fontSize = 12.sp,
-                                        color = if (step.status.name == "مكتملة") TextSecondary else TextPrimary,
-                                        fontWeight = if (step.status.name == "قيد التنفيذ") FontWeight.Bold else FontWeight.Normal
+                                        color = if (step.status.name == "COMPLETED") TextSecondary else TextPrimary,
+                                        fontWeight = if (step.status.name == "RUNNING") FontWeight.Bold else FontWeight.Normal
                                     )
                                     if (!step.result.isNullOrBlank()) {
                                         Text(
