@@ -86,7 +86,7 @@ fun ChatScreen(
     val visibleAgentState by viewModel.visibleAgentState.collectAsState()
     val chatError by viewModel.chatError.collectAsState()
     // Id of whichever chat (if any) has a task actively running, regardless of which
-    // chat is currently displayed - drives the chat-picker's "still running" indicator.
+    // chat is currently displayed - drives the chat-picker's "مهمة قيد التنفيذ" indicator.
     val runningSessionId by viewModel.runningSessionId.collectAsState()
     val sessions by viewModel.sessions.collectAsState()
     val llmConfig by viewModel.llmConfig.collectAsState()
@@ -276,7 +276,7 @@ fun ChatScreen(
                                                 fontSize = 13.sp,
                                                 maxLines = 1
                                             )
-                                            // Small "still running" dot: a task can now keep
+                                            // Small "مهمة قيد التنفيذ" dot: a task can now keep
                                             // executing in a chat the user has switched away
                                             // from, so this is the only place that fact is
                                             // visible once its row scrolls out of the top bar.
@@ -751,18 +751,18 @@ fun ChatBubble(
     val textColor = TextPrimary
     val timeFormat = remember { SimpleDateFormat("h:mm a", Locale.getDefault()) }
 
-    // If this is a contact picker message, render the ContactPickerCard instead
-    if (isAgent && message.contactPickerData != null) {
+    // If this is a جهة اتصال picker message, render the ContactPickerCard instead
+    if (isAgent && message.جهة اتصالPickerData != null) {
         val matches: List<Map<String, String>> = try {
             Json { ignoreUnknownKeys = true }
-                .decodeFromString<List<Map<String, String>>>(message.contactPickerData)
+                .decodeFromString<List<Map<String, String>>>(message.جهة اتصالPickerData)
         } catch (_: Exception) {
             emptyList()
         }
 
         if (matches.isNotEmpty()) {
-            // Extract query from text ("Which 'dad' do you mean?" ? "dad")
-            val query = Regex("Which '(.*?)'").find(message.text)?.groupValues?.getOrNull(1) ?: "contact"
+            // Extract query from text ("تقصد مين بكلمة «بابا»؟" ? "dad")
+            val query = Regex("Which '(.*?)'").find(message.text)?.groupValues?.getOrNull(1) ?: "جهة اتصال"
 
             // Only the picker the agent is waiting on takes taps; older cards stay visible
             // but inert, so they cannot answer a newer picker or start a new query.
@@ -815,9 +815,9 @@ fun ChatBubble(
             ) {
                 if (isAgent && message.modelBadge != null) {
                     val displayName = when (message.modelBadge) {
-                        "Gemma 4 (On-device)" -> "ذكاء على الجهاز"
-                        "On-Device AI" -> "ذكاء محلي"
-                        "LiteRT-LM (On-device)" -> "محرك محلي LiteRT"
+                        "Gemma 4 (على الجهاز)" -> "ذكاء على الجهاز"
+                        "ذكاء اصطناعي محلي" -> "ذكاء محلي"
+                        "LiteRT-LM (على الجهاز)" -> "محرك محلي LiteRT"
                         else -> message.modelBadge.uppercase(Locale.getDefault())
                     }
                     Text(
@@ -845,7 +845,7 @@ fun ChatBubble(
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     // Edit affordance: user messages only, never on agent replies or the
-                    // contact-picker card (which is always an agent message, so it's
+                    // جهة اتصال-picker card (which is always an agent message, so it's
                     // already excluded by the isAgent check above never reaching here).
                     if (!isAgent && onEditRequested != null) {
                         Icon(
@@ -955,7 +955,7 @@ fun ProposedPlanPrompt(
             }
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Goal: \"$goal\"",
+                text = "الهدف: \ "$goal\"",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = TextPrimary
@@ -963,7 +963,7 @@ fun ProposedPlanPrompt(
             Spacer(modifier = Modifier.height(6.dp))
             // The goal above is the model's own words; this list is what will actually run.
             Text(
-                text = "Approving runs these $stepCount:",
+                text = "الموافقة ستنفذ الخطوات التالية وعددها $stepCount:",
                 fontSize = 12.sp,
                 color = TextSecondary
             )
@@ -993,7 +993,7 @@ fun ProposedPlanPrompt(
             if (blockedActions.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "BLOCKED AUTO-RUN — these steps aren't in your allowlist:",
+                    text = "تم إيقاف التنفيذ التلقائي — الخطوات التالية غير موجودة في قائمة السماح:",
                     fontSize = 11.sp,
                     fontFamily = FontFamily.Monospace,
                     color = AccentRed
@@ -1010,14 +1010,14 @@ fun ProposedPlanPrompt(
                                 colors = CheckboxDefaults.colors(checkedColor = AccentCyan)
                             )
                             Text(
-                                text = "Always allow $action",
+                                text = "السماح دائماً بـ $action",
                                 fontSize = 13.sp,
                                 color = TextPrimary
                             )
                         }
                     } else {
                         Text(
-                            text = "• $action (always asks)",
+                            text = "• $action (يتطلب موافقتك كل مرة)",
                             fontSize = 13.sp,
                             color = TextSecondary,
                             modifier = Modifier.padding(start = 12.dp, top = 4.dp)
@@ -1250,7 +1250,7 @@ private fun ChatErrorRecoveryCard(
             Text(text = error.guidance(), color = TextSecondary, fontSize = 13.sp)
             if (phase is ChatErrorUiState.Phase.WaitingUntil && waitSecondsLeft > 0L) {
                 Text(
-                    text = "Retry available in ${waitSecondsLeft}s",
+                    text = "يمكن إعادة المحاولة بعد ${waitSecondsLeft} ثانية",
                     color = TextSecondary,
                     fontSize = 11.sp,
                     fontFamily = FontFamily.Monospace
