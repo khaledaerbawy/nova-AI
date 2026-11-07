@@ -36,7 +36,7 @@ fun AboutScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "ABOUT",
+                        text = "عن التطبيق",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -48,7 +48,7 @@ fun AboutScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = "رجوع",
                             tint = TextPrimary
                         )
                     }
@@ -104,7 +104,7 @@ fun AboutScreen(
                             // transparent padding overflows into the Box's circle clip.
                             Image(
                                 painter = painterResource(id = R.drawable.bot),
-                                contentDescription = "OpenDroid app icon",
+                                contentDescription = "أيقونة نوفا",
                                 modifier = Modifier.requiredSize(150.dp)
                             )
                         }
@@ -112,7 +112,7 @@ fun AboutScreen(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = "OpenDroid",
+                            text = "NOVA",
                             fontSize = 28.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = TextPrimary,
@@ -122,7 +122,7 @@ fun AboutScreen(
                         Spacer(modifier = Modifier.height(4.dp))
 
                         Text(
-                            text = "Autonomous AI Agent for Android",
+                            text = "مساعد ذكاء اصطناعي مستقل لأندرويد",
                             fontSize = 14.sp,
                             color = AccentCyan,
                             fontWeight = FontWeight.Medium
@@ -150,7 +150,7 @@ fun AboutScreen(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "WHAT IS OPENDROID?",
+                            text = "ما هي NOVA؟",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
@@ -158,12 +158,12 @@ fun AboutScreen(
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            text = "OpenDroid is an advanced autonomous AI assistant that runs directly on your Android device. " +
-                                    "It can understand natural language commands, create multi-step execution plans, and automate " +
-                                    "virtually any task on your phone — from sending messages and making calls to controlling " +
-                                    "system settings and managing files.\n\n" +
-                                    "Powered by your choice of LLM provider (Gemini, OpenAI, Claude, Groq, local Ollama, and more), " +
-                                    "OpenDroid combines intelligent planning with real device automation through Android's Accessibility framework.",
+                            text = "نوفا مساعد ذكي متقدم يعمل مباشرة على جهاز أندرويد. " +
+                                    "تقدر نوفا تفهم أوامرك باللغة الطبيعية، وتجهز خطط متعددة الخطوات، وتنفذ " +
+                                    "مهام مختلفة على هاتفك، من إرسال الرسائل وإجراء المكالمات إلى التحكم في " +
+                                    "إعدادات النظام وإدارة الملفات.\n\n" +
+                                    "تعمل نوفا من خلال مزود الذكاء الاصطناعي الذي تختاره مثل Gemini وOpenAI وClaude وGroq وOllama، " +
+                                    "وتجمع بين التخطيط الذكي والتحكم الفعلي بالجهاز من خلال خدمة إمكانية الوصول في أندرويد.",
                             fontSize = 13.sp,
                             color = TextPrimary,
                             lineHeight = 20.sp
@@ -182,7 +182,7 @@ fun AboutScreen(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "KEY CAPABILITIES",
+                            text = "أهم المميزات",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
@@ -190,14 +190,14 @@ fun AboutScreen(
                         )
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        FeatureItem(Icons.Default.Chat, "Natural Language Control", "Speak or type commands in plain English")
-                        FeatureItem(Icons.Default.List, "Multi-Step Planning", "Automatically breaks complex tasks into executable steps")
-                        FeatureItem(Icons.Default.Star, "Persistent Memory", "Remembers your preferences across sessions")
-                        FeatureItem(Icons.Default.Build, "Custom Macros", "Record and replay complex workflows")
-                        FeatureItem(Icons.Default.Accessibility, "App Automation", "Controls other apps via Accessibility Service")
-                        FeatureItem(Icons.Default.Settings, "System Control", "WiFi, Bluetooth, flashlight, volume, and more")
-                        FeatureItem(Icons.Default.Call, "Communication", "WhatsApp, calls, SMS, email — hands-free")
-                        FeatureItem(Icons.Default.Lock, "Privacy-First", "All data stays on your device")
+                        FeatureItem(Icons.Default.Chat, "التحكم باللغة الطبيعية", "اتكلم أو اكتب أوامرك بطريقتك")
+                        FeatureItem(Icons.Default.List, "تخطيط متعدد الخطوات", "تقسيم المهام المعقدة إلى خطوات قابلة للتنفيذ")
+                        FeatureItem(Icons.Default.Star, "ذاكرة مستمرة", "تتذكر تفضيلاتك بين الجلسات")
+                        FeatureItem(Icons.Default.Build, "أوامر مخصصة", "حفظ وتشغيل خطوات متتابعة")
+                        FeatureItem(Icons.Default.Accessibility, "أتمتة التطبيقات", "التفاعل مع التطبيقات عبر خدمة إمكانية الوصول")
+                        FeatureItem(Icons.Default.Settings, "التحكم في النظام", "الواي فاي والبلوتوث والكشاف والصوت وغيرها")
+                        FeatureItem(Icons.Default.Call, "التواصل", "واتساب والمكالمات والرسائل والبريد صوتياً")
+                        FeatureItem(Icons.Default.Lock, "الخصوصية أولاً", "بياناتك تظل على جهازك وفق إعدادات الخدمات التي تستخدمها")
                     }
                 }
             }
@@ -212,7 +212,7 @@ fun AboutScreen(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "TECHNOLOGY STACK",
+                            text = "التقنيات المستخدمة",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
@@ -242,7 +242,7 @@ fun AboutScreen(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "SUPPORTED LLM PROVIDERS",
+                            text = "مزودو الذكاء الاصطناعي المدعومون",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
@@ -293,7 +293,7 @@ fun AboutScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "OPEN SOURCE",
+                            text = "مفتوح المصدر",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
@@ -322,7 +322,7 @@ fun AboutScreen(
             // Footer
             item {
                 Text(
-                    text = "Made with ❤ for the Android community",
+                    text = "صُنع بكل ❤️ لمجتمع أندرويد",
                     fontSize = 12.sp,
                     color = TextSecondary,
                     textAlign = TextAlign.Center,
