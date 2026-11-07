@@ -992,7 +992,8 @@ object ActionSchema {
             description = "Runs a saved macro (sequence of actions)",
             params = listOf(ParamDefinition("macroName", ParamType.STRING, true, "Macro name")),
             examples = listOf("run morning routine", "execute macro", "شغل الماكرو", "نفذ الماكرو", "شغل ماكرو الصبح"),
-            category = ActionCategory.MACRO
+            category = ActionCategory.MACRO,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "CREATE_MACRO",
@@ -1014,6 +1015,7 @@ object ActionSchema {
             ),
             examples = listOf("schedule morning routine at 7am daily", "جدول الماكرو كل يوم الساعة 7", "شغل الماكرو يومياً الصبح"),
             category = ActionCategory.MACRO,
+            neverAutoApprove = true,
             isSimple = false
         ),
         ActionDefinition(
@@ -1040,7 +1042,8 @@ object ActionSchema {
                 ParamDefinition("routineId", ParamType.STRING, false, "ID of the routine")
             ),
             examples = listOf("run morning routine", "start morning briefing", "execute daily routine", "run evening wrap up", "شغل الروتين الصباحي", "نفذ روتين المساء"),
-            category = ActionCategory.MACRO
+            category = ActionCategory.MACRO,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "GET_MORNING_BRIEFING",
@@ -1334,7 +1337,8 @@ object ActionSchema {
                 ParamDefinition("hours", ParamType.INT, false, "Hours from now to schedule; ask the user if unspecified")
             ),
             examples = listOf("schedule this for tomorrow", "schedule post 12 for 5 hours from now", "جدول المنشور لبكرة", "انشر المسودة بعد ساعتين"),
-            category = ActionCategory.SOCIAL
+            category = ActionCategory.SOCIAL,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "SOCIAL_CHECK_INBOX",
