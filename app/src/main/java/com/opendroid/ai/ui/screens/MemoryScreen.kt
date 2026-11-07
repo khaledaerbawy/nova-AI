@@ -51,11 +51,11 @@ import java.util.Date
 import java.util.Locale
 
 enum class MemoryScreenTab(val title: String) {
-    GROWTH_GRAPH("GROWTH GRAPH"),
-    SEMANTIC("LONG-TERM"),
-    WORKING("TEMPORARY"),
-    EPISODIC("EPISODIC"),
-    PROCEDURAL("MACROS")
+    GROWTH_GRAPH("تطور الذاكرة"),
+    SEMANTIC("طويلة المدى"),
+    WORKING("مؤقتة"),
+    EPISODIC("المحادثات"),
+    PROCEDURAL("الأوامر المحفوظة")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,7 +76,7 @@ fun MemoryScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "PERSONAL MEMORY",
+                        text = "ذاكرتي",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -94,7 +94,7 @@ fun MemoryScreen(
                             MemoryScreenTab.PROCEDURAL -> viewModel.clearMemories(MemoryType.PROCEDURAL)
                         }
                     }) {
-                        Text("Wipe Category", color = AccentRed, fontSize = 12.sp)
+                        Text("مسح القسم", color = AccentRed, fontSize = 12.sp)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkBackground)
@@ -150,14 +150,14 @@ fun MemoryScreen(
                         onValueChange = { searchQuery = it },
                         placeholder = {
                             val hint = when (selectedTab) {
-                                MemoryScreenTab.GROWTH_GRAPH -> "Search Knowledge Graph..."
-                                MemoryScreenTab.EPISODIC -> "Search conversation logs..."
-                                MemoryScreenTab.PROCEDURAL -> "Search macros..."
-                                else -> "Search facts..."
+                                MemoryScreenTab.GROWTH_GRAPH -> "ابحث في الذاكرة..."
+                                MemoryScreenTab.EPISODIC -> "ابحث في سجل المحادثات..."
+                                MemoryScreenTab.PROCEDURAL -> "ابحث في الأوامر المحفوظة..."
+                                else -> "ابحث عن معلومة..."
                             }
                             Text(hint, color = TextSecondary, fontSize = 13.sp)
                         },
-                        leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search", tint = TextSecondary) },
+                        leadingIcon = { Icon(Icons.Default.Search, contentDescription = "بحث", tint = TextSecondary) },
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = AccentCyan,
@@ -176,7 +176,7 @@ fun MemoryScreen(
                                 .clip(RoundedCornerShape(8.dp))
                                 .background(TextPrimary)
                         ) {
-                            Icon(Icons.Default.Add, contentDescription = "Add Memory", tint = DarkBackground)
+                            Icon(Icons.Default.Add, contentDescription = "إضافة ذاكرة", tint = DarkBackground)
                         }
                     }
                 }
@@ -238,7 +238,7 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "ACTIVE ENVIRONMENT STATE",
+                        text = "حالة الجهاز الآن",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
@@ -251,16 +251,16 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        StateItem("Battery Level", "${workingMemory.batteryLevel}%", AccentCyan)
-                        StateItem("WiFi State", workingMemory.wifiState, if (workingMemory.wifiState == "Active") AccentCyan else if (workingMemory.wifiState == "Inactive") AccentRed else TextSecondary)
+                        StateItem("مستوى البطارية", "${workingMemory.batteryLevel}%", AccentCyan)
+                        StateItem("حالة الواي فاي", workingMemory.wifiState, if (workingMemory.wifiState == "نشط") AccentCyan else if (workingMemory.wifiState == "غير نشط") AccentRed else TextSecondary)
                     }
                     Spacer(modifier = Modifier.height(12.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        StateItem("Connectivity", workingMemory.connectivity, AccentCyan)
-                        StateItem("Internet", if (workingMemory.isInternetAvailable) "Available" else "NOT AVAILABLE", if (workingMemory.isInternetAvailable) AccentCyan else AccentRed)
+                        StateItem("الاتصال", workingMemory.connectivity, AccentCyan)
+                        StateItem("الإنترنت", if (workingMemory.isInternetAvailable) "متاح" else "غير متاح", if (workingMemory.isInternetAvailable) AccentCyan else AccentRed)
                     }
                     Spacer(modifier = Modifier.height(12.dp))
                     Row(
@@ -268,7 +268,7 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         key(resolvedLocation) {
-                            StateItem("Location Context", workingMemory.locationContext, TextSecondary)
+                            StateItem("الموقع الحالي", workingMemory.locationContext, TextSecondary)
                         }
                     }
                 }
@@ -285,7 +285,7 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "ACTIVE PLAN MONITOR",
+                        text = "متابعة المهمة الحالية",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
@@ -306,8 +306,8 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Surface(
                                 color = when (plan.status.name) {
-                                    "RUNNING" -> AccentCyan.copy(alpha = 0.2f)
-                                    "COMPLETED" -> AccentCyan.copy(alpha = 0.2f)
+                                    "قيد التنفيذ" -> AccentCyan.copy(alpha = 0.2f)
+                                    "مكتملة" -> AccentCyan.copy(alpha = 0.2f)
                                     else -> AccentRed.copy(alpha = 0.2f)
                                 },
                                 shape = RoundedCornerShape(4.dp),
@@ -316,8 +316,8 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                                 Text(
                                     text = plan.status.name,
                                     color = when (plan.status.name) {
-                                        "RUNNING" -> AccentCyan
-                                        "COMPLETED" -> AccentCyan
+                                        "قيد التنفيذ" -> AccentCyan
+                                        "مكتملة" -> AccentCyan
                                         else -> AccentRed
                                     },
                                     fontSize = 10.sp,
@@ -340,15 +340,15 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                             ) {
                                 Text(
                                     text = when (step.status.name) {
-                                        "COMPLETED" -> "●"
-                                        "RUNNING" -> "▶"
-                                        "FAILED" -> "✖"
+                                        "مكتملة" -> "●"
+                                        "قيد التنفيذ" -> "▶"
+                                        "فشلت" -> "✖"
                                         else -> "○"
                                     },
                                     color = when (step.status.name) {
-                                        "COMPLETED" -> AccentCyan
-                                        "RUNNING" -> AccentCyan
-                                        "FAILED" -> AccentRed
+                                        "مكتملة" -> AccentCyan
+                                        "قيد التنفيذ" -> AccentCyan
+                                        "فشلت" -> AccentRed
                                         else -> TextSecondary
                                     },
                                     fontSize = 12.sp,
@@ -358,8 +358,8 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                                     Text(
                                         text = "${index + 1}. ${step.description}",
                                         fontSize = 12.sp,
-                                        color = if (step.status.name == "COMPLETED") TextSecondary else TextPrimary,
-                                        fontWeight = if (step.status.name == "RUNNING") FontWeight.Bold else FontWeight.Normal
+                                        color = if (step.status.name == "مكتملة") TextSecondary else TextPrimary,
+                                        fontWeight = if (step.status.name == "قيد التنفيذ") FontWeight.Bold else FontWeight.Normal
                                     )
                                     if (!step.result.isNullOrBlank()) {
                                         Text(
@@ -390,7 +390,7 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "No active autonomous plan running.",
+                                text = "لا توجد مهمة قيد التنفيذ حالياً.",
                                 color = TextSecondary,
                                 fontSize = 12.sp,
                                 fontFamily = FontFamily.Monospace
@@ -411,7 +411,7 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "WORKING SESSION HISTORY (LAST 20)",
+                        text = "آخر 20 رسالة في الجلسة",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
@@ -429,20 +429,20 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                             history.forEach { msg ->
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = if (msg.sender.name == "USER") Arrangement.End else Arrangement.Start
+                                    horizontalArrangement = if (msg.sender.name == "أنت") Arrangement.End else Arrangement.Start
                                 ) {
                                     Surface(
-                                        color = if (msg.sender.name == "USER") AccentCyan.copy(alpha = 0.15f) else CardBackground,
+                                        color = if (msg.sender.name == "أنت") AccentCyan.copy(alpha = 0.15f) else CardBackground,
                                         shape = RoundedCornerShape(8.dp),
-                                        border = BorderStroke(1.dp, if (msg.sender.name == "USER") AccentCyan.copy(alpha = 0.3f) else BorderColor)
+                                        border = BorderStroke(1.dp, if (msg.sender.name == "أنت") AccentCyan.copy(alpha = 0.3f) else BorderColor)
                                     ) {
                                         Column(modifier = Modifier.padding(10.dp)) {
                                             Text(
-                                                text = if (msg.sender.name == "USER") "USER" else "AGENT",
+                                                text = if (msg.sender.name == "أنت") "أنت" else "نوفا",
                                                 fontSize = 9.sp,
                                                 fontWeight = FontWeight.Bold,
                                                 fontFamily = FontFamily.Monospace,
-                                                color = if (msg.sender.name == "USER") AccentCyan else TextPrimary
+                                                color = if (msg.sender.name == "أنت") AccentCyan else TextPrimary
                                             )
                                             Spacer(modifier = Modifier.height(2.dp))
                                             Text(
@@ -463,7 +463,7 @@ fun WorkingMemoryView(viewModel: MemoryViewModel) {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "No messages in current working session.",
+                                text = "لا توجد رسائل في الجلسة الحالية.",
                                 color = TextSecondary,
                                 fontSize = 12.sp,
                                 fontFamily = FontFamily.Monospace
@@ -516,11 +516,11 @@ fun EpisodicMemoryView(viewModel: MemoryViewModel, searchQuery: String) {
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(
-                                    text = if (log.sender.name == "USER") "USER" else "AGENT",
+                                    text = if (log.sender.name == "أنت") "أنت" else "نوفا",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
                                     fontFamily = FontFamily.Monospace,
-                                    color = if (log.sender.name == "USER") AccentCyan else TextPrimary
+                                    color = if (log.sender.name == "أنت") AccentCyan else TextPrimary
                                 )
                                 log.modelBadge?.let { badge ->
                                     Spacer(modifier = Modifier.width(8.dp))
@@ -561,7 +561,7 @@ fun EpisodicMemoryView(viewModel: MemoryViewModel, searchQuery: String) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "No episodic chat logs recorded.",
+                text = "لا يوجد سجل محادثات محفوظ.",
                 color = TextSecondary,
                 fontSize = 12.sp,
                 fontFamily = FontFamily.Monospace
@@ -601,7 +601,7 @@ fun SemanticMemoryView(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "STORE NEW MEMORY FACT",
+                        text = "حفظ معلومة جديدة",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
@@ -611,7 +611,7 @@ fun SemanticMemoryView(
                     OutlinedTextField(
                         value = newKey,
                         onValueChange = onNewKeyChange,
-                        label = { Text("Fact Key/Identifier", fontSize = 12.sp) },
+                        label = { Text("اسم المعلومة", fontSize = 12.sp) },
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = AccentCyan,
@@ -625,7 +625,7 @@ fun SemanticMemoryView(
                     OutlinedTextField(
                         value = newValue,
                         onValueChange = onNewValueChange,
-                        label = { Text("Fact Content/Details", fontSize = 12.sp) },
+                        label = { Text("تفاصيل المعلومة", fontSize = 12.sp) },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = AccentCyan,
                             unfocusedBorderColor = BorderColor,
@@ -637,7 +637,7 @@ fun SemanticMemoryView(
                     Spacer(modifier = Modifier.height(12.dp))
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                         TextButton(onClick = { onIsAddingFactChange(false) }) {
-                            Text("Cancel", color = AccentRed)
+                            Text("إلغاء", color = AccentRed)
                         }
                         Spacer(modifier = Modifier.width(8.dp))
                         Button(
@@ -652,7 +652,7 @@ fun SemanticMemoryView(
                             colors = ButtonDefaults.buttonColors(containerColor = TextPrimary, contentColor = DarkBackground),
                             shape = RoundedCornerShape(8.dp)
                         ) {
-                            Text("Save Fact", fontWeight = FontWeight.Bold)
+                            Text("حفظ المعلومة", fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -682,7 +682,7 @@ fun SemanticMemoryView(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No semantic facts indexed in this category.",
+                    text = "لا توجد معلومات محفوظة في هذا القسم.",
                     color = TextSecondary,
                     fontSize = 13.sp,
                     fontFamily = FontFamily.Monospace
@@ -737,7 +737,7 @@ fun MemoryItemCard(
             IconButton(onClick = onDelete) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete Memory",
+                    contentDescription = "حذف الذاكرة",
                     tint = TextSecondary.copy(alpha = 0.6f)
                 )
             }
@@ -789,7 +789,7 @@ fun ProceduralMemoryView(viewModel: MemoryViewModel, searchQuery: String) {
                                     shape = RoundedCornerShape(4.dp)
                                 ) {
                                     Text(
-                                        text = if (macro.isSystem) "SYSTEM" else "USER",
+                                        text = if (macro.isSystem) "النظام" else "أنت",
                                         fontSize = 8.sp,
                                         fontWeight = FontWeight.Bold,
                                         fontFamily = FontFamily.Monospace,
@@ -807,7 +807,7 @@ fun ProceduralMemoryView(viewModel: MemoryViewModel, searchQuery: String) {
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "PROCEDURAL ACTIONS:",
+                                text = "إجراءات محفوظة:",
                                 fontSize = 9.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = AccentCyan,
@@ -838,7 +838,7 @@ fun ProceduralMemoryView(viewModel: MemoryViewModel, searchQuery: String) {
                             IconButton(onClick = { viewModel.deleteMacro(macro.id) }) {
                                 Icon(
                                     imageVector = Icons.Default.Delete,
-                                    contentDescription = "Delete Macro",
+                                    contentDescription = "حذف الأمر المحفوظ",
                                     tint = AccentRed.copy(alpha = 0.8f)
                                 )
                             }
@@ -853,7 +853,7 @@ fun ProceduralMemoryView(viewModel: MemoryViewModel, searchQuery: String) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "No custom macros or procedures registered.",
+                text = "لا توجد أوامر أو إجراءات مخصصة.",
                 color = TextSecondary,
                 fontSize = 12.sp,
                 fontFamily = FontFamily.Monospace
@@ -955,7 +955,7 @@ fun KnowledgeGraphView(
                 FilterChip(
                     selected = selectedCategoryFilter == null,
                     onClick = { selectedCategoryFilter = null },
-                    label = { Text("All Categories", fontSize = 10.sp) },
+                    label = { Text("كل الأقسام", fontSize = 10.sp) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = TextPrimary.copy(alpha = 0.2f),
                         selectedLabelColor = TextPrimary,
@@ -998,7 +998,7 @@ fun KnowledgeGraphView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "KNOWLEDGE ENTITIES (${filteredNodes.size})",
+                text = "عناصر المعرفة (${filteredNodes.size})",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.Monospace,
@@ -1008,7 +1008,7 @@ fun KnowledgeGraphView(
             TextButton(onClick = { isAddingKnowledge = !isAddingKnowledge }) {
                 Icon(Icons.Default.Add, contentDescription = null, tint = TextPrimary, modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(if (isAddingKnowledge) "Close" else "Add Entity / Secret", color = TextPrimary, fontSize = 11.sp)
+                Text(if (isAddingKnowledge) "إغلاق" else "إضافة معلومة / سر", color = TextPrimary, fontSize = 11.sp)
             }
         }
 
@@ -1036,7 +1036,7 @@ fun KnowledgeGraphView(
                         }
                     }
                     Text(
-                        text = if (addIsSensitive) "ADD LEVEL 4 ENCRYPTED SECRET" else "ADD LEVEL 2 LONG-TERM KNOWLEDGE",
+                        text = if (addIsSensitive) "إضافة سر مشفر" else "إضافة معرفة طويلة المدى",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
@@ -1047,20 +1047,20 @@ fun KnowledgeGraphView(
                         FilterChip(
                             selected = !addIsSensitive,
                             onClick = { addIsSensitive = false },
-                            label = { Text("🧠 Long-Term Memory", fontSize = 11.sp) }
+                            label = { Text("🧠 ذاكرة طويلة المدى", fontSize = 11.sp) }
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         FilterChip(
                             selected = addIsSensitive,
                             onClick = { addIsSensitive = true },
-                            label = { Text("🔒 Keystore Encrypted", fontSize = 11.sp) }
+                            label = { Text("🔒 مشفر ومحمي", fontSize = 11.sp) }
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(
                         value = newLabel,
                         onValueChange = { newLabel = it },
-                        label = { Text(if (addIsSensitive) "Secret Key / Label (e.g. locker_code)" else "Label / Title (e.g. Favorite Coffee)", fontSize = 12.sp) },
+                        label = { Text(if (addIsSensitive) "اسم السر أو عنوانه" else "العنوان", fontSize = 12.sp) },
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = if (addIsSensitive) AccentOrange else AccentCyan,
@@ -1075,7 +1075,7 @@ fun KnowledgeGraphView(
                     OutlinedTextField(
                         value = newSummary,
                         onValueChange = { newSummary = it },
-                        label = { Text(if (addIsSensitive) "Secret Value (Hardware Encrypted)" else "Details / Description", fontSize = 12.sp) },
+                        label = { Text(if (addIsSensitive) "قيمة السر (مشفرة)" else "التفاصيل والوصف", fontSize = 12.sp) },
                         // A secret is masked and typed on a password keyboard, so the IME
                         // does not learn or suggest it.
                         singleLine = addIsSensitive,
@@ -1094,7 +1094,7 @@ fun KnowledgeGraphView(
                                 IconButton(onClick = { secretVisible = !secretVisible }) {
                                     Icon(
                                         imageVector = if (secretVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                                        contentDescription = if (secretVisible) "Hide secret" else "Show secret",
+                                        contentDescription = if (secretVisible) "إخفاء السر" else "إظهار السر",
                                         tint = TextSecondary
                                     )
                                 }
@@ -1113,7 +1113,7 @@ fun KnowledgeGraphView(
                     Spacer(modifier = Modifier.height(10.dp))
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                         TextButton(onClick = { isAddingKnowledge = false }) {
-                            Text("Cancel", color = AccentRed)
+                            Text("إلغاء", color = AccentRed)
                         }
                         Spacer(modifier = Modifier.width(8.dp))
                         Button(
@@ -1135,7 +1135,7 @@ fun KnowledgeGraphView(
                             ),
                             shape = RoundedCornerShape(8.dp)
                         ) {
-                            Text("Save Entry", fontWeight = FontWeight.Bold)
+                            Text("حفظ", fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -1166,7 +1166,7 @@ fun KnowledgeGraphView(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No Knowledge Graph entities matching filter.",
+                    text = "لا توجد نتائج مطابقة.",
                     color = TextSecondary,
                     fontSize = 13.sp,
                     fontFamily = FontFamily.Monospace
@@ -1256,7 +1256,7 @@ fun KnowledgeNodeCard(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete Node",
+                            contentDescription = "حذف العنصر",
                             tint = TextSecondary.copy(alpha = 0.6f),
                             modifier = Modifier.size(16.dp)
                         )
@@ -1311,7 +1311,7 @@ fun KnowledgeNodeCard(
                     ) {
                         Icon(Icons.Default.TrendingUp, contentDescription = null, tint = AccentCyan, modifier = Modifier.size(12.dp))
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text("Promote to Long-Term", fontSize = 10.sp, color = AccentCyan)
+                        Text("نقل إلى الذاكرة طويلة المدى", fontSize = 10.sp, color = AccentCyan)
                     }
                 }
             }
