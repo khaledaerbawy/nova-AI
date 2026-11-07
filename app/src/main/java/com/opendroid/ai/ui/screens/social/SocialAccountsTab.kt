@@ -70,7 +70,7 @@ fun SocialAccountsTab(
                     Spacer(modifier = Modifier.width(12.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            "Hardware-Encrypted Credentials",
+                            "بيانات دخول مشفرة ومحمية",
                             color = theme.textPrimary,
                             fontSize = 13.sp,
                             fontWeight = FontWeight.SemiBold
@@ -89,7 +89,7 @@ fun SocialAccountsTab(
         // ── PLATFORM CARDS ───────────────────────────────────────────
         item {
             Text(
-                "Connected Platforms",
+                "المنصات المتصلة",
                 color = theme.textPrimary,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
@@ -126,7 +126,7 @@ fun SocialAccountsTab(
             onDismissRequest = { revokingAccount = null },
             containerColor = theme.cardBackground,
             title = {
-                Text("Revoke Access to ${account.platform.displayName}?", color = theme.textPrimary, fontWeight = FontWeight.Bold)
+                Text("إلغاء الوصول إلى ${account.platform.displayName}؟", color = theme.textPrimary, fontWeight = FontWeight.Bold)
             },
             text = {
                 Text(
@@ -143,12 +143,12 @@ fun SocialAccountsTab(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = theme.accentRed)
                 ) {
-                    Text("Revoke & Purge", color = Color.White, fontWeight = FontWeight.Bold)
+                    Text("إلغاء وحذف البيانات", color = Color.White, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { revokingAccount = null }) {
-                    Text("Cancel", color = theme.textSecondary)
+                    Text("إلغاء", color = theme.textSecondary)
                 }
             }
         )
@@ -214,7 +214,7 @@ private fun AccountCard(
                         )
                     } else {
                         Text(
-                            "Not connected",
+                            "غير متصل",
                             color = theme.textSecondary,
                             fontSize = 12.sp
                         )
@@ -228,7 +228,7 @@ private fun AccountCard(
                         shape = RoundedCornerShape(20.dp),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp)
                     ) {
-                        Text("Connect", color = Color.Black, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                        Text("اتصال", color = Color.Black, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -244,7 +244,7 @@ private fun AccountCard(
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Permissions:", color = theme.textSecondary, fontSize = 11.sp)
+                    Text("الصلاحيات:", color = theme.textSecondary, fontSize = 11.sp)
                     account.permissions.forEach { perm ->
                         Box(
                             modifier = Modifier
@@ -270,7 +270,7 @@ private fun AccountCard(
                     val syncText = if (lastSync != null && lastSync > 0) {
                         "Synced " + SimpleDateFormat("MMM d, HH:mm", LocalConfiguration.current.locales[0]).format(Date(lastSync))
                     } else {
-                        "Not synced yet"
+                        "لم تتم المزامنة بعد"
                     }
                     Text(syncText, color = theme.textSecondary, fontSize = 11.sp)
 
@@ -279,14 +279,14 @@ private fun AccountCard(
                             onClick = onDisconnect,
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                         ) {
-                            Text("Disconnect", color = theme.textSecondary, fontSize = 11.sp)
+                            Text("قطع الاتصال", color = theme.textSecondary, fontSize = 11.sp)
                         }
 
                         TextButton(
                             onClick = onRevoke,
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                         ) {
-                            Text("Revoke", color = theme.accentRed, fontSize = 11.sp)
+                            Text("إلغاء الوصول", color = theme.accentRed, fontSize = 11.sp)
                         }
                     }
                 }
@@ -299,12 +299,12 @@ private fun AccountCard(
 private fun StatusBadge(status: AccountStatus) {
     val theme = AppTheme.colors
     val (bgColor, textColor, text) = when (status) {
-        AccountStatus.CONNECTED -> Triple(theme.accentCyan.copy(alpha = 0.15f), theme.accentCyan, "Connected")
-        AccountStatus.DISCONNECTED -> Triple(theme.surface, theme.textSecondary, "Offline")
-        AccountStatus.EXPIRED -> Triple(theme.accentOrange.copy(alpha = 0.15f), theme.accentOrange, "Expired")
-        AccountStatus.REAUTH_REQUIRED -> Triple(theme.accentOrange.copy(alpha = 0.15f), theme.accentOrange, "Reauth Needed")
-        AccountStatus.PERMISSION_DENIED -> Triple(theme.accentRed.copy(alpha = 0.15f), theme.accentRed, "Denied")
-        AccountStatus.ERROR -> Triple(theme.accentRed.copy(alpha = 0.15f), theme.accentRed, "Error")
+        AccountStatus.CONNECTED -> Triple(theme.accentCyan.copy(alpha = 0.15f), theme.accentCyan, "متصل")
+        AccountStatus.DISCONNECTED -> Triple(theme.surface, theme.textSecondary, "غير متصل")
+        AccountStatus.EXPIRED -> Triple(theme.accentOrange.copy(alpha = 0.15f), theme.accentOrange, "منتهي")
+        AccountStatus.REAUTH_REQUIRED -> Triple(theme.accentOrange.copy(alpha = 0.15f), theme.accentOrange, "مطلوب إعادة المصادقة")
+        AccountStatus.PERMISSION_DENIED -> Triple(theme.accentRed.copy(alpha = 0.15f), theme.accentRed, "مرفوض")
+        AccountStatus.ERROR -> Triple(theme.accentRed.copy(alpha = 0.15f), theme.accentRed, "خطأ")
     }
 
     Box(
@@ -343,7 +343,7 @@ private fun ConnectAccountDialog(
         onDismissRequest = onDismiss,
         containerColor = theme.cardBackground,
         title = {
-            Text("Connect ${platform.displayName}", color = theme.textPrimary, fontWeight = FontWeight.Bold)
+            Text("الاتصال بـ ${platform.displayName}", color = theme.textPrimary, fontWeight = FontWeight.Bold)
         },
         text = {
             // Keep the token out of screenshots, the recents thumbnail and screen sharing.
@@ -362,7 +362,7 @@ private fun ConnectAccountDialog(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    "Credentials will be encrypted with AES-256-GCM hardware keys.",
+                    "سيتم تشفير بيانات الدخول باستخدام مفاتيح حماية الجهاز AES-256-GCM.",
                     color = theme.textSecondary,
                     fontSize = 11.sp
                 )
@@ -379,20 +379,20 @@ private fun ConnectAccountDialog(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Column {
-                        Text("Use Sandbox Mock Mode", color = theme.textPrimary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
-                        Text("Simulates live API without external accounts", color = theme.textSecondary, fontSize = 10.sp)
+                        Text("استخدام وضع المحاكاة التجريبي", color = theme.textPrimary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                        Text("محاكاة الاتصال دون ربط حسابات خارجية", color = theme.textSecondary, fontSize = 10.sp)
                     }
                 }
 
                 if (!useSandboxMock) {
                     val label1 = when (platform) {
-                        SocialPlatform.TELEGRAM -> "Bot Token"
-                        SocialPlatform.DISCORD -> "Bot Token or Webhook URL"
-                        SocialPlatform.X -> "Bearer Token / API Key"
-                        SocialPlatform.LINKEDIN -> "OAuth Access Token"
-                        SocialPlatform.INSTAGRAM -> "Graph API Access Token"
-                        SocialPlatform.FACEBOOK -> "Page Access Token"
-                        SocialPlatform.YOUTUBE -> "OAuth Token / API Key"
+                        SocialPlatform.TELEGRAM -> "رمز البوت"
+                        SocialPlatform.DISCORD -> "رمز البوت أو رابط Webhook"
+                        SocialPlatform.X -> "رمز الدخول / مفتاح API"
+                        SocialPlatform.LINKEDIN -> "رمز وصول OAuth"
+                        SocialPlatform.INSTAGRAM -> "رمز وصول Graph API"
+                        SocialPlatform.FACEBOOK -> "رمز وصول الصفحة"
+                        SocialPlatform.YOUTUBE -> "رمز OAuth / مفتاح API"
                     }
 
                     // Masked, and kept out of the keyboard's learned words.
@@ -416,7 +416,7 @@ private fun ConnectAccountDialog(
                     )
 
                     if (platform == SocialPlatform.TELEGRAM || platform == SocialPlatform.DISCORD) {
-                        val label2 = if (platform == SocialPlatform.TELEGRAM) "Chat ID / Channel ID" else "Channel ID (optional)"
+                        val label2 = if (platform == SocialPlatform.TELEGRAM) "معرّف المحادثة أو القناة" else "معرّف القناة (اختياري)"
                         OutlinedTextField(
                             value = channelOrChatId,
                             onValueChange = { channelOrChatId = it },
@@ -433,7 +433,7 @@ private fun ConnectAccountDialog(
                     }
                 }
 
-                Text("Granted Permissions:", color = theme.textPrimary, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                Text("الصلاحيات الممنوحة:", color = theme.textPrimary, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -464,12 +464,12 @@ private fun ConnectAccountDialog(
                 enabled = useSandboxMock || tokenOrKey.isNotBlank(),
                 colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
             ) {
-                Text("Authorize & Connect", color = Color.Black, fontWeight = FontWeight.Bold)
+                Text("السماح والاتصال", color = Color.Black, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = theme.textSecondary)
+                Text("إلغاء", color = theme.textSecondary)
             }
         }
     )
