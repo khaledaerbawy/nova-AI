@@ -1,7 +1,7 @@
 package com.opendroid.ai.core.voice
 
 import android.content.Context
-import com.github.k2fsa.sherpa.onnx.KeywordSpotter
+import com.k2fsa.sherpa.onnx.KeywordSpotter
 import com.github.k2fsa.sherpa.onnx.KeywordSpotterConfig
 import com.github.k2fsa.sherpa.onnx.OnlineModelConfig
 import com.github.k2fsa.sherpa.onnx.OnlineTransducerModelConfig
