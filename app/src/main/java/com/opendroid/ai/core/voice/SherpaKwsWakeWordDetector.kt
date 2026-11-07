@@ -74,14 +74,14 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
                     ),
                     tokens = File(modelDir, "tokens.txt").absolutePath, numThreads = 1, provider = "cpu", modelType = "zipformer2"
                 )
-                val config = KeywordSpotterConfig(featConfig = FeatureConfig(sampleRate = SAMPLE_RATE, featureDim = 80), modelConfig = modelConfig, keywordsFile = File(modelDir, "keywords.txt").absolutePath, keywordsScore = 2.0f, keywordsThreshold = 0.15f)
+                val config = KeywordSpotterConfig(featConfig = FeatureConfig(sampleRate = SAMPLE_RATE, featureDim = 80), modelConfig = modelConfig, keywordsFile = File(modelDir, "keywords.txt").absolutePath, keywordsScore = 1.5f, keywordsThreshold = 0.25f)
                 val kws = KeywordSpotter(config = config)
                 spotter = kws
                 val vocabulary = File(modelDir, "tokens.txt").readLines()
                     .mapNotNull { line -> line.trim().split(Regex("\\s+")).firstOrNull() }
                     .toSet()
                 val encodedKeywords = listOf("NOVA", "YA NOVA", "HEY NOVA")
-                    .flatMap { BpeKeywordTokenizer.alternatives(it, vocabulary) }
+                    .flatMap { phrase -> BpeKeywordTokenizer.alternatives(phrase, vocabulary).map { "$it @NOVA" } }
                     .distinct()
                     .joinToString("/")
                 if (encodedKeywords.isBlank()) throw IllegalStateException("تعذر ترميز كلمة التنبيه لنموذج الصوت")

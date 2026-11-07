@@ -131,6 +131,7 @@ class OpenDroidService : Service() {
             var promptedPlan: Plan? = null
             agentLoop.agentState.collectLatest { state ->
                 pendingApprovalListen.onAgentState(state)
+                if (state is AgentState.Idle && voiceWakeEnabled) startWakeWordDetection()
                 if (state is AgentState.PlanProposed && state.plan != promptedPlan) {
                     promptedPlan = state.plan
                     // Armed with the prompt's own id before it is queued, so only the
@@ -194,15 +195,9 @@ class OpenDroidService : Service() {
         speechRecognitionEngine.startListening(
             onResult = { query ->
                 agentLoop.processQuery(query, this)
-                // Resume wake word detection only if floating button is disabled
-                if (voiceWakeEnabled) startWakeWordDetection() else {
-                    agentLoop.setAgentState(AgentState.Idle)
-                }
             },
             onError = { _ ->
                 agentLoop.setAgentState(AgentState.Idle)
-                // Resume wake word detection only if floating button is disabled
-                if (voiceWakeEnabled) startWakeWordDetection()
             }
         )
     }
@@ -220,9 +215,8 @@ class OpenDroidService : Service() {
                 when (VoiceApprovalParser.parse(utterance)) {
                     VoiceApprovalIntent.APPROVE -> agentLoop.approveProposedPlan(this, planId)
                     VoiceApprovalIntent.REJECT -> agentLoop.rejectProposedPlan()
-                    VoiceApprovalIntent.NONE -> Unit
+                    VoiceApprovalIntent.NONE -> if (voiceWakeEnabled) startWakeWordDetection()
                 }
-                if (voiceWakeEnabled) startWakeWordDetection()
             },
             onError = { _ ->
                 if (voiceWakeEnabled) startWakeWordDetection()
