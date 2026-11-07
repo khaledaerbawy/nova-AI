@@ -130,7 +130,7 @@ fun SocialContentTab(
                         value = topicInput,
                         onValueChange = { topicInput = it },
                         label = { Text("تحب تنشر عن إيه؟", fontSize = 12.sp) },
-                        placeholder = { Text("e.g. OpenDroid v2 release with local AI agent capabilities", fontSize = 12.sp) },
+                        placeholder = { Text("مثال: إطلاق إصدار NOVA جديد بقدرات ذكاء اصطناعي محلية", fontSize = 12.sp) },
                         modifier = Modifier.fillMaxWidth(),
                         maxLines = 3,
                         colors = OutlinedTextFieldDefaults.colors(
@@ -254,7 +254,7 @@ fun SocialContentTab(
                                 icon = Icons.Default.TouchApp,
                                 onClick = {
                                     if (currentContent.isNotBlank()) {
-                                        onAddCta(currentContent, "download", selectedPlatform) { currentContent = it }
+                                        onAddCta(currentContent, "تنزيل", selectedPlatform) { currentContent = it }
                                     }
                                 }
                             )
@@ -356,7 +356,7 @@ fun SocialContentTab(
                     FilterChip(
                         selected = activeFilter == null,
                         onClick = { activeFilter = null },
-                        label = { Text("All (${posts.size})", fontSize = 11.sp) },
+                        label = { Text("الكل (${posts.size})", fontSize = 11.sp) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = theme.accentCyan.copy(alpha = 0.2f),
                             selectedLabelColor = theme.accentCyan
@@ -508,7 +508,7 @@ private fun PostItemCard(
 
             if (!post.errorMessage.isNullOrBlank()) {
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("Error: ${post.errorMessage}", color = theme.accentRed, fontSize = 11.sp)
+                Text("خطأ: ${post.errorMessage}", color = theme.accentRed, fontSize = 11.sp)
             }
 
             if (post.status == PostStatus.PUBLISHING) {
