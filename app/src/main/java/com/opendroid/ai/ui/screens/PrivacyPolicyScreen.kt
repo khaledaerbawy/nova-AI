@@ -28,7 +28,7 @@ fun PrivacyPolicyScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "PRIVACY POLICY",
+                        text = "سياسة الخصوصية",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -40,7 +40,7 @@ fun PrivacyPolicyScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = "رجوع",
                             tint = TextPrimary
                         )
                     }
@@ -74,14 +74,14 @@ fun PrivacyPolicyScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Lock,
-                            contentDescription = "Privacy",
+                            contentDescription = "الخصوصية",
                             tint = AccentCyan,
                             modifier = Modifier.size(32.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
-                                text = "Your Privacy Matters",
+                                text = "خصوصيتك مهمة",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = TextPrimary
