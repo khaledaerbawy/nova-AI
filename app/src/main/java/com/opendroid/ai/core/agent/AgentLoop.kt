@@ -1024,7 +1024,7 @@ class AgentLoop @Inject constructor(
 
     private suspend fun generatePlan(userMsg: ChatMessage, context: Context, sessionId: String, complexity: QueryComplexity) {
         try {
-            val provider = llmProviderFactory.getActiveProvider()
+            val provider = llmProviderFactory.getHybridProvider(userMsg.text, complexity)
             val relevantContext = memoryManager.getRelevantContext(userMsg.text)
             val isOnDevice = ProviderCatalog.isOnDevice(provider.name)
 
