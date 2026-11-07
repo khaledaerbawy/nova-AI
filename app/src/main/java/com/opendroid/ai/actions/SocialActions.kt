@@ -3,6 +3,7 @@ package com.opendroid.ai.actions
 import android.content.Context
 import com.opendroid.ai.actions.base.Action
 import com.opendroid.ai.actions.base.ActionResult
+import com.opendroid.ai.core.voice.EgyptianArabicNormalizer
 import com.opendroid.ai.data.models.Memory
 import com.opendroid.ai.data.models.MemoryType
 import com.opendroid.ai.data.repository.MemoryRepository
@@ -38,6 +39,18 @@ class SocialActions @Inject constructor(
         CreateWeeklyReportAction(),
         CreateSocialCampaignAction()
     )
+
+    private fun parseScheduleHours(raw: String): Long? {
+        val normalized = EgyptianArabicNormalizer.normalizeTranscript(raw).lowercase(Locale.ROOT).trim()
+        normalized.toLongOrNull()?.let { return it }
+        when (normalized) {
+            "ساعة", "بعد ساعة", "بعد ساعه" -> return 1L
+            "بكرة", "بكره", "غدا", "بعد يوم", "بعد 24 ساعة" -> return 24L
+            "بعد يومين", "بعد 48 ساعة" -> return 48L
+        }
+        val match = Regex("""(\\d+)\\s*(ساعة|ساعات|ساعه|hour|hours)""").find(normalized)
+        return match?.groupValues?.get(1)?.toLongOrNull()
+    }
 
     inner class ShowSocialPerformanceAction : Action {
         override val name: String = "SOCIAL_SHOW_PERFORMANCE"
@@ -105,7 +118,7 @@ class SocialActions @Inject constructor(
                     question = "أنهي منشور تحب أجدوله؟",
                     metadata = mapOf("param" to "postId")
                 )
-            val hoursFromNow = params["hours"]?.toLongOrNull()
+            val hoursFromNow = params["hours"]?.let(::parseScheduleHours)
                 ?: return ActionResult.NeedsInput(
                     question = "تحب أجدول المنشور بعد كام ساعة؟",
                     options = listOf("بعد ساعة", "بعد 24 ساعة", "بعد 48 ساعة"),
