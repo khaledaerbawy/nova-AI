@@ -43,6 +43,7 @@ class OpenDroidService : Service() {
     lateinit var mcpServer: McpServer
 
     private lateinit var wakeWordDetector: WakeWordDetector
+    private lateinit var sherpaWakeWordDetector: SherpaKwsWakeWordDetector
     private lateinit var speechRecognitionEngine: SpeechRecognitionEngine
     private lateinit var textToSpeechEngine: TextToSpeechEngine
 
@@ -83,6 +84,7 @@ class OpenDroidService : Service() {
 
         // Initialize engines
         wakeWordDetector = WakeWordDetector(this)
+        sherpaWakeWordDetector = SherpaKwsWakeWordDetector(this)
         speechRecognitionEngine = SpeechRecognitionEngine(this)
         textToSpeechEngine = TextToSpeechEngine(this, settingsRepository)
 
@@ -116,7 +118,7 @@ class OpenDroidService : Service() {
             settingsRepository.llmConfig.collectLatest { config ->
                 showFloatingButton = config.showFloatingButton
                 if (showFloatingButton) {
-                    wakeWordDetector.stopListening()
+                    stopWakeWordDetection()
                 } else {
                     startWakeWordDetection()
                 }
@@ -165,16 +167,28 @@ class OpenDroidService : Service() {
     }
 
     private fun startWakeWordDetection() {
-        wakeWordDetector.startListening {
-            // Wake word detected! Prompt user with a sound or greeting and start listing for query
-            textToSpeechEngine.speak("أيوه، معاك.")
-            startListeningForQuery()
-        }
+        sherpaWakeWordDetector.start(
+            onWakeWordDetected = { handleWakeWordDetected() },
+            onUnavailable = {
+                if (!showFloatingButton) wakeWordDetector.startListening { handleWakeWordDetected() }
+            }
+        )
+    }
+
+    private fun handleWakeWordDetected() {
+        stopWakeWordDetection()
+        textToSpeechEngine.speak("أيوه، معاك.")
+        startListeningForQuery()
+    }
+
+    private fun stopWakeWordDetection() {
+        sherpaWakeWordDetector.stop()
+        wakeWordDetector.stopListening()
     }
 
     private fun startListeningForQuery() {
         // Temporarily pause wake word to avoid hearing itself
-        wakeWordDetector.stopListening()
+        stopWakeWordDetection()
 
         // Set agent state to Listening
         agentLoop.setAgentState(AgentState.Listening)
@@ -213,7 +227,7 @@ class OpenDroidService : Service() {
      * nothing spoken may widen the allowlist.
      */
     private fun startListeningForApproval(planId: String) {
-        wakeWordDetector.stopListening()
+        stopWakeWordDetection()
         speechRecognitionEngine.startListening(
             onResult = { utterance ->
                 when (VoiceApprovalParser.parse(utterance)) {
@@ -248,6 +262,7 @@ class OpenDroidService : Service() {
         if (!foregroundStarted) return
         mcpServer.stop()
         wakeWordDetector.destroy()
+        sherpaWakeWordDetector.destroy()
         speechRecognitionEngine.destroy()
         textToSpeechEngine.destroy()
     }
@@ -267,7 +282,7 @@ class OpenDroidService : Service() {
     private fun createNotification(): Notification {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("NOVA Active")
-            .setContentText("Listening for wake word 'Hey NOVA' or 'نوفا'")
+            .setContentText("جاهز للاستماع إلى «يا نوفا» أو «نوفا»")
             .setSmallIcon(android.R.drawable.ic_btn_speak_now)
             .setOngoing(true)
             .setCategory(Notification.CATEGORY_SERVICE)
