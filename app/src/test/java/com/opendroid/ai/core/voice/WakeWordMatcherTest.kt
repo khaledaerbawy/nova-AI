@@ -11,6 +11,7 @@ class WakeWordMatcherTest {
         assertTrue(WakeWordMatcher.isMatch("NOVA"))
         assertTrue(WakeWordMatcher.isMatch("YA_NOFA"))
         assertTrue(WakeWordMatcher.isMatch("YA NOFA"))
+        assertTrue(WakeWordMatcher.isMatch("YA_NOVA"))
     }
 
     @Test
