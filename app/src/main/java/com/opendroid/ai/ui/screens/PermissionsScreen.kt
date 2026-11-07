@@ -377,7 +377,7 @@ private fun PermissionsPanelContent(
         ) {
             cards.forEachIndexed { index, card ->
                 if (index == firstManualIndex) {
-                    item(key = "manual-settings-header") {
+                    item(key = "إعدادات يدوية") {
                         ManualSettingsHeader()
                     }
                 }
@@ -457,7 +457,7 @@ private fun ManualSettingsHeader() {
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = "أندرويد مش بيسمح للتطبيق بتفعيل الصلاحيات دي مباشرة. "  +
-                "\"Grant all permissions\" cannot cover them → open each one yourself.",
+                "\"تفعيل كل الصلاحيات\" cannot cover them → open each one yourself.",
             fontSize = 12.sp,
             color = TextSecondary,
         )
