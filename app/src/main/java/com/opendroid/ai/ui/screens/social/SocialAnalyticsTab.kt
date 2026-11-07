@@ -55,7 +55,7 @@ fun SocialAnalyticsTab(
                 Text("تحليلات الأداء", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
 
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    listOf(7 to "7D", 30 to "30D", 90 to "90D").forEach { (days, label) ->
+                    listOf(7 to "7 أيام", 30 to "30 يوماً", 90 to "90 يوماً").forEach { (days, label) ->
                         FilterChip(
                             selected = selectedRangeDays == days,
                             onClick = { selectedRangeDays = days },
@@ -248,7 +248,7 @@ fun SocialAnalyticsTab(
                         }
 
                         Column(horizontalAlignment = Alignment.End) {
-                            Text("${accountPosts.size} posts", color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
+                            Text("${accountPosts.size} منشور", color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
                             Text("مزامنة نشطة", color = theme.accentCyan, fontSize = 10.sp)
                         }
                     }
