@@ -99,49 +99,49 @@ fun TermsOfUseScreen(
             item {
                 PolicySection(
                     title = "1. ACCEPTANCE OF TERMS",
-                    content = "By downloading, installing, or using OpenDroid (\"the App\"), you agree to be bound by these Terms of Use. " +
-                            "If you do not agree to these terms, do not use the App.\n\n" +
-                            "OpenDroid is an open-source, autonomous AI assistant for Android. These terms govern your use of the App and all related services."
+                    content = "باستخدامك لتطبيق NOVA أو تثبيته، فإنك توافق على شروط الاستخدام التالية. " +
+                            "إذا لم توافق على هذه الشروط، يُرجى عدم استخدام التطبيق.\n\n" +
+                            "NOVA مساعد ذكي مستقل ومفتوح المصدر لنظام أندرويد. تنظم هذه الشروط استخدامك للتطبيق والخدمات المرتبطة به."
                 )
             }
 
             item {
                 PolicySection(
                     title = "2. PERMITTED USE",
-                    content = "You may use OpenDroid for personal, non-commercial purposes including:\n\n" +
-                            "• Automating device tasks (messaging, calls, alarms, etc.)\n" +
-                            "• Managing smart home devices\n" +
-                            "• Searching the web and retrieving information\n" +
-                            "• File management and device control\n" +
-                            "• Voice-activated commands\n\n" +
-                            "You agree NOT to use OpenDroid to:\n\n" +
-                            "• Violate any laws or regulations\n" +
-                            "• Harass, spam, or harm other individuals\n" +
-                            "• Attempt to bypass device security or access unauthorized systems\n" +
-                            "• Interfere with other applications in a harmful manner"
+                    content = "يمكنك استخدام NOVA للأغراض الشخصية وغير التجارية، ومنها:\n\n" +
+                            "• أتمتة مهام الجهاز مثل الرسائل والمكالمات والمنبهات\n" +
+                            "• إدارة أجهزة المنزل الذكي\n" +
+                            "• البحث على الإنترنت واسترجاع المعلومات\n" +
+                            "• إدارة الملفات والتحكم في الجهاز\n" +
+                            "• تنفيذ الأوامر الصوتية\n\n" +
+                            "وتتعهد بعدم استخدام NOVA في:\n\n" +
+                            "• مخالفة القوانين أو اللوائح\n" +
+                            "• مضايقة الآخرين أو إزعاجهم أو الإضرار بهم\n" +
+                            "• تجاوز حماية الأجهزة أو الوصول إلى أنظمة دون تصريح\n" +
+                            "• التدخل في التطبيقات الأخرى بطريقة ضارة"
                 )
             }
 
             item {
                 PolicySection(
                     title = "3. API KEYS & THIRD-PARTY SERVICES",
-                    content = "OpenDroid connects to third-party LLM providers (Google Gemini, OpenAI, Anthropic, etc.) using API keys you provide.\n\n" +
-                            "• You are responsible for obtaining and managing your own API keys.\n" +
-                            "• API key usage is subject to the respective provider's terms of service.\n" +
-                            "• OpenDroid is not responsible for charges incurred through third-party API usage.\n" +
-                            "• Your API keys are stored locally on your device using AES-256 encryption and are never transmitted to OpenDroid servers."
+                    content = "تتصل NOVA بمزودي الذكاء الاصطناعي الخارجيين مثل Google Gemini وOpenAI وAnthropic باستخدام مفاتيح API التي تقدمها.\n\n" +
+                            "• أنت مسؤول عن الحصول على مفاتيح API وإدارتها.\n" +
+                            "• يخضع استخدام مفاتيح API لشروط مزود الخدمة المعني.\n" +
+                            "• لا تتحمل NOVA مسؤولية الرسوم التي يفرضها مزودو الخدمات الخارجية.\n" +
+                            "• تُخزّن مفاتيح API محلياً على جهازك بتشفير AES-256 ولا تُرسل إلى خوادم NOVA."
                 )
             }
 
             item {
                 PolicySection(
                     title = "4. ACCESSIBILITY SERVICE",
-                    content = "OpenDroid uses Android's Accessibility Service to perform on-screen automations on your behalf. " +
-                            "By enabling this service, you acknowledge that:\n\n" +
-                            "• The service can interact with other apps on your device\n" +
-                            "• It only acts when you explicitly give a command\n" +
-                            "• You can disable it at any time from Android Settings\n" +
-                            "• OpenDroid does not use this service to collect or transmit data"
+                    content = "تستخدم NOVA خدمة إمكانية الوصول في أندرويد لتنفيذ إجراءات على الشاشة نيابةً عنك. " +
+                            "بتفعيل هذه الخدمة، فإنك تقر بأن:\n\n" +
+                            "• الخدمة يمكنها التفاعل مع التطبيقات الأخرى على جهازك\n" +
+                            "• لا تنفذ أي إجراء إلا عندما تطلب منها ذلك صراحةً\n" +
+                            "• يمكنك إيقافها في أي وقت من إعدادات أندرويد\n" +
+                            "• لا تستخدم NOVA هذه الخدمة لجمع البيانات أو إرسالها"
                 )
             }
 
@@ -149,45 +149,45 @@ fun TermsOfUseScreen(
                 PolicySection(
                     title = "5. DISCLAIMER OF WARRANTIES",
                     content = "OpenDroid is provided \"AS IS\" without warranties of any kind, either express or implied.\n\n" +
-                            "• We do not guarantee uninterrupted or error-free operation.\n" +
-                            "• AI-generated responses may be inaccurate or incomplete.\n" +
-                            "• Automated actions may not execute as intended in all scenarios.\n" +
-                            "• You assume all risks associated with using the App."
+                            "• لا نضمن التشغيل دون انقطاع أو أخطاء.\n" +
+                            "• قد تكون ردود الذكاء الاصطناعي غير دقيقة أو غير مكتملة.\n" +
+                            "• قد لا تنفذ الإجراءات التلقائية كما هو متوقع في جميع الحالات.\n" +
+                            "• تتحمل مسؤولية المخاطر المرتبطة باستخدام التطبيق."
                 )
             }
 
             item {
                 PolicySection(
                     title = "6. LIMITATION OF LIABILITY",
-                    content = "To the maximum extent permitted by law, the OpenDroid developers shall not be liable for any " +
-                            "direct, indirect, incidental, special, or consequential damages arising from:\n\n" +
-                            "• Use or inability to use the App\n" +
-                            "• Unauthorized access to your data\n" +
-                            "• Actions performed by the AI assistant\n" +
-                            "• Third-party service failures or charges"
+                    content = "إلى أقصى حد يسمح به القانون، لا يتحمل مطورو NOVA المسؤولية عن أي " +
+                            "أضرار مباشرة أو غير مباشرة أو عرضية أو خاصة أو تبعية ناتجة عن:\n\n" +
+                            "• استخدام التطبيق أو عدم القدرة على استخدامه\n" +
+                            "• الوصول غير المصرح به إلى بياناتك\n" +
+                            "• الإجراءات التي ينفذها المساعد الذكي\n" +
+                            "• أعطال الخدمات الخارجية أو الرسوم التي تفرضها"
                 )
             }
 
             item {
                 PolicySection(
                     title = "7. OPEN SOURCE",
-                    content = "OpenDroid is open-source software. You are free to view, modify, and distribute the source code " +
-                            "in accordance with the project's license terms. Contributions to the project are welcome and governed by the project's contribution guidelines."
+                    content = "NOVA برنامج مفتوح المصدر. يمكنك الاطلاع على الكود المصدري وتعديله وتوزيعه " +
+                            "وفقاً لشروط الترخيص. ونرحب بالمساهمات التي تخضع لإرشادات المساهمة الخاصة بالمشروع."
                 )
             }
 
             item {
                 PolicySection(
                     title = "8. CHANGES TO TERMS",
-                    content = "We may update these terms from time to time. Changes will be reflected in the App with an updated effective date. " +
-                            "Continued use of OpenDroid after changes constitutes acceptance of the updated terms."
+                    content = "قد نحدّث هذه الشروط من وقت لآخر، وستظهر التعديلات داخل التطبيق مع تاريخ سريان محدث. " +
+                            "استمرارك في استخدام NOVA بعد التعديلات يعني موافقتك على الشروط المحدّثة."
                 )
             }
 
             item {
                 PolicySection(
                     title = "9. CONTACT",
-                    content = "For questions about these Terms of Use, please open an issue on our GitHub repository (JMAN730/opendroid) or reach the development team on Discord."
+                    content = "للاستفسارات حول شروط الاستخدام، يمكنك التواصل مع فريق التطوير عبر مستودع المشروع على GitHub أو مجتمع Discord."
                 )
             }
         }
