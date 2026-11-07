@@ -57,19 +57,12 @@ class OpenDroidService : Service() {
     companion object {
         const val ACTION_TRIGGER_RECORD = "com.opendroid.ai.action.TRIGGER_RECORD"
         private const val ACTION_USER_START = "com.opendroid.ai.action.USER_START"
-        const val ACTION_BOOT_RECOVERY = "com.opendroid.ai.action.BOOT_RECOVERY"
         private const val CHANNEL_ID = "opendroid_channel"
         private const val NOTIFICATION_ID = 2024
         
         /** Called from a visible app interaction; may promote the service to microphone FGS. */
         fun start(context: Context) {
             val intent = Intent(context, OpenDroidService::class.java).setAction(ACTION_USER_START)
-            context.startForegroundService(intent)
-        }
-
-        /** Boot recovery is deliberately non-microphone; Android 14/15 restrict mic FGS boot starts. */
-        fun startAfterBoot(context: Context) {
-            val intent = Intent(context, OpenDroidService::class.java).setAction(ACTION_BOOT_RECOVERY)
             context.startForegroundService(intent)
         }
 
@@ -300,10 +293,6 @@ class OpenDroidService : Service() {
                 } else {
                     updateVoiceNotification()
                 }
-            }
-            ACTION_BOOT_RECOVERY -> {
-                // Keep only the non-microphone service alive until the user opens NOVA.
-                updateVoiceNotification()
             }
             ACTION_TRIGGER_RECORD -> {
                 if (promoteToMicrophoneForeground()) startListeningForQuery()
