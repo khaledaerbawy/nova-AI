@@ -160,7 +160,7 @@ fun RoutinesScreen(
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "As you use apps like Gmail, Calendar, and Slack, OpenDroid detects repeated patterns and suggests automations here.",
+                                text = "أثناء استخدامك لتطبيقات مثل Gmail وCalendar وSlack، تكتشف NOVA الأنماط المتكررة وتقترح أتمتتها هنا.",
                                 color = AppTheme.colors.textSecondary,
                                 fontSize = 12.sp,
                                 lineHeight = 18.sp
@@ -182,7 +182,7 @@ fun RoutinesScreen(
                                 isExecuting = null
                                 Toast.makeText(
                                     context,
-                                    if (success) "Routine completed: $msg" else "Execution failed: $msg",
+                                    if (success) "اكتمل الروتين: $msg" else "فشل التنفيذ: $msg",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -320,7 +320,7 @@ fun SuggestedRoutineCard(
                     shape = RoundedCornerShape(6.dp)
                 ) {
                     Text(
-                        text = "${(routine.confidence * 100).toInt()}% match",
+                        text = "نسبة التطابق ${(routine.confidence * 100).toInt()}%",
                         color = AppTheme.colors.textSecondary,
                         fontSize = 11.sp,
                         fontFamily = FontFamily.Monospace,
