@@ -35,12 +35,12 @@ fun NotificationHistoryScreen(
     onClearAll: () -> Unit,
     onBack: () -> Unit
 ) {
-    var selectedFilter by remember { mutableStateOf("ALL") }
+    var selectedFilter by remember { mutableStateOf("الكل") }
 
     val filteredNotifications by remember(selectedFilter) {
         notificationDao.getNotificationHistoryFlow(
-            category = selectedFilter.takeIf { it in listOf("MESSAGE", "EMAIL", "SOCIAL") },
-            autoRepliedOnly = selectedFilter == "REPLIED",
+            category = selectedFilter.takeIf { it in listOf("رسائل", "بريد", "تواصل اجتماعي") },
+            autoRepliedOnly = selectedFilter == "تم الرد",
             limit = HISTORY_LIMIT
         )
     }.collectAsState(initial = emptyList())
@@ -56,15 +56,15 @@ fun NotificationHistoryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Notification History", fontWeight = FontWeight.Bold) },
+                title = { Text("سجل الإشعارات", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "رجوع")
                     }
                 },
                 actions = {
                     IconButton(onClick = onClearAll) {
-                        Icon(Icons.Default.Delete, contentDescription = "Clear All", tint = themeColors.textSecondary)
+                        Icon(Icons.Default.Delete, contentDescription = "مسح الكل", tint = themeColors.textSecondary)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -89,9 +89,9 @@ fun NotificationHistoryScreen(
                     .padding(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                StatChip("📋 $totalCount", "Total", themeColors, Modifier.weight(1f))
-                StatChip("💬 $messageCount", "Messages", themeColors, Modifier.weight(1f))
-                StatChip("🤖 $repliedCount", "Replied", themeColors, Modifier.weight(1f))
+                StatChip("📋 $totalCount", "الإجمالي", themeColors, Modifier.weight(1f))
+                StatChip("💬 $messageCount", "الرسائل", themeColors, Modifier.weight(1f))
+                StatChip("🤖 $repliedCount", "تم الرد", themeColors, Modifier.weight(1f))
             }
 
             Row(
@@ -101,7 +101,7 @@ fun NotificationHistoryScreen(
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                listOf("ALL", "MESSAGE", "EMAIL", "SOCIAL", "REPLIED").forEach { filter ->
+                listOf("الكل", "رسائل", "بريد", "تواصل اجتماعي", "تم الرد").forEach { filter ->
                     FilterChip(
                         selected = selectedFilter == filter,
                         onClick = { selectedFilter = filter },
@@ -141,13 +141,13 @@ fun NotificationHistoryScreen(
                         Text("🔔", fontSize = 48.sp)
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            "No notifications captured yet",
+                            "لم يتم تسجيل أي إشعارات بعد",
                             fontSize = 16.sp,
                             color = themeColors.textSecondary
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            "Grant notification access in Settings",
+                            "فعّل صلاحية الوصول إلى الإشعارات من الإعدادات",
                             fontSize = 13.sp,
                             color = themeColors.textSecondary.copy(alpha = 0.6f)
                         )
@@ -199,10 +199,10 @@ private fun NotificationCard(
     val timeText = dateFormat.format(java.util.Date(notification.timestamp))
 
     val categoryEmoji = when (notification.category) {
-        "MESSAGE" -> "💬"
-        "EMAIL" -> "📧"
-        "SOCIAL" -> "👥"
-        "SYSTEM" -> "⚙️"
+        "رسائل" -> "💬"
+        "بريد" -> "📧"
+        "تواصل اجتماعي" -> "👥"
+        "النظام" -> "⚙️"
         else -> "🔔"
     }
 
