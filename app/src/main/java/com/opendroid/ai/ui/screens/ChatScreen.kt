@@ -606,7 +606,7 @@ fun ChatScreen(
                                     modifier = Modifier
                                         .size(48.dp)
                                         .clip(CircleShape)
-                                        .background(TextPrimary)
+                                        .background(AccentGreenButton)
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Send,
@@ -1041,7 +1041,7 @@ fun ProposedPlanPrompt(
                 Spacer(modifier = Modifier.width(12.dp))
                 Button(
                     onClick = { onApprove(checkedGrants) },
-                    colors = ButtonDefaults.buttonColors(containerColor = TextPrimary, contentColor = DarkBackground),
+                    colors = ButtonDefaults.buttonColors(containerColor = AccentGreenButton, contentColor = DarkBackground),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text("موافقة وبدء التنفيذ", fontWeight = FontWeight.Bold)
@@ -1262,7 +1262,7 @@ private fun ChatErrorRecoveryCard(
                         onClick = onPrimary,
                         enabled = !(retryHeld && error.primaryAction() == ChatErrorPrimaryAction.RETRY),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = TextPrimary,
+                            containerColor = AccentGreenButton,
                             contentColor = DarkBackground
                         ),
                         modifier = Modifier.heightIn(min = 48.dp)
