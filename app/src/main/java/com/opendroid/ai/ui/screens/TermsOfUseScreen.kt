@@ -28,7 +28,7 @@ fun TermsOfUseScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "TERMS OF USE",
+                        text = "شروط الاستخدام",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -40,7 +40,7 @@ fun TermsOfUseScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = "رجوع",
                             tint = TextPrimary
                         )
                     }
@@ -74,14 +74,14 @@ fun TermsOfUseScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Description,
-                            contentDescription = "Terms",
+                            contentDescription = "الشروط",
                             tint = AccentCyan,
                             modifier = Modifier.size(32.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
-                                text = "Terms of Use",
+                                text = "شروط الاستخدام",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = TextPrimary
