@@ -87,7 +87,7 @@ fun PrivacyPolicyScreen(
                                 color = TextPrimary
                             )
                             Text(
-                                text = "Last updated: August 2026",
+                                text = "آخر تحديث: أغسطس 2026",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -99,7 +99,7 @@ fun PrivacyPolicyScreen(
             // Section: Overview
             item {
                 PolicySection(
-                    title = "1. OVERVIEW",
+                    title = "1. نظرة عامة",
                     content = "NOVA مساعد ذكاء اصطناعي مستقل يعمل على جهاز أندرويد. " +
                             "نلتزم بحماية خصوصيتك وتوضيح كيفية التعامل مع بياناتك. " +
                             "توضح هذه السياسة البيانات التي يتعامل معها التطبيق وكيفية استخدامها وحقوقك المتعلقة بها."
@@ -109,7 +109,7 @@ fun PrivacyPolicyScreen(
             // Section: Data Collection
             item {
                 PolicySection(
-                    title = "2. DATA COLLECTION",
+                    title = "2. جمع البيانات",
                     content = "تعالج NOVA البيانات التالية محلياً على جهازك:\n\n" +
                             "• الأوامر الصوتية والاستفسارات النصية التي تقدمها\n" +
                             "• حالة الجهاز مثل البطارية والواي فاي والاتصال\n" +
@@ -123,7 +123,7 @@ fun PrivacyPolicyScreen(
             // Section: LLM Providers
             item {
                 PolicySection(
-                    title = "3. THIRD-PARTY LLM PROVIDERS",
+                    title = "3. مزودو الذكاء الاصطناعي الخارجيون",
                     content = "ترسل NOVA استفساراتك إلى مزود الذكاء الاصطناعي الذي تختاره مثل Google Gemini أو OpenAI أو Anthropic أو Groq " +
                             "لإنشاء الردود وخطط التنفيذ. ولكل مزود سياسة خصوصية خاصة به تحدد طريقة تعامله مع بياناتك.\n\n" +
                             "• تُخزّن مفاتيح API محلياً على جهازك ولا تُرسل إلى خوادم NOVA.\n" +
@@ -135,7 +135,7 @@ fun PrivacyPolicyScreen(
             // Section: Permissions
             item {
                 PolicySection(
-                    title = "4. DEVICE PERMISSIONS",
+                    title = "4. صلاحيات الجهاز",
                     content = "تطلب NOVA الصلاحيات التالية لتشغيل ميزاتها:\n\n" +
                             "• الميكروفون — لاستقبال الأوامر الصوتية\n" +
                             "• إمكانية الوصول — للتفاعل مع التطبيقات وأتمتة بعض الإجراءات\n" +
@@ -152,7 +152,7 @@ fun PrivacyPolicyScreen(
             // Section: Accessibility Service Declaration
             item {
                 PolicySection(
-                    title = "4b. ACCESSIBILITY SERVICE",
+                    title = "4ب. خدمة إمكانية الوصول",
                     content = "تستخدم NOVA خدمة إمكانية الوصول في أندرويد لأتمتة التفاعل مع التطبيقات " +
                             "(مثل إرسال رسائل واتساب) عندما تطلب ذلك صراحةً.\n\n" +
                             "تعمل خدمة إمكانية الوصول وفق الضوابط التالية:\n\n" +
@@ -170,7 +170,7 @@ fun PrivacyPolicyScreen(
             // Section: Data Storage
             item {
                 PolicySection(
-                    title = "5. DATA STORAGE & RETENTION",
+                    title = "5. تخزين البيانات والاحتفاظ بها",
                     content = "• يُحفظ سجل المحادثات والذاكرة وسجل المهام في قاعدة بيانات SQLite محلية على جهازك.\n" +
                             "• تدعم عناصر الذاكرة مدة صلاحية (TTL) وتُمسح تلقائياً عند انتهائها.\n" +
                             "• يظل سجل التنفيذ محفوظاً حتى تمسحه من سجل النظام أو تحذف التطبيق.\n" +
@@ -183,7 +183,7 @@ fun PrivacyPolicyScreen(
             // Section: Data Sharing
             item {
                 PolicySection(
-                    title = "6. DATA SHARING",
+                    title = "6. مشاركة البيانات",
                     content = "لا تقوم NOVA بما يلي:\n\n" +
                             "• بيع بياناتك الشخصية أو تأجيرها أو مشاركتها مع أطراف خارجية\n" +
                             "• جمع بيانات التحليلات أو إحصاءات الاستخدام\n" +
@@ -196,7 +196,7 @@ fun PrivacyPolicyScreen(
             // Section: Security
             item {
                 PolicySection(
-                    title = "7. SECURITY",
+                    title = "7. الأمان",
                     content = "• تُخزّن مفاتيح API بتشفير AES-256-GCM باستخدام Android Keystore على جهازك.\n" +
                             "• يُشفّر اسم ملفك الشخصي وتاريخ ميلادك بالطريقة نفسها باستخدام مفتاح منفصل.\n" +
                             "• لا تغادر مفاتيح التشفير مخزن المفاتيح المحمي بالجهاز، لذلك لا يمكن قراءة البيانات المشفرة على جهاز آخر أو استعادتها من نسخة احتياطية.\n" +
@@ -211,7 +211,7 @@ fun PrivacyPolicyScreen(
             // Section: Children
             item {
                 PolicySection(
-                    title = "8. CHILDREN'S PRIVACY",
+                    title = "8. خصوصية الأطفال",
                     content = "لا يُنصح باستخدام NOVA للأطفال دون 13 عاماً. " +
                             "ولا نجمع عن قصد معلومات من الأطفال."
                 )
@@ -220,8 +220,8 @@ fun PrivacyPolicyScreen(
             // Section: Changes
             item {
                 PolicySection(
-                    title = "9. CHANGES TO THIS POLICY",
-                    content = "We may update this privacy policy from time to time. Any changes will be reflected in the app with an updated \"Last updated\" date. " +
+                    title = "9. تعديل سياسة الخصوصية",
+                    content = "قد نحدّث سياسة الخصوصية من وقت لآخر، وستظهر التعديلات داخل التطبيق مع تحديث \"Last updated\" تاريخ آخر تحديث. " +
                             "استمرارك في استخدام NOVA بعد التعديلات يعني موافقتك على السياسة المحدّثة."
                 )
             }
@@ -229,7 +229,7 @@ fun PrivacyPolicyScreen(
             // Section: Contact
             item {
                 PolicySection(
-                    title = "10. CONTACT",
+                    title = "10. التواصل",
                     content = "إذا كانت لديك أسئلة حول سياسة الخصوصية أو طريقة تعامل NOVA مع البيانات، " +
                             "يمكنك التواصل مع فريق التطوير عبر مستودع المشروع على GitHub أو مجتمع Discord."
                 )
