@@ -167,7 +167,7 @@ class OpenDroidService : Service() {
     private fun startWakeWordDetection() {
         wakeWordDetector.startListening {
             // Wake word detected! Prompt user with a sound or greeting and start listing for query
-            textToSpeechEngine.speak("OpenDroid online.")
+            textToSpeechEngine.speak("أيوه، معاك.")
             startListeningForQuery()
         }
     }
@@ -186,7 +186,7 @@ class OpenDroidService : Service() {
                 // Resume wake word detection only if floating button is disabled
                 if (!showFloatingButton) {
                     wakeWordDetector.startListening {
-                        textToSpeechEngine.speak("OpenDroid online.")
+                        textToSpeechEngine.speak("أيوه، معاك.")
                         startListeningForQuery()
                     }
                 } else {
@@ -198,7 +198,7 @@ class OpenDroidService : Service() {
                 // Resume wake word detection only if floating button is disabled
                 if (!showFloatingButton) {
                     wakeWordDetector.startListening {
-                        textToSpeechEngine.speak("OpenDroid online.")
+                        textToSpeechEngine.speak("أيوه، معاك.")
                         startListeningForQuery()
                     }
                 }
@@ -255,10 +255,10 @@ class OpenDroidService : Service() {
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "OpenDroid Agent Service",
+            "NOVA Assistant Service",
             NotificationManager.IMPORTANCE_LOW
         ).apply {
-            description = "Keeps OpenDroid background agent alive"
+            description = "Keeps NOVA voice assistant active"
         }
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(channel)
@@ -266,8 +266,8 @@ class OpenDroidService : Service() {
 
     private fun createNotification(): Notification {
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("OpenDroid Active")
-            .setContentText("Listening for wake word 'OpenDroid'")
+            .setContentTitle("NOVA Active")
+            .setContentText("Listening for wake phrase 'Hey NOVA'")
             .setSmallIcon(android.R.drawable.ic_btn_speak_now)
             .setOngoing(true)
             .setCategory(Notification.CATEGORY_SERVICE)
