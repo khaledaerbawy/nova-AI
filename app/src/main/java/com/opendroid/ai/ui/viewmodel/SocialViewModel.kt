@@ -227,7 +227,7 @@ class SocialViewModel @Inject constructor(
         viewModelScope.launch {
             val result = socialManager.schedulePost(postId, scheduledTime)
             if (result.isSuccess) {
-                _statusMessage.value = "Post scheduled successfully."
+                _statusMessage.value = "تمت جدولة المنشور بنجاح."
             } else {
                 _statusMessage.value = "تعذرت جدولة المنشور. تحقق من الموعد والاتصال."
             }
