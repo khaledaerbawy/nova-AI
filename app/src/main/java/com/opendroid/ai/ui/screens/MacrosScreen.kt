@@ -191,8 +191,8 @@ fun MacrosScreen(
                             macroSteps.forEachIndexed { idx, st ->
                                 Text(
                                     text = buildString {
-                                        append("Step ${idx + 1}: ${st.description} [${st.action}]")
-                                        if (st.fallback.isNotBlank()) append(" → fallback: ${st.fallback}")
+                                        append("الخطوة ${idx + 1}: ${st.description} [${st.action}]")
+                                        if (st.fallback.isNotBlank()) append(" → الإجراء البديل: ${st.fallback}")
                                     },
                                     fontSize = 11.sp,
                                     color = TextPrimary,
@@ -405,7 +405,7 @@ fun MacroCard(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Trigger: \"${macro.trigger}\"",
+                        text = "عبارة التشغيل: \"${macro.trigger}\"",
                         fontSize = 12.sp,
                         color = TextPrimary,
                         fontFamily = FontFamily.Monospace
@@ -432,7 +432,7 @@ fun MacroCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "${macro.steps.size} scheduled steps in sequence",
+                    text = "${macro.steps.size} خطوات مرتبة للتنفيذ",
                     fontSize = 12.sp,
                     color = TextSecondary
                 )
