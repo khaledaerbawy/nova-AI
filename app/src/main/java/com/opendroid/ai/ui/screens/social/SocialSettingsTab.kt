@@ -260,8 +260,16 @@ private fun RuleCard(
             }
 
             Spacer(modifier = Modifier.height(4.dp))
+            val triggerLabel = when (rule.triggerType) {
+                "SENTIMENT_POSITIVE" -> "مشاعر إيجابية"
+                else -> rule.triggerType
+            }
+            val actionLabel = when (rule.actionType) {
+                "AUTO_REPLY" -> "رد تلقائي"
+                else -> rule.actionType
+            }
             Text(
-                "المحفز: ${rule.triggerType} • الإجراء: ${rule.actionType}",
+                "المحفز: $triggerLabel • الإجراء: $actionLabel",
                 color = theme.textSecondary,
                 fontSize = 11.sp
             )
@@ -303,7 +311,7 @@ private fun AuditLogItem(log: SocialAuditEntry) {
         ) {
             Box(
                 modifier = Modifier.size(6.dp).clip(CircleShape)
-                    .background(if (log.status == "نجاح") theme.accentCyan else theme.accentRed)
+                    .background(if (log.status == "SUCCESS") theme.accentCyan else theme.accentRed)
             )
 
             Spacer(modifier = Modifier.width(10.dp))
@@ -330,8 +338,8 @@ private fun AddRuleDialog(
 ) {
     val theme = AppTheme.colors
     var ruleName by remember { mutableStateOf("") }
-    var selectedTrigger by remember { mutableStateOf("مشاعر إيجابية") }
-    var selectedAction by remember { mutableStateOf("رد تلقائي") }
+    var selectedTrigger by remember { mutableStateOf("SENTIMENT_POSITIVE") }
+    var selectedAction by remember { mutableStateOf("AUTO_REPLY") }
     var confidence by remember { mutableFloatStateOf(0.85f) }
 
     AlertDialog(
