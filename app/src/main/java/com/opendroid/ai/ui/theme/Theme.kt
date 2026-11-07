@@ -5,6 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.unit.dp
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -49,6 +52,14 @@ private val DarkColorScheme = darkColorScheme(
     error = DarkPalette.accentRed
 )
 
+private val NovaShapes = Shapes(
+    extraSmall = RoundedCornerShape(9.dp),
+    small = RoundedCornerShape(12.dp),
+    medium = RoundedCornerShape(16.dp),
+    large = RoundedCornerShape(20.dp),
+    extraLarge = RoundedCornerShape(28.dp)
+)
+
 private val LightColorScheme = lightColorScheme(
     primary = LightPalette.accentNeonGreen,
     secondary = LightPalette.accentPurple,
@@ -87,6 +98,7 @@ fun OpenDroidTheme(
         MaterialTheme(
             colorScheme = colorScheme,
             typography = Typography,
+            shapes = NovaShapes,
             content = content
         )
     }
