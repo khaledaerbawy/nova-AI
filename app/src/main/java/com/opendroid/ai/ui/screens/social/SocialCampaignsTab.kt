@@ -48,8 +48,8 @@ fun SocialCampaignsTab(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column {
-                    Text("Campaign Strategies", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                    Text("Multi-day coordinated cross-platform campaigns", color = theme.textSecondary, fontSize = 11.sp)
+                    Text("استراتيجيات الحملات", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("حملات منسقة على عدة منصات وأيام", color = theme.textSecondary, fontSize = 11.sp)
                 }
 
                 Button(
@@ -60,7 +60,7 @@ fun SocialCampaignsTab(
                 ) {
                     Icon(Icons.Default.Add, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("New Campaign", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text("حملة جديدة", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -86,7 +86,7 @@ fun SocialCampaignsTab(
                         }
                         Spacer(modifier = Modifier.height(14.dp))
                         Text(
-                            "No Campaigns Created Yet",
+                            "لم يتم إنشاء حملات بعد",
                             color = theme.textPrimary,
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp
@@ -107,7 +107,7 @@ fun SocialCampaignsTab(
                         ) {
                             Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(6.dp))
-                            Text("Generate First Campaign", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                            Text("إنشاء أول حملة", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                         }
                     }
                 }
@@ -183,7 +183,7 @@ private fun CampaignCard(campaign: SocialCampaign) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Timeline Progress", color = theme.textSecondary, fontSize = 10.sp)
+                Text("تقدم الجدول الزمني", color = theme.textSecondary, fontSize = 10.sp)
                 Text("${(progress * 100).toInt()}%", color = theme.accentCyan, fontSize = 10.sp, fontWeight = FontWeight.Bold)
             }
 
@@ -203,7 +203,7 @@ private fun CampaignCard(campaign: SocialCampaign) {
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Platforms:", color = theme.textSecondary, fontSize = 11.sp)
+                Text("المنصات:", color = theme.textSecondary, fontSize = 11.sp)
                 campaign.platforms.forEach { platform ->
                     Box(
                         modifier = Modifier
@@ -220,7 +220,7 @@ private fun CampaignCard(campaign: SocialCampaign) {
             if (campaign.targetAudience.isNotBlank()) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    "Target Audience: ${campaign.targetAudience}",
+                    "الجمهور المستهدف: ${campaign.targetAudience}",
                     color = theme.accentCyan,
                     fontSize = 10.sp
                 )
@@ -233,10 +233,10 @@ private fun CampaignCard(campaign: SocialCampaign) {
 private fun CampaignStatusBadge(status: CampaignStatus) {
     val theme = AppTheme.colors
     val (color, text) = when (status) {
-        CampaignStatus.ACTIVE -> theme.accentCyan to "ACTIVE"
-        CampaignStatus.PLANNING -> theme.accentOrange to "PLANNING"
-        CampaignStatus.PAUSED -> theme.textSecondary to "PAUSED"
-        CampaignStatus.COMPLETED -> theme.textSecondary to "COMPLETED"
+        CampaignStatus.ACTIVE -> theme.accentCyan to "نشطة"
+        CampaignStatus.PLANNING -> theme.accentOrange to "قيد التخطيط"
+        CampaignStatus.PAUSED -> theme.textSecondary to "متوقفة مؤقتاً"
+        CampaignStatus.COMPLETED -> theme.textSecondary to "مكتملة"
     }
 
     Box(
@@ -270,7 +270,7 @@ private fun CreateCampaignDialog(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = theme.accentCyan, modifier = Modifier.size(20.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("AI Campaign Generator", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("منشئ الحملات الذكي", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
         },
         text = {
@@ -281,7 +281,7 @@ private fun CreateCampaignDialog(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Campaign Name", fontSize = 12.sp) },
+                    label = { Text("اسم الحملة", fontSize = 12.sp) },
                     placeholder = { Text("e.g. OpenDroid v2.0 Global Launch", fontSize = 11.sp) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -296,7 +296,7 @@ private fun CreateCampaignDialog(
                 OutlinedTextField(
                     value = objective,
                     onValueChange = { objective = it },
-                    label = { Text("Campaign Objective & Goals", fontSize = 12.sp) },
+                    label = { Text("هدف الحملة والنتائج المطلوبة", fontSize = 12.sp) },
                     placeholder = { Text("e.g. Highlight on-device privacy, fast responsiveness, and attract open source developers.", fontSize = 11.sp) },
                     modifier = Modifier.fillMaxWidth().height(90.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -307,13 +307,13 @@ private fun CreateCampaignDialog(
                     )
                 )
 
-                Text("Duration: $durationDays days", color = theme.textPrimary, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                Text("المدة: $durationDays يوم", color = theme.textPrimary, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     listOf(3, 7, 14, 30).forEach { days ->
                         FilterChip(
                             selected = durationDays == days,
                             onClick = { durationDays = days },
-                            label = { Text("$days Days", fontSize = 10.sp) },
+                            label = { Text("$days أيام", fontSize = 10.sp) },
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = theme.accentCyan.copy(alpha = 0.2f),
                                 selectedLabelColor = theme.accentCyan
@@ -322,7 +322,7 @@ private fun CreateCampaignDialog(
                     }
                 }
 
-                Text("Target Platforms:", color = theme.textPrimary, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                Text("المنصات المستهدفة:", color = theme.textPrimary, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     items(SocialPlatform.values()) { platform ->
                         val isSelected = selectedPlatforms.contains(platform)
@@ -354,13 +354,13 @@ private fun CreateCampaignDialog(
                 if (isGenerating) {
                     CircularProgressIndicator(modifier = Modifier.size(16.dp), color = Color.Black, strokeWidth = 2.dp)
                 } else {
-                    Text("Generate Strategy", color = Color.Black, fontWeight = FontWeight.Bold)
+                    Text("إنشاء الاستراتيجية", color = Color.Black, fontWeight = FontWeight.Bold)
                 }
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = theme.textSecondary)
+                Text("إلغاء", color = theme.textSecondary)
             }
         }
     )
