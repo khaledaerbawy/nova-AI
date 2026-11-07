@@ -64,7 +64,10 @@ class SocialActions @Inject constructor(
         override val name: String = "SOCIAL_CREATE_POST"
         override suspend fun execute(params: Map<String, String>, context: Context): ActionResult {
             val topic = params["topic"] ?: params["content"]
-                ?: return ActionResult.NeedsInput("تحب المنشور يتكلم عن إيه؟")
+                ?: return ActionResult.NeedsInput(
+                    question = "تحب المنشور يتكلم عن إيه؟",
+                    metadata = mapOf("param" to "topic")
+                )
             val platformStr = params["platform"] ?: "X"
             val platform = SocialPlatform.fromId(platformStr)
             val toneStr = params["tone"] ?: "PROFESSIONAL"
@@ -98,11 +101,15 @@ class SocialActions @Inject constructor(
         override val name: String = "SOCIAL_SCHEDULE_POST"
         override suspend fun execute(params: Map<String, String>, context: Context): ActionResult {
             val postId = params["postId"] ?: params["id"]
-                ?: return ActionResult.NeedsInput("أنهي منشور تحب أجدوله؟")
+                ?: return ActionResult.NeedsInput(
+                    question = "أنهي منشور تحب أجدوله؟",
+                    metadata = mapOf("param" to "postId")
+                )
             val hoursFromNow = params["hours"]?.toLongOrNull()
                 ?: return ActionResult.NeedsInput(
                     question = "تحب أجدول المنشور بعد كام ساعة؟",
-                    options = listOf("بعد ساعة", "بعد 24 ساعة", "بعد 48 ساعة")
+                    options = listOf("بعد ساعة", "بعد 24 ساعة", "بعد 48 ساعة"),
+                    metadata = mapOf("param" to "hours")
                 )
             if (hoursFromNow <= 0L) return ActionResult.NeedsInput("اختار وقتاً في المستقبل.")
             val scheduledTime = System.currentTimeMillis() + (hoursFromNow * 3600_000L)
@@ -220,7 +227,10 @@ class SocialActions @Inject constructor(
         override suspend fun execute(params: Map<String, String>, context: Context): ActionResult {
             val name = params["name"] ?: "حملة جديدة"
             val objective = params["objective"]
-                ?: return ActionResult.NeedsInput("إيه الهدف الأساسي من الحملة؟")
+                ?: return ActionResult.NeedsInput(
+                    question = "إيه الهدف الأساسي من الحملة؟",
+                    metadata = mapOf("param" to "objective")
+                )
             val days = params["days"]?.toIntOrNull() ?: 7
             if (days !in 1..90) return ActionResult.NeedsInput("مدة الحملة لازم تكون من يوم إلى 90 يوم.")
 
