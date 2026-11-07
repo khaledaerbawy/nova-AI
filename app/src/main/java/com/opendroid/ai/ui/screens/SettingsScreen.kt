@@ -312,7 +312,11 @@ fun SettingsScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = if (config.activeProvider == "On-Device AI" || config.activeProvider == "Gemma 4 (On-device)") "ذكاء اصطناعي على الجهاز" else config.activeProvider,
+                                    text = when (config.activeProvider) {
+                                        "On-Device AI", "Gemma 4 (On-device)" -> "ذكاء اصطناعي على الجهاز"
+                                        "Custom OpenAI Compatible" -> "متوافق مع OpenAI"
+                                        else -> config.activeProvider
+                                    },
                                     color = TextPrimary,
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.SemiBold
