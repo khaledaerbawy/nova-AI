@@ -59,16 +59,16 @@ fun SocialScreen(
 
     val tabs = remember {
         listOf(
-            SocialTabItem("Overview", Icons.Default.Dashboard),
-            SocialTabItem("Accounts", Icons.Default.AccountCircle),
-            SocialTabItem("Inbox", Icons.Default.Inbox),
-            SocialTabItem("Content", Icons.Default.EditNote),
-            SocialTabItem("Calendar", Icons.Default.CalendarMonth),
-            SocialTabItem("Comments", Icons.Default.ChatBubbleOutline),
-            SocialTabItem("Campaigns", Icons.Default.Campaign),
-            SocialTabItem("Analytics", Icons.Default.BarChart),
-            SocialTabItem("Reports", Icons.Default.Description),
-            SocialTabItem("Settings", Icons.Default.Tune)
+            SocialTabItem("نظرة عامة", Icons.Default.Dashboard),
+            SocialTabItem("الحسابات", Icons.Default.AccountCircle),
+            SocialTabItem("صندوق الوارد", Icons.Default.Inbox),
+            SocialTabItem("المحتوى", Icons.Default.EditNote),
+            SocialTabItem("التقويم", Icons.Default.CalendarMonth),
+            SocialTabItem("التعليقات", Icons.Default.ChatBubbleOutline),
+            SocialTabItem("الحملات", Icons.Default.Campaign),
+            SocialTabItem("التحليلات", Icons.Default.BarChart),
+            SocialTabItem("التقارير", Icons.Default.Description),
+            SocialTabItem("الإعدادات", Icons.Default.Tune)
         )
     }
 
@@ -118,13 +118,13 @@ fun SocialScreen(
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                "Social Studio",
+                                "إدارة التواصل",
                                 color = theme.textPrimary,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp
                             )
                             Text(
-                                "${connectedAccounts.size} active channels • ${automationLevel.displayName}",
+                                "${connectedAccounts.size} قناة متصلة • ${automationLevel.displayName}",
                                 color = theme.textSecondary,
                                 fontSize = 10.sp
                             )
@@ -149,7 +149,7 @@ fun SocialScreen(
                         ) {
                             Icon(
                                 Icons.Default.Refresh,
-                                contentDescription = "Sync",
+                                contentDescription = "مزامنة",
                                 tint = theme.textPrimary,
                                 modifier = Modifier.size(16.dp)
                             )
