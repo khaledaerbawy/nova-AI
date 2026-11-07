@@ -35,12 +35,12 @@ fun NotificationHistoryScreen(
     onClearAll: () -> Unit,
     onBack: () -> Unit
 ) {
-    var selectedFilter by remember { mutableStateOf("الكل") }
+    var selectedFilter by remember { mutableStateOf("ALL") }
 
     val filteredNotifications by remember(selectedFilter) {
         notificationDao.getNotificationHistoryFlow(
-            category = selectedFilter.takeIf { it in listOf("رسائل", "بريد", "تواصل اجتماعي") },
-            autoRepliedOnly = selectedFilter == "تم الرد",
+            category = selectedFilter.takeIf { it in listOf("MESSAGE", "EMAIL", "SOCIAL") },
+            autoRepliedOnly = selectedFilter == "REPLIED",
             limit = HISTORY_LIMIT
         )
     }.collectAsState(initial = emptyList())
@@ -101,13 +101,20 @@ fun NotificationHistoryScreen(
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                listOf("الكل", "رسائل", "بريد", "تواصل اجتماعي", "تم الرد").forEach { filter ->
+                listOf("ALL", "MESSAGE", "EMAIL", "SOCIAL", "REPLIED").forEach { filter ->
                     FilterChip(
                         selected = selectedFilter == filter,
                         onClick = { selectedFilter = filter },
                         label = {
                             Text(
-                                filter.lowercase().replaceFirstChar { it.uppercase() },
+                                when (filter) {
+                                    "ALL" -> "الكل"
+                                    "MESSAGE" -> "رسائل"
+                                    "EMAIL" -> "بريد"
+                                    "SOCIAL" -> "تواصل اجتماعي"
+                                    "REPLIED" -> "تم الرد"
+                                    else -> filter
+                                },
                                 fontSize = 12.sp
                             )
                         },
@@ -199,10 +206,10 @@ private fun NotificationCard(
     val timeText = dateFormat.format(java.util.Date(notification.timestamp))
 
     val categoryEmoji = when (notification.category) {
-        "رسائل" -> "💬"
-        "بريد" -> "📧"
-        "تواصل اجتماعي" -> "👥"
-        "النظام" -> "⚙️"
+        "MESSAGE" -> "💬"
+        "EMAIL" -> "📧"
+        "SOCIAL" -> "👥"
+        "SYSTEM" -> "⚙️"
         else -> "🔔"
     }
 
