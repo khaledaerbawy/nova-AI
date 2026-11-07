@@ -28,7 +28,7 @@ jobs:
 
       - name: Copy upstream source and preserve attribution
         run: |
-          rsync -a --delete --exclude='.git' --exclude='.github/workflows/import-opendroid.yml' /tmp/opendroid/ ./ 
+          rsync -a --delete --exclude='.git' --exclude='.github/workflows/***' /tmp/opendroid/ ./ 
           mkdir -p docs
           cat > UPSTREAM.md <<'EOF'
           # Upstream source attribution
