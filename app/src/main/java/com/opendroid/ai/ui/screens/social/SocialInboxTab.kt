@@ -102,14 +102,14 @@ fun SocialInboxTab(
                         )
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            "Inbox is Clean",
+                            "صندوق الوارد نظيف",
                             color = theme.textPrimary,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            "No pending notifications, mentions, or messages.",
+                            "لا توجد إشعارات أو إشارات أو رسائل معلّقة.",
                             color = theme.textSecondary,
                             fontSize = 12.sp
                         )
@@ -137,7 +137,7 @@ fun SocialInboxTab(
             containerColor = theme.cardBackground,
             title = {
                 Text(
-                    "Reply on ${interaction.platform.displayName}",
+                    "الرد على ${interaction.platform.displayName}",
                     color = theme.textPrimary,
                     fontWeight = FontWeight.Bold
                 )
@@ -157,7 +157,7 @@ fun SocialInboxTab(
                     OutlinedTextField(
                         value = replyText,
                         onValueChange = { replyText = it },
-                        label = { Text("Your Reply", fontSize = 12.sp) },
+                        label = { Text("ردك", fontSize = 12.sp) },
                         modifier = Modifier.fillMaxWidth().height(120.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = theme.textPrimary,
@@ -177,12 +177,12 @@ fun SocialInboxTab(
                     enabled = replyText.isNotBlank(),
                     colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
                 ) {
-                    Text("Send Reply", color = Color.Black, fontWeight = FontWeight.Bold)
+                    Text("إرسال الرد", color = Color.Black, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { replyingInteraction = null }) {
-                    Text("Cancel", color = theme.textSecondary)
+                    Text("إلغاء", color = theme.textSecondary)
                 }
             }
         )
@@ -229,7 +229,7 @@ private fun InteractionCard(
                 Column(modifier = Modifier.weight(1f)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            interaction.authorName.ifBlank { "User" },
+                            interaction.authorName.ifBlank { "مستخدم" },
                             color = theme.textPrimary,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 13.sp
@@ -298,7 +298,7 @@ private fun InteractionCard(
                     onClick = onDismissClick,
                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                 ) {
-                    Text("Dismiss", color = theme.textSecondary, fontSize = 11.sp)
+                    Text("تجاهل", color = theme.textSecondary, fontSize = 11.sp)
                 }
 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -308,7 +308,7 @@ private fun InteractionCard(
                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
                         border = androidx.compose.foundation.BorderStroke(0.5.dp, theme.borderColor)
                     ) {
-                        Text("Resolve", color = theme.textPrimary, fontSize = 11.sp)
+                        Text("تمت المعالجة", color = theme.textPrimary, fontSize = 11.sp)
                     }
 
                     Button(
@@ -317,7 +317,7 @@ private fun InteractionCard(
                         shape = RoundedCornerShape(14.dp),
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
                     ) {
-                        Text("Reply", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        Text("رد", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -329,10 +329,10 @@ private fun InteractionCard(
 private fun PriorityBadge(priority: InteractionPriority) {
     val theme = AppTheme.colors
     val (color, text) = when (priority) {
-        InteractionPriority.URGENT -> theme.accentRed to "URGENT"
-        InteractionPriority.HIGH -> theme.accentOrange to "HIGH"
-        InteractionPriority.NORMAL -> theme.accentCyan to "NORMAL"
-        InteractionPriority.LOW -> theme.textSecondary to "LOW"
+        InteractionPriority.URGENT -> theme.accentRed to "عاجل"
+        InteractionPriority.HIGH -> theme.accentOrange to "مرتفع"
+        InteractionPriority.NORMAL -> theme.accentCyan to "عادي"
+        InteractionPriority.LOW -> theme.textSecondary to "منخفض"
     }
 
     Box(
@@ -349,9 +349,9 @@ private fun PriorityBadge(priority: InteractionPriority) {
 private fun InteractionStatusBadge(status: String) {
     val theme = AppTheme.colors
     val (color, text) = when (status.uppercase()) {
-        "UNREAD" -> theme.accentCyan to "UNREAD"
-        "RESOLVED" -> theme.textSecondary to "RESOLVED"
-        "REPLIED" -> theme.accentCyan to "REPLIED"
+        "غير مقروء" -> theme.accentCyan to "غير مقروء"
+        "تمت المعالجة" -> theme.textSecondary to "تمت المعالجة"
+        "تم الرد" -> theme.accentCyan to "تم الرد"
         else -> theme.textSecondary to status
     }
 
