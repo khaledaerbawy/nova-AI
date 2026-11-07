@@ -12,6 +12,7 @@ object VoiceLanguagePolicy {
 
     fun normalizeTranscript(value: String): String = value
         .lowercase(Locale.ROOT)
+        .replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
         .replace(diacritics, "")
         .replace(punctuation, " ")
         .replace(whitespace, " ")
