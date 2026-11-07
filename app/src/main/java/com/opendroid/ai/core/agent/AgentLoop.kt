@@ -1183,7 +1183,7 @@ class AgentLoop @Inject constructor(
         } catch (e: Exception) {
             android.util.Log.e("AgentLoop", "Failed to log plan generation failure: ${e.localizedMessage}")
         }
-        executeSimpleQuery(userMsg, sessionId)
+        executeSimpleQuery(userMsg, sessionId, complexity)
     }
 
     /**
