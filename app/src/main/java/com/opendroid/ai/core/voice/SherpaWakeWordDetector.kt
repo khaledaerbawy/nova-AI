@@ -99,7 +99,7 @@ internal class SherpaWakeWordDetector(
                 Log.w(TAG, "Local wake-word engine unavailable; using compatibility recognizer", failure)
                 if (running.get()) {
                     mainHandler.post { onStatus("تعذر تشغيل محرك الاستيقاظ المحلي — وضع التوافق") }
-                    mainHandler.post(onUnavailable)
+                    mainHandler.post { onUnavailable() }
                 }
             } finally {
                 running.set(false)
