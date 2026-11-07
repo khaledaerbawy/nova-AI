@@ -2,36 +2,25 @@ package com.opendroid.ai.core.voice
 
 enum class VoiceApprovalIntent { APPROVE, REJECT, NONE }
 
-/**
- * Fuzzy intent match for the spoken plan-approval prompt ("Say approve to
- * run, or cancel"). Reject wins over approve. Approve only matches when the
- * whole utterance is a bare affirmative, so a negation in any language ("don't
- * approve", "run mat karo") falls through to NONE instead of running the plan.
- * NONE is the safe answer for anything unclear: a misheard approval runs the
- * plan and a misheard rejection clears it, while NONE leaves it waiting in the
- * modal.
- * Deliberately NOT a grant mechanism — nothing spoken may widen the
- * allowlist (upstream issue 18 spec, voice section).
- */
+/** Conservative spoken approval parser with explicit Egyptian Arabic support. */
 object VoiceApprovalParser {
-
-    private const val AFFIRMATIVE = """approve|yes|haan|sí|si|sim|run|execute|go ahead|do it"""
-
+    private val affirmativeUtterances = setOf(
+        "approve", "yes", "haan", "si", "sim", "run", "execute", "go ahead", "do it",
+        "ايوه", "اه", "تمام", "ماشي", "موافق", "وافق", "نفذ", "نفذها", "شغلها",
+        "ايوه نفذ", "اه نفذ", "تمام نفذ", "ماشي نفذ", "موافق نفذ"
+    )
     private val rejectPattern = Regex(
-        """\b(cancel|stop|reject|no)\b|\b(don['’]?t|do not)\s+(run|do|execute)\b""",
+        """\b(cancel|stop|reject|no)\b|\b(dont|do not)\s+(run|do|execute)\b|\b(لا|لأ|الغيه|الغي|متنفذش|مش موافق|مش موافقة|بلاش)\b""",
         RegexOption.IGNORE_CASE
     )
-    private val separators = Regex("""[^\p{L}\p{N}]+""")
-    private val approveUtterance = Regex(
-        """(?:(?:okay|ok|please) )*(?:$AFFIRMATIVE)(?: (?:and )?(?:$AFFIRMATIVE))*(?: (?:it|that|this|the plan|please|now))*"""
-    )
 
-    fun parse(utterance: String): VoiceApprovalIntent = when {
-        rejectPattern.containsMatchIn(utterance) -> VoiceApprovalIntent.REJECT
-        approveUtterance.matches(normalize(utterance)) -> VoiceApprovalIntent.APPROVE
-        else -> VoiceApprovalIntent.NONE
+    fun parse(utterance: String): VoiceApprovalIntent {
+        val normalized = VoiceLanguagePolicy.normalizeTranscript(utterance)
+        return when {
+            normalized.isBlank() -> VoiceApprovalIntent.NONE
+            rejectPattern.containsMatchIn(normalized) -> VoiceApprovalIntent.REJECT
+            normalized in affirmativeUtterances -> VoiceApprovalIntent.APPROVE
+            else -> VoiceApprovalIntent.NONE
+        }
     }
-
-    private fun normalize(utterance: String): String =
-        utterance.lowercase().replace(separators, " ").trim()
 }
