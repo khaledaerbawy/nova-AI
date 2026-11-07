@@ -30,8 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.opendroid.ai.R
 import com.opendroid.ai.ui.theme.AppTheme
-import com.opendroid.ai.ui.theme.DarkBackground
-import com.opendroid.ai.ui.theme.DarkSurface
 import com.opendroid.ai.ui.theme.TextPrimary
 import com.opendroid.ai.ui.theme.TextSecondary
 import kotlinx.coroutines.delay
@@ -62,15 +60,15 @@ fun SplashScreen(onNavigateNext: () -> Unit) {
         onNavigateNext()
     }
 
-    val cyan = Color(0xFF67D8E8)
-    val violet = Color(0xFF9B8CFF)
+    val cyan = AppTheme.colors.accentCyan
+    val violet = AppTheme.colors.accentPurple
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 Brush.linearGradient(
-                    colors = listOf(Color(0xFF111F35), DarkBackground, Color(0xFF080D18))
+                    colors = listOf(AppTheme.colors.surface, AppTheme.colors.background, AppTheme.colors.surface)
                 )
             ),
         contentAlignment = Alignment.Center
@@ -100,7 +98,7 @@ fun SplashScreen(onNavigateNext: () -> Unit) {
                     .clip(CircleShape)
                     .background(
                         Brush.linearGradient(
-                            listOf(Color(0xFF1A3550), Color(0xFF17213A), Color(0xFF252247))
+                            listOf(AppTheme.colors.cardBackground, AppTheme.colors.surface, AppTheme.colors.cardBackground)
                         )
                     )
                     .border(
@@ -149,7 +147,7 @@ fun SplashScreen(onNavigateNext: () -> Unit) {
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(30.dp))
-                    .background(DarkSurface.copy(alpha = 0.92f))
+                    .background(AppTheme.colors.surface.copy(alpha = 0.92f))
                     .border(1.dp, AppTheme.colors.borderColor, RoundedCornerShape(30.dp))
                     .padding(horizontal = 18.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -165,7 +163,7 @@ fun SplashScreen(onNavigateNext: () -> Unit) {
                     text = "نوفا جاهزة",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = cyan
+                    color = AppTheme.colors.textPrimary
                 )
             }
         }

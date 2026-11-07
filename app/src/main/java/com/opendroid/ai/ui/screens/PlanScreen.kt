@@ -170,7 +170,7 @@ fun PlanHeaderCard(
                         PlanStatus.COMPLETED -> AccentCyan
                         PlanStatus.RUNNING -> AccentCyan
                         PlanStatus.FAILED -> AccentRed
-                        PlanStatus.CANCELLED -> Color(0xFFFFB300)
+                        PlanStatus.CANCELLED -> AccentOrange
                         else -> TextSecondary
                     }
                     val statusLabel = when (plan.status) {
@@ -252,7 +252,7 @@ fun PlanHeaderCard(
                 Spacer(modifier = Modifier.height(12.dp))
                 Button(
                     onClick = onStop,
-                    colors = ButtonDefaults.buttonColors(containerColor = AccentRed, contentColor = TextPrimary),
+                    colors = ButtonDefaults.buttonColors(containerColor = AccentRed, contentColor = AppTheme.colors.onDanger),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -375,7 +375,7 @@ fun PastPlanRow(
                 tint = when (plan.status) {
                     PlanStatus.COMPLETED -> AccentCyan
                     PlanStatus.FAILED -> AccentRed
-                    PlanStatus.CANCELLED -> Color(0xFFFFB300) // Amber, matches PlanHeaderCard's CANCELLED color
+                    PlanStatus.CANCELLED -> AccentOrange // Amber, matches PlanHeaderCard's CANCELLED color
                     else -> TextSecondary
                 },
                 modifier = Modifier.size(16.dp)

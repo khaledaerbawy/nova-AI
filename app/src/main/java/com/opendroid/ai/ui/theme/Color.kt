@@ -23,6 +23,8 @@ data class OpenDroidColors(
     val accentCyan: Color,
     val accentRed: Color,
     val accentOrange: Color = Color(0xFFFFB454),
+    val onAccent: Color,
+    val onDanger: Color,
     val isDark: Boolean
 )
 
@@ -39,6 +41,8 @@ val DarkPalette = OpenDroidColors(
     accentCyan = Color(0xFF67D8E8),
     accentRed = Color(0xFFFF6B78),
     accentOrange = Color(0xFFFFB454),
+    onAccent = Color(0xFF07111D),
+    onDanger = Color(0xFF07111D),
     isDark = true
 )
 
@@ -55,6 +59,8 @@ val LightPalette = OpenDroidColors(
     accentCyan = Color(0xFF168FA3),
     accentRed = Color(0xFFD94A5A),
     accentOrange = Color(0xFFB87520),
+    onAccent = Color(0xFFFFFFFF),
+    onDanger = Color(0xFFFFFFFF),
     isDark = false
 )
 

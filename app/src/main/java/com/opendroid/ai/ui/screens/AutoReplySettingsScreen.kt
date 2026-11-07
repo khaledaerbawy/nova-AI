@@ -14,7 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -66,7 +66,7 @@ fun AutoReplySettingsScreen(
                 title = { Text("إعدادات الرد التلقائي", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "رجوع")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "رجوع")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -111,7 +111,7 @@ fun AutoReplySettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "Auto-Reply needs notification access to monitor incoming messages and accessibility access to automate typing & sending replies.",
+                                text = "يحتاج الرد التلقائي إلى إذن الوصول للإشعارات لمتابعة الرسائل الواردة، وإذن إمكانية الوصول لكتابة الردود وإرسالها تلقائياً.",
                                 fontSize = 13.sp,
                                 color = themeColors.textPrimary
                             )

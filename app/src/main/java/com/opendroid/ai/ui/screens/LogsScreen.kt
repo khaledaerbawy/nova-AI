@@ -145,7 +145,7 @@ fun LogsScreen(
                                     onSaveAsMacro = saveableRuns[log.id]?.let { run ->
                                         {
                                             selectedRunForMacro = run
-                                            macroName = "${log.description.take(40).ifBlank { "Completed task" }} أمر"
+                                            macroName = "${log.description.take(40).ifBlank { "مهمة مكتملة" }} أمر"
                                             macroSaveError = null
                                         }
                                     }
@@ -208,7 +208,7 @@ fun LogsScreen(
                     ) {
                         recordedSteps.forEach { step ->
                             Text(
-                                "${step.order}. ${step.action} - ${step.description}",
+                                "${step.order}. ${actionDisplayLabel(step.action)} - ${step.description}",
                                 fontSize = 12.sp,
                                 color = TextSecondary,
                                 fontFamily = FontFamily.Monospace
@@ -313,7 +313,7 @@ fun UnknownActionCard(error: UnknownActionEntity) {
         "AUTO_FIXED" -> "تم الإصلاح تلقائياً"
         "REPLANNED" -> "إعادة تخطيط"
         "FAILED" -> "فشل"
-        else -> error.fixStatus
+        else -> "حالة غير معروفة"
     }
 
     val explanation = when (error.fixStatus) {
@@ -352,7 +352,7 @@ fun UnknownActionCard(error: UnknownActionEntity) {
                 ) {
                     Text(
                         text = statusText,
-                        fontSize = 9.sp,
+                        fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         color = statusColor,
                         fontFamily = FontFamily.Monospace
@@ -361,7 +361,7 @@ fun UnknownActionCard(error: UnknownActionEntity) {
 
                 Text(
                     text = dateFormat.format(Date(error.timestamp)),
-                    fontSize = 10.sp,
+                    fontSize = 11.sp,
                     color = TextSecondary,
                     fontFamily = FontFamily.Monospace
                 )
@@ -370,7 +370,7 @@ fun UnknownActionCard(error: UnknownActionEntity) {
             Spacer(modifier = Modifier.height(8.dp))
             
             Text(
-                text = "إجراء غير معروف: ${error.attemptedAction}",
+                text = "إجراء غير معروف: ${actionDisplayLabel(error.attemptedAction)}",
                 fontFamily = FontFamily.Monospace,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
@@ -392,7 +392,7 @@ fun UnknownActionCard(error: UnknownActionEntity) {
                     
                     Text(
                         text = "تفاصيل حالة النظام:",
-                        fontSize = 11.sp,
+                        fontSize = 12.sp,
                         color = TextSecondary
                     )
                     Spacer(modifier = Modifier.height(4.dp))
@@ -463,7 +463,7 @@ fun HistoryLogCard(
                 ) {
                     Text(
                         text = if (log.success) "نجاح" else "فشل",
-                        fontSize = 9.sp,
+                        fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         color = if (log.success) AccentCyan else AccentRed,
                         fontFamily = FontFamily.Monospace
@@ -472,7 +472,7 @@ fun HistoryLogCard(
 
                 Text(
                     text = dateFormat.format(Date(log.timestamp)),
-                    fontSize = 10.sp,
+                    fontSize = 11.sp,
                     color = TextSecondary,
                     fontFamily = FontFamily.Monospace
                 )
@@ -490,8 +490,8 @@ fun HistoryLogCard(
             Spacer(modifier = Modifier.height(4.dp))
             
             Text(
-                text = "الوحدة: ${log.actionType}",
-                fontSize = 11.sp,
+                text = "الوحدة: ${actionDisplayLabel(log.actionType)}",
+                fontSize = 12.sp,
                 color = AccentPurple,
                 fontFamily = FontFamily.Monospace
             )
@@ -503,7 +503,7 @@ fun HistoryLogCard(
                     colors = ButtonDefaults.buttonColors(containerColor = AccentPurple),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("حفظ المهمة المكتملة كأمر", fontSize = 11.sp)
+                    Text("حفظ المهمة المكتملة كأمر", fontSize = 12.sp)
                 }
             }
 
@@ -512,10 +512,10 @@ fun HistoryLogCard(
                     Divider(color = BorderColor, modifier = Modifier.padding(vertical = 4.dp))
                     
                     if (log.paramsJson.isNotBlank() && log.paramsJson != "{}") {
-                        Text("المعاملات:", fontSize = 11.sp, color = TextSecondary)
+                        Text("المعاملات:", fontSize = 12.sp, color = TextSecondary)
                         Text(
                             text = log.paramsJson,
-                            fontSize = 11.sp,
+                            fontSize = 12.sp,
                             color = TextPrimary,
                             fontFamily = FontFamily.Monospace,
                             modifier = Modifier
@@ -528,10 +528,10 @@ fun HistoryLogCard(
                     }
 
                     if (log.resultData != null) {
-                        Text("نتيجة التنفيذ:", fontSize = 11.sp, color = TextSecondary)
+                        Text("نتيجة التنفيذ:", fontSize = 12.sp, color = TextSecondary)
                         Text(
                             text = log.resultData,
-                            fontSize = 11.sp,
+                            fontSize = 12.sp,
                             color = AccentCyan,
                             fontFamily = FontFamily.Monospace,
                             modifier = Modifier
@@ -543,10 +543,10 @@ fun HistoryLogCard(
                     }
 
                     if (log.errorMessage != null) {
-                        Text("سجل الأخطاء التشخيصي:", fontSize = 11.sp, color = TextSecondary)
+                        Text("سجل الأخطاء التشخيصي:", fontSize = 12.sp, color = TextSecondary)
                         Text(
                             text = log.errorMessage,
-                            fontSize = 11.sp,
+                            fontSize = 12.sp,
                             color = AccentRed,
                             fontFamily = FontFamily.Monospace,
                             modifier = Modifier
@@ -574,4 +574,31 @@ fun HistoryLogCard(
             }
         }
     }
+}
+
+
+/** Arabic labels are for display only; original action IDs remain unchanged. */
+private fun actionDisplayLabel(action: String): String = when (action.trim().lowercase()) {
+    "system/brightness", "system/screen_brightness" -> "النظام • سطوع الشاشة"
+    "system/volume", "system/volume_up", "system/volume_down" -> "النظام • مستوى الصوت"
+    "system/wifi", "system/wifi_enable", "system/wifi_disable" -> "النظام • شبكة Wi-Fi"
+    "system/bluetooth" -> "النظام • Bluetooth"
+    "system/airplane_mode" -> "النظام • وضع الطيران"
+    "system/do_not_disturb", "system/dnd" -> "النظام • عدم الإزعاج"
+    "app/open", "app/launch" -> "التطبيقات • فتح تطبيق"
+    "app/close" -> "التطبيقات • إغلاق تطبيق"
+    "device/screenshot" -> "الجهاز • التقاط الشاشة"
+    "device/lock" -> "الجهاز • قفل الشاشة"
+    "device/flashlight", "device/torch" -> "الجهاز • المصباح اليدوي"
+    "device/vibrate" -> "الجهاز • الاهتزاز"
+    "input/type" -> "الإدخال • كتابة نص"
+    "input/tap" -> "الإدخال • ضغط"
+    "input/swipe" -> "الإدخال • تمرير"
+    "input/long_press" -> "الإدخال • ضغط مطوّل"
+    "navigation/back" -> "التنقل • رجوع"
+    "navigation/home" -> "التنقل • الشاشة الرئيسية"
+    "navigation/recents" -> "التنقل • التطبيقات الأخيرة"
+    "notification/read" -> "الإشعارات • قراءة الإشعارات"
+    "notification/dismiss" -> "الإشعارات • إغلاق الإشعار"
+    else -> action.replace("/", " / ").replace("_", " ")
 }

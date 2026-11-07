@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -73,10 +74,10 @@ fun PlanStepCard(
         StepDisplayState.COMPLETED -> AccentCyan
         StepDisplayState.RUNNING -> AccentCyan
         StepDisplayState.FAILED -> AccentRed
-        StepDisplayState.AUTO_FIXING -> Color(0xFFFFB300) // Amber
+        StepDisplayState.AUTO_FIXING -> AccentOrange // Amber
         StepDisplayState.REPAIRED -> AccentPurple
         StepDisplayState.SKIPPED -> TextSecondary
-        StepDisplayState.BLOCKED -> Color(0xFFFF5722) // Deep Orange
+        StepDisplayState.BLOCKED -> AccentRed // Deep Orange
         StepDisplayState.PENDING -> TextSecondary
     }
 
@@ -159,7 +160,7 @@ fun PlanStepCard(
                             StepDisplayState.FAILED -> Icons.Default.Close
                             StepDisplayState.AUTO_FIXING -> Icons.Default.Build
                             StepDisplayState.REPAIRED -> Icons.Default.CheckCircle
-                            StepDisplayState.SKIPPED -> Icons.Default.ArrowForward
+                            StepDisplayState.SKIPPED -> Icons.AutoMirrored.Filled.ArrowForward
                             StepDisplayState.BLOCKED -> Icons.Default.Warning
                             StepDisplayState.PENDING -> Icons.Default.PlayArrow
                         },
@@ -174,7 +175,7 @@ fun PlanStepCard(
                 Column(modifier = Modifier.padding(top = 12.dp)) {
                     Divider(color = BorderColor, modifier = Modifier.padding(vertical = 4.dp))
 
-                    Text("وحدة الإجراء: ${step.action}", fontSize = 11.sp, color = AccentPurple, fontFamily = FontFamily.Monospace)
+                    Text("وحدة الإجراء: ${actionDisplayLabel(step.action)}", fontSize = 11.sp, color = AccentPurple, fontFamily = FontFamily.Monospace)
                     Spacer(modifier = Modifier.height(10.dp))
 
                     OutlinedTextField(
@@ -275,7 +276,7 @@ fun PlanStepCard(
                                 onSaveEdit(cleanedDescription, cleanedParams)
                                 isEditing = false
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = AccentGreenButton, contentColor = DarkBackground),
+                            colors = ButtonDefaults.buttonColors(containerColor = AccentGreenButton, contentColor = AppTheme.colors.onAccent),
                             shape = RoundedCornerShape(8.dp)
                         ) {
                             Text("حفظ", fontWeight = FontWeight.Bold, fontSize = 12.sp)
@@ -334,9 +335,9 @@ fun PlanStepCard(
                         Spacer(modifier = Modifier.height(8.dp))
                         
                         val isHallucinationError = displayState == StepDisplayState.AUTO_FIXING
-                        val errorBgColor = if (isHallucinationError) Color(0xFFFFB300).copy(alpha = 0.1f) else AccentRed.copy(alpha = 0.1f)
-                        val errorBorderColor = if (isHallucinationError) Color(0xFFFFB300).copy(alpha = 0.3f) else AccentRed.copy(alpha = 0.3f)
-                        val errorTitleColor = if (isHallucinationError) Color(0xFFFFB300) else AccentRed
+                        val errorBgColor = if (isHallucinationError) AccentOrange.copy(alpha = 0.1f) else AccentRed.copy(alpha = 0.1f)
+                        val errorBorderColor = if (isHallucinationError) AccentOrange.copy(alpha = 0.3f) else AccentRed.copy(alpha = 0.3f)
+                        val errorTitleColor = if (isHallucinationError) AccentOrange else AccentRed
                         val errorTextDisplay = if (isHallucinationError) "جاري إصلاح الإجراء: يتم حالياً استعادة الإجراء المطلوب وتحديثه بواسطة محرك إصلاح NOVA." else step.error!!
 
                         Box(
@@ -362,4 +363,31 @@ fun PlanStepCard(
             }
         }
     }
+}
+
+
+/** Arabic labels are for display only; original action IDs remain unchanged. */
+private fun actionDisplayLabel(action: String): String = when (action.trim().lowercase()) {
+    "system/brightness", "system/screen_brightness" -> "النظام • سطوع الشاشة"
+    "system/volume", "system/volume_up", "system/volume_down" -> "النظام • مستوى الصوت"
+    "system/wifi", "system/wifi_enable", "system/wifi_disable" -> "النظام • شبكة Wi-Fi"
+    "system/bluetooth" -> "النظام • Bluetooth"
+    "system/airplane_mode" -> "النظام • وضع الطيران"
+    "system/do_not_disturb", "system/dnd" -> "النظام • عدم الإزعاج"
+    "app/open", "app/launch" -> "التطبيقات • فتح تطبيق"
+    "app/close" -> "التطبيقات • إغلاق تطبيق"
+    "device/screenshot" -> "الجهاز • التقاط الشاشة"
+    "device/lock" -> "الجهاز • قفل الشاشة"
+    "device/flashlight", "device/torch" -> "الجهاز • المصباح اليدوي"
+    "device/vibrate" -> "الجهاز • الاهتزاز"
+    "input/type" -> "الإدخال • كتابة نص"
+    "input/tap" -> "الإدخال • ضغط"
+    "input/swipe" -> "الإدخال • تمرير"
+    "input/long_press" -> "الإدخال • ضغط مطوّل"
+    "navigation/back" -> "التنقل • رجوع"
+    "navigation/home" -> "التنقل • الشاشة الرئيسية"
+    "navigation/recents" -> "التنقل • التطبيقات الأخيرة"
+    "notification/read" -> "الإشعارات • قراءة الإشعارات"
+    "notification/dismiss" -> "الإشعارات • إغلاق الإشعار"
+    else -> action.replace("/", " / ").replace("_", " ")
 }

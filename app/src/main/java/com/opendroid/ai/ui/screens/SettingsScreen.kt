@@ -171,7 +171,7 @@ fun SettingsScreen(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(1.dp, Color(0xFFFF9800), RoundedCornerShape(12.dp)),
+                            .border(1.dp, AccentOrange, RoundedCornerShape(12.dp)),
                         colors = CardDefaults.cardColors(containerColor = CardBackground)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
@@ -180,7 +180,7 @@ fun SettingsScreen(
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
-                                color = Color(0xFFFF9800)
+                                color = AccentOrange
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
@@ -193,9 +193,9 @@ fun SettingsScreen(
                             Spacer(modifier = Modifier.height(12.dp))
                             Button(
                                 onClick = viewModel::resetProviderCredentialsForReentry,
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
+                                colors = ButtonDefaults.buttonColors(containerColor = AccentOrange)
                             ) {
-                                Text("مسح بيانات الدخول غير المتاحة", color = DarkBackground)
+                                Text("مسح بيانات الدخول غير المتاحة", color = AppTheme.colors.onAccent)
                             }
                         }
                     }
@@ -207,7 +207,7 @@ fun SettingsScreen(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(1.dp, Color(0xFFFF9800), RoundedCornerShape(12.dp)),
+                            .border(1.dp, AccentOrange, RoundedCornerShape(12.dp)),
                         colors = CardDefaults.cardColors(containerColor = CardBackground)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
@@ -216,7 +216,7 @@ fun SettingsScreen(
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
-                                color = Color(0xFFFF9800)
+                                color = AccentOrange
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
@@ -231,15 +231,15 @@ fun SettingsScreen(
                                 Text(
                                     text = "فشلت إعادة الضبط. حاول مرة أخرى.",
                                     fontSize = 12.sp,
-                                    color = Color(0xFFFF9800)
+                                    color = AccentOrange
                                 )
                             }
                             Spacer(modifier = Modifier.height(12.dp))
                             Button(
                                 onClick = viewModel::resetMcpConfigForReentry,
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
+                                colors = ButtonDefaults.buttonColors(containerColor = AccentOrange)
                             ) {
-                                Text("إعادة إعداد الاتصال الخارجي", color = DarkBackground)
+                                Text("إعادة إعداد الاتصال الخارجي", color = AppTheme.colors.onAccent)
                             }
                         }
                     }
@@ -253,7 +253,7 @@ fun SettingsScreen(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(1.dp, Color(0xFFFF9800), RoundedCornerShape(12.dp)),
+                            .border(1.dp, AccentOrange, RoundedCornerShape(12.dp)),
                         colors = CardDefaults.cardColors(containerColor = CardBackground)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
@@ -262,7 +262,7 @@ fun SettingsScreen(
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
-                                color = Color(0xFFFF9800)
+                                color = AccentOrange
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
@@ -521,14 +521,14 @@ fun SettingsScreen(
                                                             Box(
                                                                 modifier = Modifier
                                                                     .background(
-                                                                        Color(0xFFFFD700).copy(alpha = 0.15f),
+                                                                        AccentOrange.copy(alpha = 0.15f),
                                                                         RoundedCornerShape(4.dp)
                                                                     )
                                                                     .padding(horizontal = 4.dp, vertical = 2.dp)
                                                             ) {
                                                                 Text(
                                                                     text = "احترافي",
-                                                                    color = Color(0xFFFFD700),
+                                                                    color = AccentOrange,
                                                                     fontSize = 9.sp,
                                                                     fontWeight = FontWeight.Bold
                                                                 )
@@ -862,7 +862,7 @@ fun SettingsScreen(
                                     colors = ButtonDefaults.buttonColors(containerColor = AccentGreenButton),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
-                                    Text("تنزيل Gemma 4 (AI Core)", color = DarkBackground)
+                                    Text("تنزيل Gemma 4 (AI Core)", color = AppTheme.colors.onAccent)
                                 }
                             }
                             
@@ -907,7 +907,7 @@ fun SettingsScreen(
                                     colors = ButtonDefaults.buttonColors(containerColor = AccentCyan),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
-                                    Text("تنزيل Gemma 3n (AI Core)", color = DarkBackground)
+                                    Text("تنزيل Gemma 3n (AI Core)", color = AppTheme.colors.onAccent)
                                 }
                             }
                             
@@ -921,7 +921,7 @@ fun SettingsScreen(
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
-                                color = Color(0xFFFF9800)
+                                color = AccentOrange
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
@@ -959,7 +959,7 @@ fun SettingsScreen(
                                             }
                                         },
                                         colors = OutlinedTextFieldDefaults.colors(
-                                            focusedBorderColor = Color(0xFFFF9800),
+                                            focusedBorderColor = AccentOrange,
                                             unfocusedBorderColor = BorderColor,
                                             focusedTextColor = TextPrimary,
                                             unfocusedTextColor = TextPrimary
@@ -988,14 +988,14 @@ fun SettingsScreen(
                                                 },
                                                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                             ) {
-                                                Text("📋 لصق", fontSize = 11.sp, color = Color(0xFFFF9800))
+                                                Text("📋 لصق", fontSize = 11.sp, color = AccentOrange)
                                             }
 
                                             TextButton(
                                                 onClick = { viewModel.updateHuggingFaceToken("") },
                                                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                             ) {
-                                                Text("❌ مسح", fontSize = 11.sp, color = Color.Red)
+                                                Text("❌ مسح", fontSize = 11.sp, color = AccentRed)
                                             }
                                         }
                                     }
@@ -1013,9 +1013,9 @@ fun SettingsScreen(
 
                                     val statusColor = when (validationStatus) {
                                         "Valid" -> AccentCyan
-                                        "Invalid" -> Color.Red
+                                        "Invalid" -> AccentRed
                                         "Verifying..." -> AccentCyan
-                                        "Unable to verify" -> Color.Yellow
+                                        "Unable to verify" -> AccentOrange
                                         else -> TextSecondary
                                     }
 
@@ -1033,21 +1033,21 @@ fun SettingsScreen(
                                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                             Button(
                                                 onClick = { viewModel.validateHuggingFaceToken() },
-                                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800)),
+                                                colors = ButtonDefaults.buttonColors(containerColor = AccentOrange),
                                                 contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
                                                 modifier = Modifier.height(28.dp)
                                             ) {
-                                                Text("التحقق من الرمز", fontSize = 10.sp, color = DarkBackground, fontWeight = FontWeight.Bold)
+                                                Text("التحقق من الرمز", fontSize = 10.sp, color = AppTheme.colors.onAccent, fontWeight = FontWeight.Bold)
                                             }
 
                                             if (hfToken.isNotBlank()) {
                                                 Button(
                                                     onClick = { viewModel.removeHuggingFaceToken() },
-                                                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red.copy(alpha = 0.2f)),
+                                                    colors = ButtonDefaults.buttonColors(containerColor = AccentRed.copy(alpha = 0.2f)),
                                                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
                                                     modifier = Modifier.height(28.dp)
                                                 ) {
-                                                    Text("حذف الرمز", fontSize = 10.sp, color = Color.Red, fontWeight = FontWeight.Bold)
+                                                    Text("حذف الرمز", fontSize = 10.sp, color = AccentRed, fontWeight = FontWeight.Bold)
                                                 }
                                             }
                                         }
@@ -1065,7 +1065,7 @@ fun SettingsScreen(
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
-                                color = Color(0xFFFF9800)
+                                color = AccentOrange
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
@@ -1122,12 +1122,12 @@ fun SettingsScreen(
                                                         Spacer(modifier = Modifier.width(6.dp))
                                                         Box(
                                                             modifier = Modifier
-                                                                .background(Color(0xFFFF9800).copy(alpha = 0.15f), RoundedCornerShape(4.dp))
+                                                                .background(AccentOrange.copy(alpha = 0.15f), RoundedCornerShape(4.dp))
                                                                 .padding(horizontal = 4.dp, vertical = 2.dp)
                                                         ) {
                                                             Text(
                                                                 text = "موصى به",
-                                                                color = Color(0xFFFF9800),
+                                                                color = AccentOrange,
                                                                 fontSize = 8.sp,
                                                                 fontWeight = FontWeight.Bold
                                                             )
@@ -1137,7 +1137,7 @@ fun SettingsScreen(
                                                     Box(
                                                         modifier = Modifier
                                                             .background(
-                                                                if (spec.authRequired) Color(0xFFFF9800).copy(alpha = 0.12f)
+                                                                if (spec.authRequired) AccentOrange.copy(alpha = 0.12f)
                                                                 else AccentCyan.copy(alpha = 0.12f),
                                                                 RoundedCornerShape(4.dp)
                                                             )
@@ -1145,7 +1145,7 @@ fun SettingsScreen(
                                                     ) {
                                                         Text(
                                                             text = if (spec.authRequired) "يتطلب رمز Hugging Face" else "عام · لا يحتاج رمزاً",
-                                                            color = if (spec.authRequired) Color(0xFFFF9800) else AccentCyan,
+                                                            color = if (spec.authRequired) AccentOrange else AccentCyan,
                                                             fontSize = 8.sp,
                                                             fontWeight = FontWeight.Bold
                                                         )
@@ -1168,10 +1168,10 @@ fun SettingsScreen(
                                             
                                             val badgeColor = when (status) {
                                                 ModelStatus.READY -> AccentCyan
-                                                ModelStatus.DOWNLOADING -> Color(0xFFFF9800)
-                                                ModelStatus.PAUSED -> Color.Yellow
+                                                ModelStatus.DOWNLOADING -> AccentOrange
+                                                ModelStatus.PAUSED -> AccentOrange
                                                 ModelStatus.LOADING -> AccentCyan
-                                                ModelStatus.FAILED -> Color.Red
+                                                ModelStatus.FAILED -> AccentRed
                                                 else -> TextSecondary
                                             }
                                             
@@ -1203,7 +1203,7 @@ fun SettingsScreen(
                                                     .fillMaxWidth()
                                                     .height(4.dp)
                                                     .clip(RoundedCornerShape(2.dp)),
-                                                color = Color(0xFFFF9800),
+                                                color = AccentOrange,
                                                 trackColor = BorderColor
                                             )
                                             Spacer(modifier = Modifier.height(4.dp))
@@ -1252,19 +1252,19 @@ fun SettingsScreen(
                                                                 viewModel.resumeDownload(spec.id)
                                                             }
                                                         },
-                                                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800)),
+                                                        colors = ButtonDefaults.buttonColors(containerColor = AccentOrange),
                                                         modifier = Modifier.height(28.dp).padding(horizontal = 4.dp),
                                                         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                                                     ) {
                                                         Icon(Icons.Default.PlayArrow, contentDescription = "استئناف", modifier = Modifier.size(12.dp), tint = DarkBackground)
                                                         Spacer(modifier = Modifier.width(4.dp))
-                                                        Text("استئناف", fontSize = 10.sp, color = DarkBackground)
+                                                        Text("استئناف", fontSize = 10.sp, color = AppTheme.colors.onAccent)
                                                     }
                                                 }
                                                 Spacer(modifier = Modifier.width(6.dp))
                                                 Button(
                                                     onClick = { viewModel.cancelDownload(spec.id) },
-                                                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red.copy(alpha = 0.6f)),
+                                                    colors = ButtonDefaults.buttonColors(containerColor = AccentRed.copy(alpha = 0.6f)),
                                                     modifier = Modifier.height(28.dp).padding(horizontal = 4.dp),
                                                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
                                                 ) {
@@ -1279,7 +1279,7 @@ fun SettingsScreen(
                                             Text(
                                                 text = errorText,
                                                 fontSize = 10.sp,
-                                                color = Color.Red,
+                                                color = AccentRed,
                                                 fontWeight = FontWeight.SemiBold
                                             )
                                             if (spec.licenseUrl.isNotEmpty() && (errorText.contains("الصلاحيات", ignoreCase = true) || errorText.contains("الترخيص", ignoreCase = true))) {
@@ -1287,11 +1287,11 @@ fun SettingsScreen(
                                                 val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
                                                 Button(
                                                     onClick = { uriHandler.openUri(spec.licenseUrl) },
-                                                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800).copy(alpha = 0.2f)),
+                                                    colors = ButtonDefaults.buttonColors(containerColor = AccentOrange.copy(alpha = 0.2f)),
                                                     modifier = Modifier.fillMaxWidth().height(28.dp),
                                                     contentPadding = PaddingValues(vertical = 2.dp)
                                                 ) {
-                                                    Text("فتح صفحة النموذج", color = Color(0xFFFF9800), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                                                    Text("فتح صفحة النموذج", color = AccentOrange, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                                                 }
                                             }
                                         }
@@ -1320,11 +1320,11 @@ fun SettingsScreen(
                                                                         viewModel.downloadModel(spec.id)
                                                                     }
                                                                 },
-                                                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800)),
+                                                                colors = ButtonDefaults.buttonColors(containerColor = AccentOrange),
                                                                 modifier = Modifier.weight(1f).height(32.dp),
                                                                 contentPadding = PaddingValues(horizontal = 4.dp)
                                                             ) {
-                                                                Text("تنزيل", fontSize = 11.sp, color = DarkBackground)
+                                                                Text("تنزيل", fontSize = 11.sp, color = AppTheme.colors.onAccent)
                                                             }
                                                         }
 
@@ -1358,16 +1358,16 @@ fun SettingsScreen(
                                                                  tint = DarkBackground
                                                              )
                                                              Spacer(modifier = Modifier.width(4.dp))
-                                                             Text(if (config.activeModel == spec.id) "نشط" else "تحميل النموذج", fontSize = 11.sp, color = DarkBackground)
+                                                             Text(if (config.activeModel == spec.id) "نشط" else "تحميل النموذج", fontSize = 11.sp, color = AppTheme.colors.onAccent)
                                                          }
                                                          
                                                          Button(
                                                              onClick = { viewModel.deleteModel(spec.id) },
-                                                             colors = ButtonDefaults.buttonColors(containerColor = Color.Red.copy(alpha = 0.2f)),
+                                                             colors = ButtonDefaults.buttonColors(containerColor = AccentRed.copy(alpha = 0.2f)),
                                                              modifier = Modifier.height(32.dp),
                                                              contentPadding = PaddingValues(horizontal = 8.dp)
                                                          ) {
-                                                             Icon(Icons.Default.Delete, contentDescription = "حذف", modifier = Modifier.size(14.dp), tint = Color.Red)
+                                                             Icon(Icons.Default.Delete, contentDescription = "حذف", modifier = Modifier.size(14.dp), tint = AccentRed)
                                                          }
                                                     }
                                                     
@@ -1397,7 +1397,7 @@ fun SettingsScreen(
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
-                                color = Color(0xFFFF9800)
+                                color = AccentOrange
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
@@ -1415,7 +1415,7 @@ fun SettingsScreen(
                                 colors = ButtonDefaults.buttonColors(containerColor = AccentCyan),
                                 modifier = Modifier.fillMaxWidth().height(36.dp)
                             ) {
-                                Text("استيراد نموذج LiteRT مخصص", fontSize = 12.sp, color = DarkBackground)
+                                Text("استيراد نموذج LiteRT مخصص", fontSize = 12.sp, color = AppTheme.colors.onAccent)
                             }
 
                             val customModels = dbModels.filter {
@@ -1492,13 +1492,13 @@ fun SettingsScreen(
                                                         Text(
                                                             if (config.activeModel == entity.id) "نشط" else "تحميل النموذج",
                                                             fontSize = 11.sp,
-                                                            color = DarkBackground
+                                                            color = AppTheme.colors.onAccent
                                                         )
                                                     }
                                                     Button(
                                                         onClick = { viewModel.deleteModel(entity.id) },
                                                         colors = ButtonDefaults.buttonColors(
-                                                            containerColor = Color.Red.copy(alpha = 0.2f)
+                                                            containerColor = AccentRed.copy(alpha = 0.2f)
                                                         ),
                                                         modifier = Modifier.height(32.dp),
                                                         contentPadding = PaddingValues(horizontal = 8.dp)
@@ -1507,7 +1507,7 @@ fun SettingsScreen(
                                                             Icons.Default.Delete,
                                                             contentDescription = "حذف",
                                                             modifier = Modifier.size(14.dp),
-                                                            tint = Color.Red
+                                                            tint = AccentRed
                                                         )
                                                     }
                                                 }
@@ -1527,7 +1527,7 @@ fun SettingsScreen(
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
-                                color = Color(0xFFFF9800)
+                                color = AccentOrange
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             
@@ -1558,7 +1558,7 @@ fun SettingsScreen(
                                      .fillMaxWidth()
                                      .height(6.dp)
                                      .clip(RoundedCornerShape(3.dp)),
-                                 color = Color(0xFFFF9800),
+                                 color = AccentOrange,
                                  trackColor = BorderColor
                              )
                              Spacer(modifier = Modifier.height(6.dp))
@@ -1570,7 +1570,7 @@ fun SettingsScreen(
                              Spacer(modifier = Modifier.height(8.dp))
                              Button(
                                  onClick = { viewModel.deleteUnusedModels() },
-                                 colors = ButtonDefaults.buttonColors(containerColor = Color.Red.copy(alpha = 0.8f)),
+                                 colors = ButtonDefaults.buttonColors(containerColor = AccentRed.copy(alpha = 0.8f)),
                                  modifier = Modifier.fillMaxWidth(),
                                  shape = RoundedCornerShape(8.dp)
                              ) {
@@ -2547,9 +2547,9 @@ fun SettingsScreen(
             confirmButton = {
                 Button(
                     onClick = { showAuthRequiredDialog = null },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
+                    colors = ButtonDefaults.buttonColors(containerColor = AccentOrange)
                 ) {
-                    Text("حسناً", color = DarkBackground)
+                    Text("حسناً", color = AppTheme.colors.onAccent)
                 }
             },
             dismissButton = {
@@ -2580,9 +2580,9 @@ fun SettingsScreen(
                         showCellularWarningDialog = null
                         viewModel.downloadModel(modelIdToDownload)
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
+                    colors = ButtonDefaults.buttonColors(containerColor = AccentOrange)
                 ) {
-                    Text("تنزيل", color = DarkBackground)
+                    Text("تنزيل", color = AppTheme.colors.onAccent)
                 }
             },
             dismissButton = {
@@ -2613,9 +2613,9 @@ fun SettingsScreen(
                         pendingCellularResumeModelId = null
                         viewModel.resumeDownload(modelIdToResume)
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
+                    colors = ButtonDefaults.buttonColors(containerColor = AccentOrange)
                 ) {
-                    Text("استئناف", color = DarkBackground)
+                    Text("استئناف", color = AppTheme.colors.onAccent)
                 }
             },
             dismissButton = {
@@ -2652,7 +2652,7 @@ fun SettingsScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                     when {
                         isImporting -> {
-                            CircularProgressIndicator(color = Color(0xFFFF9800))
+                            CircularProgressIndicator(color = AccentOrange)
                             Spacer(modifier = Modifier.height(12.dp))
                             Text("جاري نسخ ملف النموذج والتحقق منه. قد يستغرق ذلك دقيقة...", color = TextSecondary)
                         }
@@ -2663,7 +2663,7 @@ fun SettingsScreen(
                             Text(
                                 text = localImportStatus
                                     ?: "فشل استيراد النموذج. تأكد أن الملف بصيغة LiteRT صحيحة وغير تالف.",
-                                color = Color.Red
+                                color = AccentRed
                             )
                         }
                     }
@@ -2673,9 +2673,9 @@ fun SettingsScreen(
                 if (!isImporting) {
                     Button(
                         onClick = { viewModel.clearImportStatus() },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
+                        colors = ButtonDefaults.buttonColors(containerColor = AccentOrange)
                     ) {
-                        Text("حسناً", color = DarkBackground)
+                        Text("حسناً", color = AppTheme.colors.onAccent)
                     }
                 }
             },

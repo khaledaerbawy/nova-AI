@@ -191,8 +191,8 @@ fun MacrosScreen(
                             macroSteps.forEachIndexed { idx, st ->
                                 Text(
                                     text = buildString {
-                                        append("الخطوة ${idx + 1}: ${st.description} [${st.action}]")
-                                        if (st.fallback.isNotBlank()) append(" → الإجراء البديل: ${st.fallback}")
+                                        append("الخطوة ${idx + 1}: ${st.description} [${actionDisplayLabel(st.action)}]")
+                                        if (st.fallback.isNotBlank()) append(" → الإجراء البديل: ${actionDisplayLabel(st.fallback)}")
                                     },
                                     fontSize = 11.sp,
                                     color = TextPrimary,
@@ -221,7 +221,8 @@ fun MacrosScreen(
                             OutlinedTextField(
                                 value = stepAction,
                                 onValueChange = { stepAction = it },
-                                label = { Text("نوع الإجراء (مثال: system/brightness)", fontSize = 11.sp) },
+                                label = { Text("نوع الإجراء التقني", fontSize = 11.sp) },
+                                supportingText = { Text("مثال: system/brightness — يُحفظ المعرّف الأصلي كما أدخلته لضمان عمل الأمر.", fontSize = 11.sp) },
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
                                     unfocusedBorderColor = BorderColor,
@@ -264,7 +265,7 @@ fun MacrosScreen(
                                 onValueChange = { stepFallback = it },
                                 label = { Text("إجراء بديل (اختياري)", fontSize = 11.sp) },
                                 supportingText = {
-                                    Text("يُنفّذ مرة واحدة إذا فشل الإجراء الأساسي.", fontSize = 10.sp)
+                                    Text("يُنفّذ مرة واحدة إذا فشل الإجراء الأساسي.", fontSize = 11.sp)
                                 },
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
@@ -456,7 +457,7 @@ fun MacroCard(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "${step.description} [${step.action}]",
+                                text = "${step.description} [${actionDisplayLabel(step.action)}]",
                                 fontSize = 11.sp,
                                 color = TextPrimary,
                                 fontFamily = FontFamily.Monospace
@@ -480,4 +481,31 @@ fun MacroCard(
             }
         }
     }
+}
+
+
+/** Arabic labels are for display only; original action IDs remain unchanged. */
+private fun actionDisplayLabel(action: String): String = when (action.trim().lowercase()) {
+    "system/brightness", "system/screen_brightness" -> "النظام • سطوع الشاشة"
+    "system/volume", "system/volume_up", "system/volume_down" -> "النظام • مستوى الصوت"
+    "system/wifi", "system/wifi_enable", "system/wifi_disable" -> "النظام • شبكة Wi-Fi"
+    "system/bluetooth" -> "النظام • Bluetooth"
+    "system/airplane_mode" -> "النظام • وضع الطيران"
+    "system/do_not_disturb", "system/dnd" -> "النظام • عدم الإزعاج"
+    "app/open", "app/launch" -> "التطبيقات • فتح تطبيق"
+    "app/close" -> "التطبيقات • إغلاق تطبيق"
+    "device/screenshot" -> "الجهاز • التقاط الشاشة"
+    "device/lock" -> "الجهاز • قفل الشاشة"
+    "device/flashlight", "device/torch" -> "الجهاز • المصباح اليدوي"
+    "device/vibrate" -> "الجهاز • الاهتزاز"
+    "input/type" -> "الإدخال • كتابة نص"
+    "input/tap" -> "الإدخال • ضغط"
+    "input/swipe" -> "الإدخال • تمرير"
+    "input/long_press" -> "الإدخال • ضغط مطوّل"
+    "navigation/back" -> "التنقل • رجوع"
+    "navigation/home" -> "التنقل • الشاشة الرئيسية"
+    "navigation/recents" -> "التنقل • التطبيقات الأخيرة"
+    "notification/read" -> "الإشعارات • قراءة الإشعارات"
+    "notification/dismiss" -> "الإشعارات • إغلاق الإشعار"
+    else -> action.replace("/", " / ").replace("_", " ")
 }
