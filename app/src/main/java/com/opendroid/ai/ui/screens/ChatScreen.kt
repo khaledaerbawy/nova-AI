@@ -229,9 +229,9 @@ fun ChatScreen(
                     ) {
                         Text(
                             text = when (autoMode) {
-                                AutoMode.OFF -> "MANUAL"
-                                AutoMode.AUTO -> "AUTO"
-                                AutoMode.YOLO -> "YOLO"
+                                AutoMode.OFF -> "يدوي"
+                                AutoMode.AUTO -> "تلقائي"
+                                AutoMode.YOLO -> "كامل"
                             },
                             fontSize = 10.sp,
                             fontFamily = FontFamily.Monospace,
@@ -701,8 +701,8 @@ fun AgentStatusSubtitle(state: AgentState, runningElsewhere: Boolean = false) {
             is AgentState.Listening -> "نوفا بتسمعك..."
             is AgentState.Thinking -> "بفهم طلبك وبجهّز الخطوات..."
             is AgentState.PlanProposed -> "محتاج موافقتك على الخطة"
-            is AgentState.ExecutingPlan -> "Executing: ${state.currentStepDesc}"
-            is AgentState.Speaking -> "Speaking: ${state.text.take(30)}..."
+            is AgentState.ExecutingPlan -> "بننفّذ: ${state.currentStepDesc}"
+            is AgentState.Speaking -> "نوفا بترد عليك: ${state.text.take(30)}..."
             is AgentState.Error -> "حصل خطأ أثناء التنفيذ"
         }
     }
@@ -741,12 +741,12 @@ fun ChatBubble(
     val bubbleColor = if (isAgent) {
         CardBackground
     } else {
-        if (AppTheme.colors.isDark) Color(0xFF1E1E22) else Color(0xFFF1F3F5)
+        if (AppTheme.colors.isDark) AppTheme.colors.accentCyan.copy(alpha = 0.12f) else AppTheme.colors.accentCyan.copy(alpha = 0.10f)
     }
     val bubbleBorder = if (isAgent) {
         BorderColor
     } else {
-        if (AppTheme.colors.isDark) Color(0xFF2E2E34) else Color(0xFFE2E8F0)
+        AppTheme.colors.accentCyan.copy(alpha = 0.28f)
     }
     val textColor = TextPrimary
     val timeFormat = remember { SimpleDateFormat("h:mm a", Locale.getDefault()) }
@@ -815,9 +815,9 @@ fun ChatBubble(
             ) {
                 if (isAgent && message.modelBadge != null) {
                     val displayName = when (message.modelBadge) {
-                        "Gemma 4 (On-device)" -> "ON-DEVICE (AI CORE)"
-                        "On-Device AI" -> "ON-DEVICE AI"
-                        "LiteRT-LM (On-device)" -> "ON-DEVICE (LITERT)"
+                        "Gemma 4 (On-device)" -> "ذكاء على الجهاز"
+                        "On-Device AI" -> "ذكاء محلي"
+                        "LiteRT-LM (On-device)" -> "محرك محلي LiteRT"
                         else -> message.modelBadge.uppercase(Locale.getDefault())
                     }
                     Text(
