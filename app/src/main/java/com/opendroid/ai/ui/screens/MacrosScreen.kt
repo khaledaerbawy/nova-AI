@@ -59,7 +59,7 @@ fun MacrosScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "MACRO ENGINE",
+                        text = "الأوامر المخصصة",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -73,7 +73,7 @@ fun MacrosScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Add,
-                            contentDescription = "Create Macro",
+                            contentDescription = "إنشاء أمر",
                             tint = TextPrimary
                         )
                     }
@@ -111,7 +111,7 @@ fun MacrosScreen(
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "HABIT & ROUTINE DETECTION",
+                                text = "اكتشاف العادات والروتين",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -119,7 +119,7 @@ fun MacrosScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Detect repeated daily habits (Gmail, Calendar, Slack) & automate morning routines.",
+                                text = "اكتشف عاداتك اليومية المتكررة وأتمت روتينك.",
                                 fontSize = 11.sp,
                                 color = TextSecondary,
                                 lineHeight = 16.sp
@@ -127,7 +127,7 @@ fun MacrosScreen(
                         }
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                            contentDescription = "View Routines",
+                            contentDescription = "عرض الروتين",
                             tint = AccentCyan
                         )
                     }
@@ -145,7 +145,7 @@ fun MacrosScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "DEFINE CUSTOM WORKFLOW MACRO",
+                                text = "إنشاء سير عمل مخصص",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -156,7 +156,7 @@ fun MacrosScreen(
                             OutlinedTextField(
                                 value = newMacroName,
                                 onValueChange = { newMacroName = it },
-                                label = { Text("Macro Name", fontSize = 12.sp) },
+                                label = { Text("اسم الأمر", fontSize = 12.sp) },
                                 singleLine = true,
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
@@ -170,7 +170,7 @@ fun MacrosScreen(
                             OutlinedTextField(
                                 value = newMacroTrigger,
                                 onValueChange = { newMacroTrigger = it },
-                                label = { Text("Voice TriggerPhrase", fontSize = 12.sp) },
+                                label = { Text("عبارة التشغيل الصوتية", fontSize = 12.sp) },
                                 singleLine = true,
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
@@ -186,7 +186,7 @@ fun MacrosScreen(
                             Spacer(modifier = Modifier.height(12.dp))
 
                             // Steps in custom macro
-                            Text("Macro Steps Sequence (${macroSteps.size})", fontSize = 12.sp, color = TextPrimary, fontWeight = FontWeight.Bold)
+                            Text("خطوات الأمر (${macroSteps.size})", fontSize = 12.sp, color = TextPrimary, fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.height(8.dp))
                             macroSteps.forEachIndexed { idx, st ->
                                 Text(
@@ -202,13 +202,13 @@ fun MacrosScreen(
                             }
 
                             Spacer(modifier = Modifier.height(12.dp))
-                            Text("Add step details:", fontSize = 11.sp, color = TextSecondary)
+                            Text("أضف تفاصيل الخطوة:", fontSize = 11.sp, color = TextSecondary)
                             Spacer(modifier = Modifier.height(6.dp))
                             
                             OutlinedTextField(
                                 value = stepDesc,
                                 onValueChange = { stepDesc = it },
-                                label = { Text("Step Description", fontSize = 11.sp) },
+                                label = { Text("وصف الخطوة", fontSize = 11.sp) },
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
                                     unfocusedBorderColor = BorderColor,
@@ -221,7 +221,7 @@ fun MacrosScreen(
                             OutlinedTextField(
                                 value = stepAction,
                                 onValueChange = { stepAction = it },
-                                label = { Text("Action Type (e.g. system/brightness)", fontSize = 11.sp) },
+                                label = { Text("نوع الإجراء (مثال: system/brightness)", fontSize = 11.sp) },
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
                                     unfocusedBorderColor = BorderColor,
@@ -235,7 +235,7 @@ fun MacrosScreen(
                                 OutlinedTextField(
                                     value = stepParamKey,
                                     onValueChange = { stepParamKey = it },
-                                    label = { Text("Param Key", fontSize = 11.sp) },
+                                    label = { Text("اسم المعامل", fontSize = 11.sp) },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = AccentCyan,
                                         unfocusedBorderColor = BorderColor,
@@ -248,7 +248,7 @@ fun MacrosScreen(
                                 OutlinedTextField(
                                     value = stepParamVal,
                                     onValueChange = { stepParamVal = it },
-                                    label = { Text("Param Value", fontSize = 11.sp) },
+                                    label = { Text("قيمة المعامل", fontSize = 11.sp) },
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = AccentCyan,
                                         unfocusedBorderColor = BorderColor,
@@ -262,9 +262,9 @@ fun MacrosScreen(
                             OutlinedTextField(
                                 value = stepFallback,
                                 onValueChange = { stepFallback = it },
-                                label = { Text("Fallback Action (optional)", fontSize = 11.sp) },
+                                label = { Text("إجراء بديل (اختياري)", fontSize = 11.sp) },
                                 supportingText = {
-                                    Text("Runs once if the primary action fails.", fontSize = 10.sp)
+                                    Text("يُنفّذ مرة واحدة إذا فشل الإجراء الأساسي.", fontSize = 10.sp)
                                 },
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
@@ -301,7 +301,7 @@ fun MacrosScreen(
                                 shape = RoundedCornerShape(8.dp),
                                 modifier = Modifier.align(Alignment.End)
                             ) {
-                                Text("Add Step to List", fontSize = 11.sp)
+                                Text("إضافة الخطوة", fontSize = 11.sp)
                             }
 
                             Spacer(modifier = Modifier.height(16.dp))
@@ -315,7 +315,7 @@ fun MacrosScreen(
                                         macroSteps.clear()
                                     }
                                 ) {
-                                    Text("Discard", color = AccentRed)
+                                    Text("إلغاء", color = AccentRed)
                                 }
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Button(
@@ -338,7 +338,7 @@ fun MacrosScreen(
                                     colors = ButtonDefaults.buttonColors(containerColor = TextPrimary, contentColor = DarkBackground),
                                     shape = RoundedCornerShape(8.dp)
                                 ) {
-                                    Text("Save Macro", fontWeight = FontWeight.Bold)
+                                    Text("حفظ الأمر", fontWeight = FontWeight.Bold)
                                 }
                             }
                         }
@@ -364,7 +364,7 @@ fun MacrosScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "No custom macros declared.",
+                            text = "لم يتم إنشاء أوامر مخصصة بعد.",
                             color = TextSecondary,
                             fontFamily = FontFamily.Monospace,
                             fontSize = 13.sp
@@ -438,7 +438,7 @@ fun MacroCard(
                 )
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                    contentDescription = "Expand steps",
+                    contentDescription = "عرض الخطوات",
                     tint = TextSecondary,
                     modifier = Modifier.size(20.dp)
                 )
@@ -471,9 +471,9 @@ fun MacroCard(
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier.align(Alignment.End)
                         ) {
-                            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete", modifier = Modifier.size(16.dp))
+                            Icon(imageVector = Icons.Default.Delete, contentDescription = "حذف", modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Delete Macro", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Text("حذف الأمر", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
