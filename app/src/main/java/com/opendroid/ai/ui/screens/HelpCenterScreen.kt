@@ -110,7 +110,7 @@ fun HelpCenterScreen(
             item {
                 PolicySection(
                     title = "الأوامر الصوتية",
-                    content = "OpenDroid listens for the wake word \"Hey OpenDroid\" when the app is running.\n\n" +
+                    content = "تستمع NOVA لعبارة التنبيه «نوفا» أو «Hey Nova» \"Hey OpenDroid\" عندما تكون خدمة الاستماع مفعّلة.\n\n" +
                             "أمثلة لأوامر يمكنك قولها:\n\n" +
                             "• \"Send a WhatsApp message to Mom saying I'll be late\"\n" +
                             "• \"Set an alarm for 7 AM tomorrow\"\n" +
@@ -128,7 +128,7 @@ fun HelpCenterScreen(
                     content = "تحتاج NOVA إلى مفتاح API لمزود ذكاء اصطناعي حتى تتمكن من إنشاء الردود:\n\n" +
                             "1. افتح الإعدادات ← مفاتيح خدمات الذكاء الاصطناعي\n" +
                             "2. أدخل مفتاح API الخاص بالخدمة التي تريد استخدامها\n" +
-                            "3. Select that provider from the \"Active Brain Provider\" dropdown\n\n" +
+                            "3. اختر الخدمة من \"Active Brain Provider\" القائمة\n\n" +
                             "الخدمات المدعومة:\n" +
                             "• Google Gemini (مناسب للمبتدئين)\n" +
                             "• OpenAI\n" +
@@ -145,9 +145,9 @@ fun HelpCenterScreen(
                     content = "تسمح خدمة إمكانية الوصول لـ NOVA بالنقر على الأزرار والكتابة داخل التطبيقات الأخرى، مثل إرسال رسائل واتساب بناءً على طلبك.\n\n" +
                             "لتفعيلها:\n" +
                             "1. افتح إعدادات أندرويد ← إمكانية الوصول\n" +
-                            "2. Find \"OpenDroid\" in Installed Services\n" +
+                            "2. ابحث عن NOVA ضمن الخدمات المثبتة\n" +
                             "3. فعّل الخدمة\n\n" +
-                            "Note: This is optional. Without it, OpenDroid will still open apps but may need you to tap the final \"Send\" button."
+                            "ملحوظة: هذه الصلاحية اختيارية. بدونها تستطيع NOVA فتح التطبيقات، لكن قد تحتاج إلى الضغط بنفسك على زر \"Send\"."
                 )
             }
 
@@ -158,7 +158,7 @@ fun HelpCenterScreen(
                             "• افتح تبويب الأوامر المخصصة\n" +
                             "• أنشئ أمراً جديداً وحدد اسمه وخطواته\n" +
                             "• جدْول الأوامر باستخدام تعبيرات cron لتشغيلها في أوقات محددة\n\n" +
-                            "Example: Create a \"Good Morning\" macro that turns on lights, reads the weather, and plays your favorite playlist."
+                            "مثال: أنشئ أمراً باسم \"Good Morning\" لتشغيل الإضاءة وقراءة حالة الطقس وتشغيل قائمة الموسيقى المفضلة."
                 )
             }
 
