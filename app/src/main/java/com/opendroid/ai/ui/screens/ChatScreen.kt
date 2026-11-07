@@ -955,7 +955,7 @@ fun ProposedPlanPrompt(
             }
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "الهدف: \ "$goal\"",
+                text = "الهدف: \"$goal\"",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = TextPrimary
