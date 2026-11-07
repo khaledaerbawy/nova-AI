@@ -145,7 +145,7 @@ fun LogsScreen(
                                     onSaveAsMacro = saveableRuns[log.id]?.let { run ->
                                         {
                                             selectedRunForMacro = run
-                                            macroName = "${log.description.take(40).ifBlank { "Completed task" }} macro"
+                                            macroName = "${log.description.take(40).ifBlank { "Completed task" }} أمر"
                                             macroSaveError = null
                                         }
                                     }
@@ -370,7 +370,7 @@ fun UnknownActionCard(error: UnknownActionEntity) {
             Spacer(modifier = Modifier.height(8.dp))
             
             Text(
-                text = "Unrecognized: ${error.attemptedAction}",
+                text = "إجراء غير معروف: ${error.attemptedAction}",
                 fontFamily = FontFamily.Monospace,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
@@ -380,7 +380,7 @@ fun UnknownActionCard(error: UnknownActionEntity) {
             Spacer(modifier = Modifier.height(6.dp))
             
             Text(
-                text = "Goal: ${error.goal}",
+                text = "الهدف: ${error.goal}",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
                 color = TextPrimary
@@ -490,7 +490,7 @@ fun HistoryLogCard(
             Spacer(modifier = Modifier.height(4.dp))
             
             Text(
-                text = "Module: ${log.actionType}",
+                text = "الوحدة: ${log.actionType}",
                 fontSize = 11.sp,
                 color = AccentPurple,
                 fontFamily = FontFamily.Monospace
