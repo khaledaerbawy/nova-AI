@@ -328,7 +328,8 @@ object ActionSchema {
             description = "Makes a phone call to a contact or number",
             params = listOf(ParamDefinition("contact", ParamType.STRING, true, "Contact name or phone number")),
             examples = listOf("call dad", "call mom", "call 9876543210", "phone John"),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "SEND_WHATSAPP",
@@ -338,7 +339,8 @@ object ActionSchema {
                 ParamDefinition("message", ParamType.STRING, true, "Message to send")
             ),
             examples = listOf("send hi to dad on whatsapp", "whatsapp mom I'm coming home"),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "SEND_WHATSAPP_GROUP",
@@ -348,7 +350,8 @@ object ActionSchema {
                 ParamDefinition("message", ParamType.STRING, true, "Message to send")
             ),
             examples = listOf("send hi to family group on whatsapp"),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "SEND_TELEGRAM",
@@ -363,7 +366,8 @@ object ActionSchema {
                 "telegram mom I will be late",
                 "send message to +1234567890 on telegram"
             ),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "OPEN_TELEGRAM",
@@ -382,7 +386,8 @@ object ActionSchema {
                 ParamDefinition("message", ParamType.STRING, true, "SMS message text")
             ),
             examples = listOf("send sms to dad", "text mom"),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "SEND_EMAIL",
@@ -396,6 +401,7 @@ object ActionSchema {
             ),
             examples = listOf("send email to boss", "email John"),
             category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true,
             isSimple = false
         ),
         ActionDefinition(
@@ -406,7 +412,8 @@ object ActionSchema {
                 ParamDefinition("app", ParamType.ENUM, false, "Video call app", listOf("whatsapp", "meet", "zoom"), "whatsapp")
             ),
             examples = listOf("video call mom", "zoom call with team"),
-            category = ActionCategory.COMMUNICATION
+            category = ActionCategory.COMMUNICATION,
+            neverAutoApprove = true
         ),
         ActionDefinition(
             name = "READ_MESSAGES",
