@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.os.Build
+import java.util.Locale
 
 class SpeechRecognitionEngine(
     private val context: Context,
@@ -26,6 +28,8 @@ class SpeechRecognitionEngine(
     // a newer startListening() call - either case bumps [activeSessionId] so the old callback's
     // captured token no longer matches and the delivery is dropped.
     private var activeSessionId = 0
+    private var activeLanguageTag = languageTag
+    private val attemptedLanguageTags = mutableSetOf(languageTag)
 
     init {
         initializeRecognizer()
@@ -36,10 +40,9 @@ class SpeechRecognitionEngine(
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
             recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE, languageTag)
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, languageTag)
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE, activeLanguageTag)
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, activeLanguageTag)
                 putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5)
-                putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
                 putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                 // Prolong listening limits to avoid early cut-offs
                 putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 3000L)
@@ -74,6 +77,11 @@ class SpeechRecognitionEngine(
 
             override fun onError(error: Int) {
                 if (sessionId != activeSessionId) return
+                if (Build.VERSION.SDK_INT >= 31 &&
+                    (error == SpeechRecognizer.ERROR_LANGUAGE_NOT_SUPPORTED ||
+                        error == SpeechRecognizer.ERROR_LANGUAGE_UNAVAILABLE) &&
+                    retryWithSupportedLanguage(onResult, onPartialResult, onError)
+                ) return
                 val message = when (error) {
                     SpeechRecognizer.ERROR_AUDIO -> "Audio recording error"
                     SpeechRecognizer.ERROR_CLIENT -> "Client side error"
@@ -111,6 +119,26 @@ class SpeechRecognitionEngine(
         })
 
         speechRecognizer?.startListening(recognizerIntent)
+    }
+
+    @android.annotation.SuppressLint("InlinedApi")
+    private fun retryWithSupportedLanguage(
+        onResult: (String) -> Unit,
+        onPartialResult: (String) -> Unit,
+        onError: (String) -> Unit
+    ): Boolean {
+        val candidates = listOf("ar", Locale.getDefault().toLanguageTag())
+        val nextLanguage = candidates.firstOrNull {
+            it.isNotBlank() && it !in attemptedLanguageTags
+        } ?: return false
+        attemptedLanguageTags += nextLanguage
+        activeLanguageTag = nextLanguage
+        speechRecognizer?.destroy()
+        speechRecognizer = null
+        initializeRecognizer()
+        if (speechRecognizer == null) return false
+        startListening(onResult, onPartialResult, onError)
+        return true
     }
 
     fun stopListening() {
