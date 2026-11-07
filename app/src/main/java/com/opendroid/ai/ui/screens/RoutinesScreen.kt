@@ -498,7 +498,7 @@ fun ActiveRoutineCard(
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "⚡ ${routine.triggerLabel}",
+                        text = "⚡ ${routineTriggerArabic(routine.triggerLabel)}",
                         color = AppTheme.colors.accentCyan,
                         fontSize = 12.sp,
                         fontFamily = FontFamily.Monospace
