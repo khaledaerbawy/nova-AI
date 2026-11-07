@@ -37,7 +37,7 @@ fun BenchmarkScreen(
     var showConfirm by remember { mutableStateOf(false) }
 
     val providers = ConnectionTestPlanner.cloudProviders()
-        .filter { it != "متوافق مع OpenAI" }
+        .filter { it != "Custom OpenAI Compatible" }
 
     Scaffold(
         topBar = {
