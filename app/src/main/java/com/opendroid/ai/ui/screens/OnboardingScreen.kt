@@ -57,9 +57,9 @@ fun OnboardingScreen(
             TopAppBar(
                 title = {
                     val titleText = when (stage) {
-                        OnboardingStage.INTRODUCTION -> "About You"
-                        OnboardingStage.PERMISSION_PROMPT -> "Permissions"
-                        OnboardingStage.PERMISSIONS -> "Grant Permissions"
+                        OnboardingStage.INTRODUCTION -> "عنّك"
+                        OnboardingStage.PERMISSION_PROMPT -> "الصلاحيات"
+                        OnboardingStage.PERMISSIONS -> "تفعيل الصلاحيات"
                     }
                     Text(titleText, color = TextPrimary, fontWeight = FontWeight.Bold)
                 },
@@ -137,7 +137,7 @@ private fun IntroductionPanel(
         ) {
             Image(
                 painter = painterResource(id = com.opendroid.ai.R.drawable.bot),
-                contentDescription = "OpenDroid Bot Avatar",
+                contentDescription = "شخصية نوفا",
                 modifier = Modifier.size(120.dp)
             )
         }
@@ -145,7 +145,7 @@ private fun IntroductionPanel(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Hello! I am OpenDroid",
+            text = "أهلاً بيك، أنا نوفا",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = TextPrimary
@@ -154,7 +154,7 @@ private fun IntroductionPanel(
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "Your open autonomous device assistant. Please introduce yourself so I can serve you personally.",
+            text = "أنا مساعدك الذكي، وهساعدك تتحكم في موبايلك وتنجز مهامك بسهولة. خلّينا نتعرّف عليك.",
             fontSize = 14.sp,
             color = TextSecondary,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center
@@ -163,8 +163,7 @@ private fun IntroductionPanel(
         if (profileMustBeReentered) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Your saved details could not be unlocked on this device, so they were " +
-                        "not kept. Nothing was stored unencrypted - please enter them again.",
+                text = "مقدرناش نفتح بياناتك المحفوظة على الجهاز ده. بياناتك ما اتحفظتش بشكل غير آمن؛ من فضلك أدخلها تاني.",
                 color = AccentRed,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -177,8 +176,8 @@ private fun IntroductionPanel(
         OutlinedTextField(
             value = name,
             onValueChange = onNameChange,
-            label = { Text("What should I call you?", color = TextSecondary) },
-            placeholder = { Text("Enter your name", color = TextSecondary.copy(alpha = 0.6f)) },
+            label = { Text("تحب أناديك بإيه؟", color = TextSecondary) },
+            placeholder = { Text("اكتب اسمك هنا", color = TextSecondary.copy(alpha = 0.6f)) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = AccentCyan,
                 unfocusedBorderColor = BorderColor,
@@ -200,13 +199,13 @@ private fun IntroductionPanel(
         OutlinedTextField(
             value = dob,
             onValueChange = onDobChange,
-            label = { Text("When is your birthday?", color = TextSecondary) },
-            placeholder = { Text("e.g. MM/DD/YYYY", color = TextSecondary.copy(alpha = 0.6f)) },
+            label = { Text("تاريخ ميلادك إيه؟", color = TextSecondary) },
+            placeholder = { Text("مثال: MM/DD/YYYY", color = TextSecondary.copy(alpha = 0.6f)) },
             trailingIcon = {
                 IconButton(onClick = { showDatePicker = true }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
-                        contentDescription = "Pick your birthday",
+                        contentDescription = "اختار تاريخ ميلادك",
                         tint = TextPrimary
                     )
                 }
@@ -242,11 +241,11 @@ private fun IntroductionPanel(
                             showDatePicker = false
                         },
                         enabled = datePickerState.selectedDateMillis != null
-                    ) { Text("OK", color = TextPrimary, fontWeight = FontWeight.Bold) }
+                    ) { Text("تأكيد", color = TextPrimary, fontWeight = FontWeight.Bold) }
                 },
                 dismissButton = {
                     TextButton(onClick = { showDatePicker = false }) {
-                        Text("Cancel", color = TextSecondary)
+                        Text("إلغاء", color = TextSecondary)
                     }
                 }
             ) {
@@ -257,7 +256,7 @@ private fun IntroductionPanel(
         if (showError) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Please enter both your name and birth date.",
+                text = "من فضلك اكتب اسمك وتاريخ ميلادك.",
                 color = AccentRed,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold
@@ -267,7 +266,7 @@ private fun IntroductionPanel(
         if (storageError) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Your details could not be saved securely. Please try again.",
+                text = "حصلت مشكلة في حفظ بياناتك بشكل آمن. حاول مرة تانية.",
                 color = AccentRed,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold
@@ -282,7 +281,7 @@ private fun IntroductionPanel(
             colors = ButtonDefaults.buttonColors(containerColor = TextPrimary, contentColor = DarkBackground),
             shape = RoundedCornerShape(8.dp)
         ) {
-            Text("Let's Go", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Text("يلا نبدأ", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
     }
 }
@@ -327,7 +326,7 @@ fun PermissionPromptPanel(
         ) {
             Image(
                 painter = painterResource(id = com.opendroid.ai.R.drawable.bot),
-                contentDescription = "OpenDroid Bot Avatar",
+                contentDescription = "شخصية نوفا",
                 modifier = Modifier.size(120.dp)
             )
         }
@@ -335,7 +334,7 @@ fun PermissionPromptPanel(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Permissions Setup",
+            text = "تجهيز نوفا",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = TextPrimary
@@ -344,7 +343,7 @@ fun PermissionPromptPanel(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Let's give me permission so I can serve you well",
+            text = "محتاجين نفعّل شوية صلاحيات عشان أقدر أساعدك.",
             fontSize = 16.sp,
             fontWeight = FontWeight.SemiBold,
             color = AccentCyan,
@@ -354,7 +353,7 @@ fun PermissionPromptPanel(
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "To allow me to interact with your device, run commands, list files, and operate system features, some standard Android permissions are required.",
+            text = "بعض الصلاحيات مطلوبة عشان أقدر أتفاعل مع الموبايل، وأنفّذ الأوامر، وأستخدم المزايا اللي هتختار تفعّلها.",
             fontSize = 14.sp,
             color = TextSecondary,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center
@@ -368,7 +367,7 @@ fun PermissionPromptPanel(
             colors = ButtonDefaults.buttonColors(containerColor = TextPrimary, contentColor = DarkBackground),
             shape = RoundedCornerShape(8.dp)
         ) {
-            Text("Grant Permissions", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Text("تفعيل الصلاحيات", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
     }
 }
