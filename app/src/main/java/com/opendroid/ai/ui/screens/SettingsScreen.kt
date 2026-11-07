@@ -859,7 +859,7 @@ fun SettingsScreen(
                                             }
                                         }
                                     },
-                                    colors = ButtonDefaults.buttonColors(containerColor = TextPrimary),
+                                    colors = ButtonDefaults.buttonColors(containerColor = AccentGreenButton),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Text("تنزيل Gemma 4 (AI Core)", color = DarkBackground)
