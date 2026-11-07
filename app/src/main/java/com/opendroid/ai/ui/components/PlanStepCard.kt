@@ -32,10 +32,10 @@ fun getDisplayState(step: PlanStep): StepDisplayState {
     val resultText = step.result?.lowercase() ?: ""
     
     return when {
-        step.status == StepStatus.COMPLETED && (resultText.contains("auto-fixed") || resultText.contains("primary failed") || resultText.contains("repaired")) -> StepDisplayState.REPAIRED
-        step.status == StepStatus.COMPLETED && resultText.contains("skipped") -> StepDisplayState.SKIPPED
-        step.status == StepStatus.FAILED && errorText.contains("is not registered in ActionDispatcher") -> StepDisplayState.AUTO_FIXING
-        step.status == StepStatus.FAILED && errorText.contains("blocked") -> StepDisplayState.BLOCKED
+        step.status == StepStatus.COMPLETED && (resultText.contains("تم الإصلاح تلقائياً") || resultText.contains("فشل الإجراء الأساسي") || resultText.contains("تم الإصلاح")) -> StepDisplayState.REPAIRED
+        step.status == StepStatus.COMPLETED && resultText.contains("تم التخطي") -> StepDisplayState.SKIPPED
+        step.status == StepStatus.FAILED && errorText.contains("غير مسجل في موزع الإجراءات") -> StepDisplayState.AUTO_FIXING
+        step.status == StepStatus.FAILED && errorText.contains("محظور") -> StepDisplayState.BLOCKED
         step.status == StepStatus.COMPLETED -> StepDisplayState.COMPLETED
         step.status == StepStatus.RUNNING -> StepDisplayState.RUNNING
         step.status == StepStatus.FAILED -> StepDisplayState.FAILED
@@ -123,7 +123,7 @@ fun PlanStepCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Edit,
-                                contentDescription = "Edit step",
+                                contentDescription = "تعديل الخطوة",
                                 tint = AccentCyan,
                                 modifier = Modifier.size(16.dp)
                             )
@@ -134,7 +134,7 @@ fun PlanStepCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = "Delete step",
+                                contentDescription = "حذف الخطوة",
                                 tint = AccentRed,
                                 modifier = Modifier.size(16.dp)
                             )
@@ -164,13 +164,13 @@ fun PlanStepCard(
                 Column(modifier = Modifier.padding(top = 12.dp)) {
                     Divider(color = BorderColor, modifier = Modifier.padding(vertical = 4.dp))
 
-                    Text("Action Module: ${step.action}", fontSize = 11.sp, color = AccentPurple, fontFamily = FontFamily.Monospace)
+                    Text("وحدة الإجراء: ${step.action}", fontSize = 11.sp, color = AccentPurple, fontFamily = FontFamily.Monospace)
                     Spacer(modifier = Modifier.height(10.dp))
 
                     OutlinedTextField(
                         value = editDescription,
                         onValueChange = { editDescription = it },
-                        label = { Text("Step Description", fontSize = 11.sp) },
+                        label = { Text("وصف الخطوة", fontSize = 11.sp) },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = AccentCyan,
                             unfocusedBorderColor = BorderColor,
@@ -181,7 +181,7 @@ fun PlanStepCard(
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text("Parameters", fontSize = 11.sp, color = TextSecondary)
+                    Text("المعاملات", fontSize = 11.sp, color = TextSecondary)
 
                     editParams.forEachIndexed { index, (key, value) ->
                         Row(
@@ -195,7 +195,7 @@ fun PlanStepCard(
                                 onValueChange = { newKey ->
                                     editParams = editParams.toMutableList().also { it[index] = newKey to value }
                                 },
-                                label = { Text("Key", fontSize = 10.sp) },
+                                label = { Text("المفتاح", fontSize = 10.sp) },
                                 singleLine = true,
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
@@ -211,7 +211,7 @@ fun PlanStepCard(
                                 onValueChange = { newValue ->
                                     editParams = editParams.toMutableList().also { it[index] = key to newValue }
                                 },
-                                label = { Text("Value", fontSize = 10.sp) },
+                                label = { Text("القيمة", fontSize = 10.sp) },
                                 singleLine = true,
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
@@ -225,7 +225,7 @@ fun PlanStepCard(
                                 onClick = { editParams = editParams.toMutableList().also { it.removeAt(index) } },
                                 modifier = Modifier.size(28.dp)
                             ) {
-                                Icon(Icons.Default.Close, contentDescription = "Remove", tint = AccentRed, modifier = Modifier.size(16.dp))
+                                Icon(Icons.Default.Close, contentDescription = "إزالة", tint = AccentRed, modifier = Modifier.size(16.dp))
                             }
                         }
                     }
@@ -236,9 +236,9 @@ fun PlanStepCard(
                         onClick = { editParams = editParams + ("" to "") },
                         modifier = Modifier.align(Alignment.Start)
                     ) {
-                        Icon(Icons.Default.Add, contentDescription = "Add", tint = AccentCyan, modifier = Modifier.size(14.dp))
+                        Icon(Icons.Default.Add, contentDescription = "إضافة", tint = AccentCyan, modifier = Modifier.size(14.dp))
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text("Add Parameter", fontSize = 11.sp, color = AccentCyan)
+                        Text("إضافة معامل", fontSize = 11.sp, color = AccentCyan)
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -253,7 +253,7 @@ fun PlanStepCard(
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier.padding(end = 8.dp)
                         ) {
-                            Text("Cancel", fontSize = 12.sp, color = TextSecondary)
+                            Text("إلغاء", fontSize = 12.sp, color = TextSecondary)
                         }
                         Button(
                             onClick = {
@@ -268,7 +268,7 @@ fun PlanStepCard(
                             colors = ButtonDefaults.buttonColors(containerColor = TextPrimary, contentColor = DarkBackground),
                             shape = RoundedCornerShape(8.dp)
                         ) {
-                            Text("Save", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                            Text("حفظ", fontWeight = FontWeight.Bold, fontSize = 12.sp)
                         }
                     }
                 }
@@ -278,11 +278,11 @@ fun PlanStepCard(
                 Column(modifier = Modifier.padding(top = 12.dp)) {
                     Divider(color = BorderColor, modifier = Modifier.padding(vertical = 4.dp))
                     
-                    Text("Action Module: ${step.action}", fontSize = 11.sp, color = AccentPurple, fontFamily = FontFamily.Monospace)
+                    Text("وحدة الإجراء: ${step.action}", fontSize = 11.sp, color = AccentPurple, fontFamily = FontFamily.Monospace)
                     
                     if (step.params.isNotEmpty()) {
                         Spacer(modifier = Modifier.height(6.dp))
-                        Text("Parameters:", fontSize = 11.sp, color = TextSecondary)
+                        Text("المعاملات:", fontSize = 11.sp, color = TextSecondary)
                         step.params.forEach { (key, valStr) ->
                             Text("- $key: $valStr", fontSize = 11.sp, color = TextPrimary, fontFamily = FontFamily.Monospace)
                         }
@@ -290,17 +290,17 @@ fun PlanStepCard(
 
                     if (step.dependsOn.isNotEmpty()) {
                         Spacer(modifier = Modifier.height(6.dp))
-                        Text("Depends On Steps: ${step.dependsOn.joinToString()}", fontSize = 11.sp, color = TextSecondary, fontFamily = FontFamily.Monospace)
+                        Text("يعتمد على الخطوات: ${step.dependsOn.joinToString()}", fontSize = 11.sp, color = TextSecondary, fontFamily = FontFamily.Monospace)
                     }
 
                     if (step.canParallelize) {
                         Spacer(modifier = Modifier.height(4.dp))
-                        Text("Parallel execution supported", fontSize = 11.sp, color = AccentCyan)
+                        Text("يدعم التنفيذ المتوازي", fontSize = 11.sp, color = AccentCyan)
                     }
 
                     if (step.fallback.isNotBlank()) {
                         Spacer(modifier = Modifier.height(6.dp))
-                        Text("Fallback Routine:", fontSize = 11.sp, color = TextSecondary)
+                        Text("الإجراء البديل:", fontSize = 11.sp, color = TextSecondary)
                         Text(step.fallback, fontSize = 11.sp, color = TextPrimary, fontFamily = FontFamily.Monospace)
                     }
 
@@ -314,7 +314,7 @@ fun PlanStepCard(
                                 .padding(8.dp)
                         ) {
                             Column {
-                                Text("Execution Result:", fontSize = 10.sp, color = AccentCyan, fontWeight = FontWeight.Bold)
+                                Text("نتيجة التنفيذ:", fontSize = 10.sp, color = AccentCyan, fontWeight = FontWeight.Bold)
                                 Text(step.result!!, fontSize = 11.sp, color = TextPrimary)
                             }
                         }
@@ -339,7 +339,7 @@ fun PlanStepCard(
                         ) {
                             Column {
                                 Text(
-                                    text = if (isHallucinationError) "Repair Phase Active" else "Execution Error:",
+                                    text = if (isHallucinationError) "مرحلة الإصلاح نشطة" else "خطأ في التنفيذ:",
                                     fontSize = 10.sp,
                                     color = errorTitleColor,
                                     fontWeight = FontWeight.Bold
