@@ -76,7 +76,7 @@ fun SocialAccountsTab(
                             fontWeight = FontWeight.SemiBold
                         )
                         Text(
-                            "All API tokens are stored in Android KeyStore (AES-256-GCM). Tokens are never logged or stored in plaintext.",
+                            "تُخزّن رموز API في Android KeyStore بتشفير AES-256-GCM، ولا تُسجل أو تُحفظ كنص مكشوف.",
                             color = theme.textSecondary,
                             fontSize = 11.sp,
                             lineHeight = 15.sp
@@ -268,7 +268,7 @@ private fun AccountCard(
                 ) {
                     val lastSync = account.lastSyncAt
                     val syncText = if (lastSync != null && lastSync > 0) {
-                        "Synced " + SimpleDateFormat("MMM d, HH:mm", LocalConfiguration.current.locales[0]).format(Date(lastSync))
+                        "تمت المزامنة " + SimpleDateFormat("MMM d, HH:mm", LocalConfiguration.current.locales[0]).format(Date(lastSync))
                     } else {
                         "لم تتم المزامنة بعد"
                     }
