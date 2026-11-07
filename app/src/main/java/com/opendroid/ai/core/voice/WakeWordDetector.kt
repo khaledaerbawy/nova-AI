@@ -10,7 +10,7 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import java.util.Locale
 
-class WakeWordDetector(private val context: Context) {
+internal class LegacySpeechWakeWordDetector(private val context: Context) {
     private var speechRecognizer: SpeechRecognizer? = null
     private var intent: Intent? = null
     private var onWakeWordDetectedCallback: (() -> Unit)? = null
