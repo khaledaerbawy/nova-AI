@@ -102,7 +102,7 @@ class WakeWordModelInstaller(
             ),
             tokens = File(modelDirectory, TOKENS_FILE).absolutePath,
             numThreads = 1,
-            modelType = "zipformer2",
+            modelType = "",
             modelingUnit = "phone+ppinyin",
             bpeVocab = File(modelDirectory, LEXICON_FILE).absolutePath
         )
