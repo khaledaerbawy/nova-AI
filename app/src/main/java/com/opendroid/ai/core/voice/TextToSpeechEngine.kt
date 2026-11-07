@@ -97,9 +97,9 @@ class TextToSpeechEngine(
             staleClipCleanup.join()
             val config = settingsRepository.llmConfig.first()
             val apiKey = config.elevenLabsApiKey
-            val voiceId = config.elevenLabsVoiceId.ifEmpty { "21m00Tcm4TlvDq8ikWAM" } // default Rachel voice
+            val voiceId = config.elevenLabsVoiceId.trim()
 
-            if (apiKey.isNotEmpty()) {
+            if (apiKey.isNotEmpty() && voiceId.isNotEmpty()) {
                 try {
                     val success = playElevenLabsTts(text, apiKey, voiceId, utteranceId, speechGeneration)
                     if (success) return@launch
