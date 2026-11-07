@@ -321,6 +321,12 @@ fun PastPlanRow(
     onDelete: () -> Unit
 ) {
     val dateFormat = remember { SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()) }
+    val statusLabel = when (plan.status) {
+        PlanStatus.COMPLETED -> "مكتملة"
+        PlanStatus.FAILED -> "فشلت"
+        PlanStatus.CANCELLED -> "أُلغيت"
+        else -> "قيد التنفيذ"
+    }
     
     Row(
         modifier = Modifier
