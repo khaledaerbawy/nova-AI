@@ -79,10 +79,17 @@ class TextToSpeechEngine(
             ) {
                 isInitialized = true
             } else {
-                // Keep the assistant usable on devices without an installed ar-EG TTS voice.
-                val fallbackResult = tts?.setLanguage(Locale.getDefault()) ?: TextToSpeech.LANG_NOT_SUPPORTED
-                isInitialized = fallbackResult != TextToSpeech.LANG_MISSING_DATA &&
-                    fallbackResult != TextToSpeech.LANG_NOT_SUPPORTED
+                // Prefer a generic Arabic voice before falling back to the device language.
+                val arabicResult = tts?.setLanguage(Locale("ar")) ?: TextToSpeech.LANG_NOT_SUPPORTED
+                if (arabicResult != TextToSpeech.LANG_MISSING_DATA &&
+                    arabicResult != TextToSpeech.LANG_NOT_SUPPORTED
+                ) {
+                    isInitialized = true
+                } else {
+                    val fallbackResult = tts?.setLanguage(Locale.getDefault()) ?: TextToSpeech.LANG_NOT_SUPPORTED
+                    isInitialized = fallbackResult != TextToSpeech.LANG_MISSING_DATA &&
+                        fallbackResult != TextToSpeech.LANG_NOT_SUPPORTED
+                }
             }
         }
     }
