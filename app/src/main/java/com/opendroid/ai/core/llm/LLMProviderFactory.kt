@@ -5,6 +5,8 @@ import com.opendroid.ai.actions.ActionDispatcher
 import com.opendroid.ai.core.agent.ActionSchema
 import com.opendroid.ai.core.agent.DeviceStateProvider
 import com.opendroid.ai.core.agent.IntentClassifier
+import com.opendroid.ai.core.agent.QueryComplexity
+import com.opendroid.ai.core.agent.ActionRisk
 import com.opendroid.ai.core.llm.error.LLMErrorMapper
 import com.opendroid.ai.core.llm.error.SecretRegistry
 import com.opendroid.ai.core.llm.providers.*
@@ -92,6 +94,48 @@ class LLMProviderFactory @Inject constructor(
     suspend fun getActiveProvider(): LLMProvider {
         val config = settingsRepository.llmConfig.first()
         return getProviderByName(ProviderCatalog.canonicalName(config.activeProvider))
+    }
+
+    /**
+     * Selects a provider for NOVA's hybrid brain.
+     *
+     * Simple, read-only conversation is local-first. Complex work honours the
+     * user's active provider. Only read-only work may fall back automatically;
+     * calls, messages, payments, deletion and publishing never cross a provider
+     * boundary silently.
+     */
+    suspend fun getHybridProvider(query: String, complexity: QueryComplexity): LLMProvider {
+        val config = settingsRepository.llmConfig.first()
+        val activeName = ProviderCatalog.canonicalName(config.activeProvider)
+        val active = getProviderByName(activeName)
+        val local = getProviderByName("On-Device AI")
+        val preferLocal = HybridProviderRoutingPolicy.shouldPreferLocal(query, complexity)
+        val safeFallback = HybridProviderRoutingPolicy.allowsFallback(query)
+
+        if (preferLocal && runCatching { local.isAvailable() }.getOrDefault(false)) {
+            return local
+        }
+        if (runCatching { active.isAvailable() }.getOrDefault(false)) {
+            return active
+        }
+
+        if (safeFallback) {
+            val fallbackNames = ProviderSelectionPolicy.explicitFallbacks(
+                activeProvider = activeName,
+                configuredFallbacks = config.fallbackProviders,
+                risk = ActionRisk.READ_ONLY
+            )
+            for (providerName in fallbackNames) {
+                if (!isConfigured(config, providerName)) continue
+                val fallback = getProviderByName(providerName)
+                if (runCatching { fallback.isAvailable() }.getOrDefault(false)) return fallback
+            }
+            if (runCatching { local.isAvailable() }.getOrDefault(false)) return local
+        }
+
+        // Preserve the explicitly selected provider for sensitive work, even if
+        // it is currently unavailable, so the caller receives its real error.
+        return active
     }
 
     /**
