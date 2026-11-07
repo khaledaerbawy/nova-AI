@@ -282,7 +282,7 @@ private fun CreateCampaignDialog(
                     value = name,
                     onValueChange = { name = it },
                     label = { Text("اسم الحملة", fontSize = 12.sp) },
-                    placeholder = { Text("e.g. OpenDroid v2.0 Global Launch", fontSize = 11.sp) },
+                    placeholder = { Text("مثال: الإطلاق العالمي لـ NOVA 2.0", fontSize = 11.sp) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -297,7 +297,7 @@ private fun CreateCampaignDialog(
                     value = objective,
                     onValueChange = { objective = it },
                     label = { Text("هدف الحملة والنتائج المطلوبة", fontSize = 12.sp) },
-                    placeholder = { Text("e.g. Highlight on-device privacy, fast responsiveness, and attract open source developers.", fontSize = 11.sp) },
+                    placeholder = { Text("مثال: إبراز الخصوصية وسرعة الاستجابة وجذب مطوري المصدر المفتوح.", fontSize = 11.sp) },
                     modifier = Modifier.fillMaxWidth().height(90.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = theme.textPrimary,
