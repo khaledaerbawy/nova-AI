@@ -32,10 +32,10 @@ fun getDisplayState(step: PlanStep): StepDisplayState {
     val resultText = step.result?.lowercase() ?: ""
     
     return when {
-        step.status == StepStatus.COMPLETED && (resultText.contains("تم الإصلاح تلقائياً") || resultText.contains("فشل الإجراء الأساسي") || resultText.contains("تم الإصلاح")) -> StepDisplayState.REPAIRED
-        step.status == StepStatus.COMPLETED && resultText.contains("تم التخطي") -> StepDisplayState.SKIPPED
-        step.status == StepStatus.FAILED && errorText.contains("غير مسجل في موزع الإجراءات") -> StepDisplayState.AUTO_FIXING
-        step.status == StepStatus.FAILED && errorText.contains("محظور") -> StepDisplayState.BLOCKED
+        step.status == StepStatus.COMPLETED && (resultText.contains("auto-fixed") || resultText.contains("primary failed") || resultText.contains("repaired")) -> StepDisplayState.REPAIRED
+        step.status == StepStatus.COMPLETED && resultText.contains("skipped") -> StepDisplayState.SKIPPED
+        step.status == StepStatus.FAILED && errorText.contains("is not registered in ActionDispatcher") -> StepDisplayState.AUTO_FIXING
+        step.status == StepStatus.FAILED && errorText.contains("blocked") -> StepDisplayState.BLOCKED
         step.status == StepStatus.COMPLETED -> StepDisplayState.COMPLETED
         step.status == StepStatus.RUNNING -> StepDisplayState.RUNNING
         step.status == StepStatus.FAILED -> StepDisplayState.FAILED
@@ -265,7 +265,7 @@ fun PlanStepCard(
                                 onSaveEdit(cleanedDescription, cleanedParams)
                                 isEditing = false
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = TextPrimary, contentColor = DarkBackground),
+                            colors = ButtonDefaults.buttonColors(containerColor = AccentGreenButton, contentColor = DarkBackground),
                             shape = RoundedCornerShape(8.dp)
                         ) {
                             Text("حفظ", fontWeight = FontWeight.Bold, fontSize = 12.sp)
@@ -327,7 +327,7 @@ fun PlanStepCard(
                         val errorBgColor = if (isHallucinationError) Color(0xFFFFB300).copy(alpha = 0.1f) else AccentRed.copy(alpha = 0.1f)
                         val errorBorderColor = if (isHallucinationError) Color(0xFFFFB300).copy(alpha = 0.3f) else AccentRed.copy(alpha = 0.3f)
                         val errorTitleColor = if (isHallucinationError) Color(0xFFFFB300) else AccentRed
-                        val errorTextDisplay = if (isHallucinationError) "Auto-fixing: The requested system action is currently being recovered and updated by the OpenDroid Repair Engine." else step.error!!
+                        val errorTextDisplay = if (isHallucinationError) "جاري إصلاح الإجراء: يتم حالياً استعادة الإجراء المطلوب وتحديثه بواسطة محرك إصلاح NOVA." else step.error!!
 
                         Box(
                             modifier = Modifier
