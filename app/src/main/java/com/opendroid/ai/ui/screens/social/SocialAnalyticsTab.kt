@@ -52,7 +52,7 @@ fun SocialAnalyticsTab(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Performance Analytics", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("تحليلات الأداء", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
 
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     listOf(7 to "7D", 30 to "30D", 90 to "90D").forEach { (days, label) ->
@@ -77,13 +77,13 @@ fun SocialAnalyticsTab(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 AnalyticsMetricBox(
-                    title = "Followers",
+                    title = "المتابعون",
                     value = summary?.totalFollowers?.toString() ?: "0",
                     delta = summary?.followersGrowthDelta?.let { if (it >= 0) "+$it" else "$it" } ?: "+0",
                     modifier = Modifier.weight(1f)
                 )
                 AnalyticsMetricBox(
-                    title = "Total Reach",
+                    title = "إجمالي الوصول",
                     value = summary?.totalReach?.let { formatCount(it.toLong()) } ?: "0",
                     delta = summary?.reachGrowthDelta?.let { if (it >= 0) "+$it" else "$it" } ?: "+0",
                     modifier = Modifier.weight(1f)
@@ -97,15 +97,15 @@ fun SocialAnalyticsTab(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 AnalyticsMetricBox(
-                    title = "Engagement",
+                    title = "التفاعل",
                     value = summary?.averageEngagementRate?.let { "${String.format(locale, "%.1f", it)}%" } ?: "0.0%",
-                    delta = "Active",
+                    delta = "نشط",
                     modifier = Modifier.weight(1f)
                 )
                 AnalyticsMetricBox(
-                    title = "Total Posts",
+                    title = "إجمالي المنشورات",
                     value = summary?.totalPosts?.toString() ?: "0",
-                    delta = "Published",
+                    delta = "منشور",
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -120,13 +120,13 @@ fun SocialAnalyticsTab(
                 colors = CardDefaults.cardColors(containerColor = theme.cardBackground)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Audience Growth Trend", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text("اتجاه نمو الجمهور", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text("Daily follower trajectory over the period", color = theme.textSecondary, fontSize = 11.sp)
+                    Text("تغير عدد المتابعين يومياً خلال الفترة", color = theme.textSecondary, fontSize = 11.sp)
                     Spacer(modifier = Modifier.height(16.dp))
 
                     val trendPoints = listOf(120f, 135f, 150f, 175f, 210f, 240f, 290f)
-                    val trendLabels = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+                    val trendLabels = listOf("الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد")
 
                     SimpleLineChart(
                         dataPoints = trendPoints,
@@ -147,9 +147,9 @@ fun SocialAnalyticsTab(
                 colors = CardDefaults.cardColors(containerColor = theme.cardBackground)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Daily Impressions & Reach", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text("مرات الظهور والوصول اليومي", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text("Organic post visibility across all channels", color = theme.textSecondary, fontSize = 11.sp)
+                    Text("ظهور المنشورات الطبيعي عبر كل القنوات", color = theme.textSecondary, fontSize = 11.sp)
                     Spacer(modifier = Modifier.height(16.dp))
 
                     val barValues = listOf(450f, 620f, 890f, 1200f, 950f, 1400f, 1800f)
@@ -174,7 +174,7 @@ fun SocialAnalyticsTab(
                 colors = CardDefaults.cardColors(containerColor = theme.cardBackground)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Audience Share by Platform", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text("توزيع الجمهور حسب المنصة", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                     Spacer(modifier = Modifier.height(14.dp))
 
                     Row(
@@ -196,10 +196,10 @@ fun SocialAnalyticsTab(
                         )
 
                         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            LegendItem("X (Twitter)", "45%", theme.accentCyan)
-                            LegendItem("Telegram", "25%", theme.accentPurple)
-                            LegendItem("LinkedIn", "20%", theme.accentOrange)
-                            LegendItem("Discord / Others", "10%", theme.textSecondary)
+                            LegendItem("إكس (تويتر)", "45%", theme.accentCyan)
+                            LegendItem("تيليجرام", "25%", theme.accentPurple)
+                            LegendItem("لينكدإن", "20%", theme.accentOrange)
+                            LegendItem("ديسكورد / أخرى", "10%", theme.textSecondary)
                         }
                     }
                 }
@@ -208,12 +208,12 @@ fun SocialAnalyticsTab(
 
         // ── 6. PLATFORM BREAKDOWN CARDS ──────────────────────────────
         item {
-            Text("Channel Breakdown", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+            Text("تفاصيل القنوات", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 15.sp)
         }
 
         if (accounts.isEmpty()) {
             item {
-                Text("No accounts connected yet.", color = theme.textSecondary, fontSize = 12.sp)
+                Text("لم يتم ربط أي حسابات بعد.", color = theme.textSecondary, fontSize = 12.sp)
             }
         } else {
             items(accounts) { account ->
@@ -249,7 +249,7 @@ fun SocialAnalyticsTab(
 
                         Column(horizontalAlignment = Alignment.End) {
                             Text("${accountPosts.size} posts", color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
-                            Text("Active sync", color = theme.accentCyan, fontSize = 10.sp)
+                            Text("مزامنة نشطة", color = theme.accentCyan, fontSize = 10.sp)
                         }
                     }
                 }
