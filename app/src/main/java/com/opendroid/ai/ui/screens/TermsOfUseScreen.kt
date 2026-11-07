@@ -87,7 +87,7 @@ fun TermsOfUseScreen(
                                 color = TextPrimary
                             )
                             Text(
-                                text = "Effective: May 2026",
+                                text = "تاريخ السريان: مايو 2026",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -98,7 +98,7 @@ fun TermsOfUseScreen(
 
             item {
                 PolicySection(
-                    title = "1. ACCEPTANCE OF TERMS",
+                    title = "1. الموافقة على الشروط",
                     content = "باستخدامك لتطبيق NOVA أو تثبيته، فإنك توافق على شروط الاستخدام التالية. " +
                             "إذا لم توافق على هذه الشروط، يُرجى عدم استخدام التطبيق.\n\n" +
                             "NOVA مساعد ذكي مستقل ومفتوح المصدر لنظام أندرويد. تنظم هذه الشروط استخدامك للتطبيق والخدمات المرتبطة به."
@@ -107,7 +107,7 @@ fun TermsOfUseScreen(
 
             item {
                 PolicySection(
-                    title = "2. PERMITTED USE",
+                    title = "2. الاستخدام المسموح",
                     content = "يمكنك استخدام NOVA للأغراض الشخصية وغير التجارية، ومنها:\n\n" +
                             "• أتمتة مهام الجهاز مثل الرسائل والمكالمات والمنبهات\n" +
                             "• إدارة أجهزة المنزل الذكي\n" +
@@ -124,7 +124,7 @@ fun TermsOfUseScreen(
 
             item {
                 PolicySection(
-                    title = "3. API KEYS & THIRD-PARTY SERVICES",
+                    title = "3. مفاتيح API والخدمات الخارجية",
                     content = "تتصل NOVA بمزودي الذكاء الاصطناعي الخارجيين مثل Google Gemini وOpenAI وAnthropic باستخدام مفاتيح API التي تقدمها.\n\n" +
                             "• أنت مسؤول عن الحصول على مفاتيح API وإدارتها.\n" +
                             "• يخضع استخدام مفاتيح API لشروط مزود الخدمة المعني.\n" +
@@ -135,7 +135,7 @@ fun TermsOfUseScreen(
 
             item {
                 PolicySection(
-                    title = "4. ACCESSIBILITY SERVICE",
+                    title = "4. خدمة إمكانية الوصول",
                     content = "تستخدم NOVA خدمة إمكانية الوصول في أندرويد لتنفيذ إجراءات على الشاشة نيابةً عنك. " +
                             "بتفعيل هذه الخدمة، فإنك تقر بأن:\n\n" +
                             "• الخدمة يمكنها التفاعل مع التطبيقات الأخرى على جهازك\n" +
@@ -147,8 +147,8 @@ fun TermsOfUseScreen(
 
             item {
                 PolicySection(
-                    title = "5. DISCLAIMER OF WARRANTIES",
-                    content = "OpenDroid is provided \"AS IS\" without warranties of any kind, either express or implied.\n\n" +
+                    title = "5. إخلاء المسؤولية عن الضمانات",
+                    content = "يُقدم تطبيق NOVA \"AS IS\" دون أي ضمانات صريحة أو ضمنية.\n\n" +
                             "• لا نضمن التشغيل دون انقطاع أو أخطاء.\n" +
                             "• قد تكون ردود الذكاء الاصطناعي غير دقيقة أو غير مكتملة.\n" +
                             "• قد لا تنفذ الإجراءات التلقائية كما هو متوقع في جميع الحالات.\n" +
@@ -158,7 +158,7 @@ fun TermsOfUseScreen(
 
             item {
                 PolicySection(
-                    title = "6. LIMITATION OF LIABILITY",
+                    title = "6. حدود المسؤولية",
                     content = "إلى أقصى حد يسمح به القانون، لا يتحمل مطورو NOVA المسؤولية عن أي " +
                             "أضرار مباشرة أو غير مباشرة أو عرضية أو خاصة أو تبعية ناتجة عن:\n\n" +
                             "• استخدام التطبيق أو عدم القدرة على استخدامه\n" +
@@ -170,7 +170,7 @@ fun TermsOfUseScreen(
 
             item {
                 PolicySection(
-                    title = "7. OPEN SOURCE",
+                    title = "7. المصدر المفتوح",
                     content = "NOVA برنامج مفتوح المصدر. يمكنك الاطلاع على الكود المصدري وتعديله وتوزيعه " +
                             "وفقاً لشروط الترخيص. ونرحب بالمساهمات التي تخضع لإرشادات المساهمة الخاصة بالمشروع."
                 )
@@ -178,7 +178,7 @@ fun TermsOfUseScreen(
 
             item {
                 PolicySection(
-                    title = "8. CHANGES TO TERMS",
+                    title = "8. تعديل الشروط",
                     content = "قد نحدّث هذه الشروط من وقت لآخر، وستظهر التعديلات داخل التطبيق مع تاريخ سريان محدث. " +
                             "استمرارك في استخدام NOVA بعد التعديلات يعني موافقتك على الشروط المحدّثة."
                 )
@@ -186,7 +186,7 @@ fun TermsOfUseScreen(
 
             item {
                 PolicySection(
-                    title = "9. CONTACT",
+                    title = "9. التواصل",
                     content = "للاستفسارات حول شروط الاستخدام، يمكنك التواصل مع فريق التطوير عبر مستودع المشروع على GitHub أو مجتمع Discord."
                 )
             }
