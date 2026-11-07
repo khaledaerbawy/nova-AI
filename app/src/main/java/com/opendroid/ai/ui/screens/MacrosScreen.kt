@@ -335,7 +335,7 @@ fun MacrosScreen(
                                             isAddingMacro = false
                                         }
                                     },
-                                    colors = ButtonDefaults.buttonColors(containerColor = TextPrimary, contentColor = DarkBackground),
+                                    colors = ButtonDefaults.buttonColors(containerColor = AccentGreenButton, contentColor = DarkBackground),
                                     shape = RoundedCornerShape(8.dp)
                                 ) {
                                     Text("حفظ الأمر", fontWeight = FontWeight.Bold)
