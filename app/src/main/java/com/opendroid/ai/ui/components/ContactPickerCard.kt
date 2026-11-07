@@ -57,7 +57,7 @@ fun ContactPickerCard(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Which '$query' do you mean?",
+                    text = "تقصد أي جهة اتصال باسم «$query»؟",
                     color = TextPrimary,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp
@@ -72,7 +72,7 @@ fun ContactPickerCard(
                     number = index + 1,
                     name = contact["name"] ?: "",
                     phone = maskPhone(contact["phone"] ?: ""),
-                    type = contact["type"] ?: "Mobile",
+                    type = contact["type"] ?: "محمول",
                     enabled = enabled,
                     onClick = { onContactSelected(contact) }
                 )
@@ -89,9 +89,9 @@ fun ContactPickerCard(
             // Hint
             Text(
                 text = if (enabled) {
-                    "Tap to select, or type the number (1, 2, 3...)"
+                    "اضغط للاختيار أو اكتب رقم الاختيار (1، 2، 3...)"
                 } else {
-                    "This choice is closed"
+                    "تم إغلاق الاختيار"
                 },
                 color = TextSecondary,
                 fontSize = 11.sp
