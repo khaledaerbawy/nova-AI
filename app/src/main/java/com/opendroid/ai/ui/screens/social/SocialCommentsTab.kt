@@ -64,7 +64,7 @@ fun SocialCommentsTab(
                     FilterChip(
                         selected = showOnlyUnanswered,
                         onClick = { showOnlyUnanswered = true },
-                        label = { Text("Unanswered (${unansweredComments.size})", fontSize = 12.sp) },
+                        label = { Text("بلا رد (${unansweredComments.size})", fontSize = 12.sp) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = theme.accentCyan.copy(alpha = 0.2f),
                             selectedLabelColor = theme.accentCyan
@@ -74,7 +74,7 @@ fun SocialCommentsTab(
                     FilterChip(
                         selected = !showOnlyUnanswered,
                         onClick = { showOnlyUnanswered = false },
-                        label = { Text("All Comments (${comments.size})", fontSize = 12.sp) },
+                        label = { Text("كل التعليقات (${comments.size})", fontSize = 12.sp) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = theme.accentCyan.copy(alpha = 0.2f),
                             selectedLabelColor = theme.accentCyan
@@ -91,7 +91,7 @@ fun SocialCommentsTab(
                         FilterChip(
                             selected = selectedPlatform == null,
                             onClick = { selectedPlatform = null },
-                            label = { Text("All Platforms", fontSize = 11.sp) },
+                            label = { Text("كل المنصات", fontSize = 11.sp) },
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = theme.surface,
                                 selectedLabelColor = theme.textPrimary
@@ -133,14 +133,14 @@ fun SocialCommentsTab(
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            if (showOnlyUnanswered) "All Caught Up!" else "No Comments Found",
+                            if (showOnlyUnanswered) "أنت متابع كل شيء!" else "لا توجد تعليقات",
                             color = theme.textPrimary,
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            if (showOnlyUnanswered) "Every audience comment has been answered or reviewed." else "No comments matching selected filter.",
+                            if (showOnlyUnanswered) "تم الرد على كل تعليقات الجمهور أو مراجعتها." else "لا توجد تعليقات تطابق التصفية.",
                             color = theme.textSecondary,
                             fontSize = 12.sp
                         )
@@ -245,7 +245,7 @@ private fun CommentReviewCard(
                         .padding(10.dp)
                 ) {
                     Column {
-                        Text("Replied:", color = theme.textSecondary, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                        Text("تم الرد:", color = theme.textSecondary, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(comment.actualReply, color = theme.textPrimary, fontSize = 12.sp)
                     }
@@ -272,7 +272,7 @@ private fun CommentReviewCard(
                         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                         border = androidx.compose.foundation.BorderStroke(0.5.dp, theme.borderColor)
                     ) {
-                        Text("Not posted", color = theme.textPrimary, fontSize = 11.sp)
+                        Text("لم يُنشر", color = theme.textPrimary, fontSize = 11.sp)
                     }
 
                     OutlinedButton(
@@ -281,7 +281,7 @@ private fun CommentReviewCard(
                         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                         border = androidx.compose.foundation.BorderStroke(0.5.dp, theme.borderColor)
                     ) {
-                        Text("It's posted", color = theme.textPrimary, fontSize = 11.sp)
+                        Text("تم النشر", color = theme.textPrimary, fontSize = 11.sp)
                     }
                 }
             }
@@ -308,14 +308,14 @@ private fun CommentReviewCard(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = theme.accentCyan, modifier = Modifier.size(13.dp))
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text("Grounded AI Reply Draft", color = theme.accentCyan, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                                Text("مسودة رد ذكي مبنية على المعلومات", color = theme.accentCyan, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                             }
 
                             if (isGeneratingReply) {
                                 CircularProgressIndicator(modifier = Modifier.size(14.dp), color = theme.accentCyan, strokeWidth = 1.5.dp)
                             } else {
                                 Text(
-                                    "Regenerate",
+                                    "إعادة الإنشاء",
                                     color = theme.textSecondary,
                                     fontSize = 10.sp,
                                     modifier = Modifier.clickable {
@@ -334,7 +334,7 @@ private fun CommentReviewCard(
                         OutlinedTextField(
                             value = replyText,
                             onValueChange = { replyText = it },
-                            placeholder = { Text("Tap Regenerate or type custom reply...", fontSize = 11.sp) },
+                            placeholder = { Text("اضغط إعادة الإنشاء أو اكتب رداً بنفسك...", fontSize = 11.sp) },
                             modifier = Modifier.fillMaxWidth(),
                             maxLines = 4,
                             colors = OutlinedTextFieldDefaults.colors(
@@ -347,7 +347,7 @@ private fun CommentReviewCard(
 
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            "Grounded strictly in verified OpenDroid facts. Anti-hallucination active.",
+                            "الرد مبني على معلومات مؤكدة فقط، مع تقليل اختلاق المعلومات.",
                             color = theme.textSecondary,
                             fontSize = 9.sp
                         )
@@ -366,7 +366,7 @@ private fun CommentReviewCard(
                         onClick = onIgnore,
                         contentPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp)
                     ) {
-                        Text("Ignore / Dismiss", color = theme.textSecondary, fontSize = 11.sp)
+                        Text("تجاهل", color = theme.textSecondary, fontSize = 11.sp)
                     }
 
                     Button(
@@ -380,7 +380,7 @@ private fun CommentReviewCard(
                         shape = RoundedCornerShape(12.dp),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp)
                     ) {
-                        Text("Approve & Reply", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        Text("موافقة وإرسال الرد", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -392,12 +392,12 @@ private fun CommentReviewCard(
 private fun CommentStatusBadge(status: CommentReplyStatus) {
     val theme = AppTheme.colors
     val (color, text) = when (status) {
-        CommentReplyStatus.NONE -> theme.textSecondary to "PENDING"
-        CommentReplyStatus.SUGGESTED -> theme.accentOrange to "SUGGESTED"
-        CommentReplyStatus.APPROVED -> theme.accentCyan to "APPROVED"
-        CommentReplyStatus.SENDING -> theme.accentOrange to "SENDING"
-        CommentReplyStatus.REPLIED -> theme.accentCyan to "REPLIED"
-        CommentReplyStatus.IGNORED -> theme.textSecondary to "DISMISSED"
+        CommentReplyStatus.NONE -> theme.textSecondary to "معلّق"
+        CommentReplyStatus.SUGGESTED -> theme.accentOrange to "مقترح"
+        CommentReplyStatus.APPROVED -> theme.accentCyan to "تمت الموافقة"
+        CommentReplyStatus.SENDING -> theme.accentOrange to "جاري الإرسال"
+        CommentReplyStatus.REPLIED -> theme.accentCyan to "تم الرد"
+        CommentReplyStatus.IGNORED -> theme.textSecondary to "تم التجاهل"
     }
 
     Box(
