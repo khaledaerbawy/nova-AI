@@ -142,7 +142,7 @@ fun SettingsScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "AGENT PREFERENCES",
+                        text = "تفضيلات المساعد",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -176,7 +176,7 @@ fun SettingsScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "CREDENTIALS MUST BE RE-ENTERED",
+                                text = "لازم تدخل بيانات الدخول تاني",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -195,7 +195,7 @@ fun SettingsScreen(
                                 onClick = viewModel::resetProviderCredentialsForReentry,
                                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
                             ) {
-                                Text("Clear unavailable credentials", color = DarkBackground)
+                                Text("مسح بيانات الدخول غير المتاحة", color = DarkBackground)
                             }
                         }
                     }
@@ -212,7 +212,7 @@ fun SettingsScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "MCP SETUP MUST BE REDONE",
+                                text = "إعداد الاتصال الخارجي محتاج يتعمل من جديد",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -239,7 +239,7 @@ fun SettingsScreen(
                                 onClick = viewModel::resetMcpConfigForReentry,
                                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
                             ) {
-                                Text("Reset MCP setup", color = DarkBackground)
+                                Text("إعادة إعداد الاتصال الخارجي", color = DarkBackground)
                             }
                         }
                     }
@@ -258,7 +258,7 @@ fun SettingsScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "SETTINGS WERE NOT SAVED",
+                                text = "الإعدادات ما اتحفظتش",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -286,7 +286,7 @@ fun SettingsScreen(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "ACTIVE BRAIN PROVIDER",
+                            text = "مزود الذكاء الاصطناعي الحالي",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
@@ -319,7 +319,7 @@ fun SettingsScreen(
                                 )
                                 Icon(
                                     imageVector = Icons.Default.ArrowDropDown,
-                                    contentDescription = "Dropdown",
+                                    contentDescription = "قائمة الاختيارات",
                                     tint = TextPrimary
                                 )
                             }
@@ -335,7 +335,7 @@ fun SettingsScreen(
                                 DropdownMenuItem(
                                     text = { 
                                         Text(
-                                            text = "OFFLINE AI", 
+                                            text = "ذكاء اصطناعي على الجهاز", 
                                             color = AccentCyan, 
                                             fontWeight = FontWeight.Bold, 
                                             fontSize = 11.sp, 
@@ -358,7 +358,7 @@ fun SettingsScreen(
                                 DropdownMenuItem(
                                     text = { 
                                         Text(
-                                            text = "CLOUD AI", 
+                                            text = "ذكاء اصطناعي سحابي", 
                                             color = AccentCyan, 
                                             fontWeight = FontWeight.Bold, 
                                             fontSize = 11.sp, 
@@ -399,7 +399,7 @@ fun SettingsScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "ACTIVE MODEL",
+                                text = "النموذج الحالي",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -418,7 +418,7 @@ fun SettingsScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Refresh,
-                                        contentDescription = "Refresh models",
+                                        contentDescription = "تحديث النماذج",
                                         tint = TextSecondary,
                                         modifier = Modifier.size(16.dp)
                                     )
@@ -432,13 +432,13 @@ fun SettingsScreen(
                             OutlinedTextField(
                                 value = config.activeModel,
                                 onValueChange = { viewModel.updateActiveModel(it) },
-                                label = { Text("Active LLM Model", fontSize = 12.sp) },
+                                label = { Text("نموذج الذكاء الاصطناعي النشط", fontSize = 12.sp) },
                                 singleLine = true,
                                 trailingIcon = {
                                     IconButton(onClick = { modelDropdownExpanded = !modelDropdownExpanded }) {
                                         Icon(
                                             imageVector = Icons.Default.ArrowDropDown,
-                                            contentDescription = "Show models dropdown",
+                                            contentDescription = "عرض قائمة النماذج",
                                             tint = TextPrimary
                                         )
                                     }
@@ -544,7 +544,7 @@ fun SettingsScreen(
 
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            text = "EXPLICIT PLANNING FALLBACKS",
+                            text = "بدائل التخطيط والتنفيذ",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
@@ -615,14 +615,14 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Info,
-                            contentDescription = "Benchmark",
+                            contentDescription = "اختبار الأداء",
                             tint = AccentCyan,
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "LLM RESPONSIVENESS REPORT",
+                                text = "تقرير سرعة الاستجابة",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -630,7 +630,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "View live charts comparing speeds & latency.",
+                                text = "شوف مقارنة مباشرة لسرعة الاستجابة وزمن الاتصال.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -650,7 +650,7 @@ fun SettingsScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "OLLAMA LOCAL ENDPOINT",
+                                text = "اتصال Ollama المحلي",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -660,7 +660,7 @@ fun SettingsScreen(
                             OutlinedTextField(
                                 value = config.ollamaUrl,
                                 onValueChange = { viewModel.updateOllamaUrl(it) },
-                                label = { Text("Ollama Server URL", fontSize = 12.sp) },
+                                label = { Text("رابط خادم Ollama", fontSize = 12.sp) },
                                 singleLine = true,
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
@@ -698,7 +698,7 @@ fun SettingsScreen(
                                     ollamaTimeoutText = digits
                                     digits.toIntOrNull()?.let(viewModel::updateOllamaTimeout)
                                 },
-                                label = { Text("Response Timeout (seconds)", fontSize = 12.sp) },
+                                label = { Text("مهلة انتظار الرد (بالثواني)", fontSize = 12.sp) },
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 colors = OutlinedTextFieldDefaults.colors(
@@ -739,7 +739,7 @@ fun SettingsScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "ON-DEVICE AI STATUS",
+                                text = "حالة الذكاء الاصطناعي على الجهاز",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -767,7 +767,7 @@ fun SettingsScreen(
                             
                             // ─── AI Core Backend Section ───
                             Text(
-                                text = "ANDROID AI CORE",
+                                text = "محرك الذكاء الاصطناعي من أندرويد",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -912,7 +912,7 @@ fun SettingsScreen(
 
                             // ─── Hugging Face Section ───
                             Text(
-                                text = "HUGGING FACE TOKEN (GATED MODELS ONLY)",
+                                text = "رمز Hugging Face للنماذج المقيدة فقط",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -940,7 +940,7 @@ fun SettingsScreen(
                                     OutlinedTextField(
                                         value = hfToken,
                                         onValueChange = { viewModel.updateHuggingFaceToken(it) },
-                                        label = { Text("Hugging Face Access Token", fontSize = 12.sp) },
+                                        label = { Text("رمز الدخول إلى Hugging Face", fontSize = 12.sp) },
                                         singleLine = true,
                                         visualTransformation = if (showToken) VisualTransformation.None else PasswordVisualTransformation(),
                                         placeholder = { Text("hf_...", fontSize = 12.sp, color = TextSecondary) },
@@ -948,7 +948,7 @@ fun SettingsScreen(
                                             IconButton(onClick = { showToken = !showToken }) {
                                                 Icon(
                                                     imageVector = if (showToken) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                                                    contentDescription = "Toggle Token Visibility",
+                                                    contentDescription = "إظهار أو إخفاء الرمز",
                                                     tint = TextSecondary
                                                 )
                                             }
@@ -983,14 +983,14 @@ fun SettingsScreen(
                                                 },
                                                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                             ) {
-                                                Text("📋 Paste", fontSize = 11.sp, color = Color(0xFFFF9800))
+                                                Text("📋 لصق", fontSize = 11.sp, color = Color(0xFFFF9800))
                                             }
 
                                             TextButton(
                                                 onClick = { viewModel.updateHuggingFaceToken("") },
                                                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                                             ) {
-                                                Text("❌ Clear", fontSize = 11.sp, color = Color.Red)
+                                                Text("❌ مسح", fontSize = 11.sp, color = Color.Red)
                                             }
                                         }
                                     }
@@ -1032,7 +1032,7 @@ fun SettingsScreen(
                                                 contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
                                                 modifier = Modifier.height(28.dp)
                                             ) {
-                                                Text("Validate Token", fontSize = 10.sp, color = DarkBackground, fontWeight = FontWeight.Bold)
+                                                Text("التحقق من الرمز", fontSize = 10.sp, color = DarkBackground, fontWeight = FontWeight.Bold)
                                             }
 
                                             if (hfToken.isNotBlank()) {
@@ -1042,7 +1042,7 @@ fun SettingsScreen(
                                                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
                                                     modifier = Modifier.height(28.dp)
                                                 ) {
-                                                    Text("Remove Token", fontSize = 10.sp, color = Color.Red, fontWeight = FontWeight.Bold)
+                                                    Text("حذف الرمز", fontSize = 10.sp, color = Color.Red, fontWeight = FontWeight.Bold)
                                                 }
                                             }
                                         }
@@ -1056,7 +1056,7 @@ fun SettingsScreen(
                             
                             // ─── LiteRT-LM Backend Section ───
                             Text(
-                                text = "LITERT-LM (FALLBACK)",
+                                text = "محرك LiteRT-LM الاحتياطي",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -1286,7 +1286,7 @@ fun SettingsScreen(
                                                     modifier = Modifier.fillMaxWidth().height(28.dp),
                                                     contentPadding = PaddingValues(vertical = 2.dp)
                                                 ) {
-                                                    Text("Open Model Page", color = Color(0xFFFF9800), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                                                    Text("فتح صفحة النموذج", color = Color(0xFFFF9800), fontSize = 10.sp, fontWeight = FontWeight.Bold)
                                                 }
                                             }
                                         }
@@ -1319,7 +1319,7 @@ fun SettingsScreen(
                                                                 modifier = Modifier.weight(1f).height(32.dp),
                                                                 contentPadding = PaddingValues(horizontal = 4.dp)
                                                             ) {
-                                                                Text("Download", fontSize = 11.sp, color = DarkBackground)
+                                                                Text("تنزيل", fontSize = 11.sp, color = DarkBackground)
                                                             }
                                                         }
 
@@ -1333,7 +1333,7 @@ fun SettingsScreen(
                                                             modifier = Modifier.weight(1f).height(32.dp),
                                                             contentPadding = PaddingValues(horizontal = 4.dp)
                                                         ) {
-                                                            Text("Import", fontSize = 11.sp, color = TextPrimary)
+                                                            Text("استيراد", fontSize = 11.sp, color = TextPrimary)
                                                         }
                                                     }
                                                     
@@ -1353,7 +1353,7 @@ fun SettingsScreen(
                                                                  tint = DarkBackground
                                                              )
                                                              Spacer(modifier = Modifier.width(4.dp))
-                                                             Text(if (config.activeModel == spec.id) "Active" else "Load Model", fontSize = 11.sp, color = DarkBackground)
+                                                             Text(if (config.activeModel == spec.id) "نشط" else "تحميل النموذج", fontSize = 11.sp, color = DarkBackground)
                                                          }
                                                          
                                                          Button(
@@ -1362,7 +1362,7 @@ fun SettingsScreen(
                                                              modifier = Modifier.height(32.dp),
                                                              contentPadding = PaddingValues(horizontal = 8.dp)
                                                          ) {
-                                                             Icon(Icons.Default.Delete, contentDescription = "Delete", modifier = Modifier.size(14.dp), tint = Color.Red)
+                                                             Icon(Icons.Default.Delete, contentDescription = "حذف", modifier = Modifier.size(14.dp), tint = Color.Red)
                                                          }
                                                     }
                                                     
@@ -1374,7 +1374,7 @@ fun SettingsScreen(
                                                         modifier = Modifier.height(32.dp),
                                                         contentPadding = PaddingValues(horizontal = 8.dp)
                                                     ) {
-                                                        Icon(Icons.Default.Info, contentDescription = "Info", modifier = Modifier.size(14.dp), tint = TextSecondary)
+                                                        Icon(Icons.Default.Info, contentDescription = "معلومات", modifier = Modifier.size(14.dp), tint = TextSecondary)
                                                     }
                                                 }
                                             }
@@ -1388,7 +1388,7 @@ fun SettingsScreen(
                             Divider(color = BorderColor, thickness = 1.dp)
                             Spacer(modifier = Modifier.height(12.dp))
                             Text(
-                                text = "CUSTOM LITERT MODELS",
+                                text = "نماذج LiteRT مخصصة",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -1410,7 +1410,7 @@ fun SettingsScreen(
                                 colors = ButtonDefaults.buttonColors(containerColor = AccentCyan),
                                 modifier = Modifier.fillMaxWidth().height(36.dp)
                             ) {
-                                Text("Import custom LiteRT model", fontSize = 12.sp, color = DarkBackground)
+                                Text("استيراد نموذج LiteRT مخصص", fontSize = 12.sp, color = DarkBackground)
                             }
 
                             val customModels = dbModels.filter {
@@ -1457,7 +1457,7 @@ fun SettingsScreen(
                                                 )
                                             }
                                             Text(
-                                                text = if (config.activeModel == entity.id) "Active" else "Ready",
+                                                text = if (config.activeModel == entity.id) "نشط" else "Ready",
                                                 fontSize = 10.sp,
                                                 color = AccentCyan,
                                                 fontWeight = FontWeight.Bold
@@ -1485,7 +1485,7 @@ fun SettingsScreen(
                                                         contentPadding = PaddingValues(horizontal = 4.dp)
                                                     ) {
                                                         Text(
-                                                            if (config.activeModel == entity.id) "Active" else "Load Model",
+                                                            if (config.activeModel == entity.id) "نشط" else "تحميل النموذج",
                                                             fontSize = 11.sp,
                                                             color = DarkBackground
                                                         )
@@ -1500,7 +1500,7 @@ fun SettingsScreen(
                                                     ) {
                                                         Icon(
                                                             Icons.Default.Delete,
-                                                            contentDescription = "Delete",
+                                                            contentDescription = "حذف",
                                                             modifier = Modifier.size(14.dp),
                                                             tint = Color.Red
                                                         )
@@ -1518,7 +1518,7 @@ fun SettingsScreen(
 
                             // ─── Storage Cleanup Section ───
                             Text(
-                                text = "STORAGE CLEANUP",
+                                text = "إدارة مساحة التخزين",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -1569,7 +1569,7 @@ fun SettingsScreen(
                                  modifier = Modifier.fillMaxWidth(),
                                  shape = RoundedCornerShape(8.dp)
                              ) {
-                                 Text("Delete Unused Models", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                                 Text("حذف النماذج غير المستخدمة", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                              }
                         }
                     }
@@ -1587,7 +1587,7 @@ fun SettingsScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "COPILOT LOCAL ENDPOINT",
+                                text = "اتصال Copilot المحلي",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -1597,7 +1597,7 @@ fun SettingsScreen(
                             OutlinedTextField(
                                 value = config.copilotUrl,
                                 onValueChange = { viewModel.updateCopilotUrl(it) },
-                                label = { Text("Copilot Server URL", fontSize = 12.sp) },
+                                label = { Text("رابط خادم Copilot", fontSize = 12.sp) },
                                 singleLine = true,
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
@@ -1629,7 +1629,7 @@ fun SettingsScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "CUSTOM OPENAI ENDPOINT",
+                                text = "عنوان API مخصص متوافق مع OpenAI",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -1639,7 +1639,7 @@ fun SettingsScreen(
                             OutlinedTextField(
                                 value = config.customEndpoints["Custom OpenAI Compatible"] ?: "",
                                 onValueChange = { viewModel.updateCustomEndpoint("Custom OpenAI Compatible", it) },
-                                label = { Text("Base URL (e.g. https://api.openai.com/v1)", fontSize = 12.sp) },
+                                label = { Text("الرابط الأساسي للخدمة", fontSize = 12.sp) },
                                 singleLine = true,
                                 colors = OutlinedTextFieldDefaults.colors(
                                     focusedBorderColor = AccentCyan,
@@ -1677,7 +1677,7 @@ fun SettingsScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "PROVIDER API KEYS",
+                                text = "مفاتيح خدمات الذكاء الاصطناعي",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -1719,7 +1719,7 @@ fun SettingsScreen(
                                         TextButton(
                                             onClick = { viewModel.testConnection(providerName) }
                                         ) {
-                                            Text("Test connection", fontSize = 11.sp)
+                                            Text("اختبار الاتصال", fontSize = 11.sp)
                                         }
                                     }
                                     Text(
@@ -1758,7 +1758,7 @@ fun SettingsScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "ELEVENLABS VOICE SYNTHESIS",
+                                text = "تحويل النص إلى صوت - ElevenLabs",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -1779,12 +1779,12 @@ fun SettingsScreen(
                                 SecureApiKeyField(
                                     value = config.elevenLabsApiKey,
                                     onValueChange = { viewModel.updateElevenLabsApiKey(it) },
-                                    label = "ElevenLabs API Key"
+                                    label = "مفتاح ElevenLabs"
                                 )
                                 OutlinedTextField(
                                     value = config.elevenLabsVoiceId,
                                     onValueChange = { viewModel.updateElevenLabsVoiceId(it) },
-                                    label = { Text("ElevenLabs Voice ID", fontSize = 12.sp) },
+                                    label = { Text("معرّف الصوت", fontSize = 12.sp) },
                                     singleLine = true,
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedBorderColor = AccentCyan,
@@ -1822,7 +1822,7 @@ fun SettingsScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "PLANNING & AUTOMATION",
+                                text = "التخطيط والأتمتة",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -1842,7 +1842,7 @@ fun SettingsScreen(
                         val autoMode = config.resolvedAutoMode()
 
                         Text(
-                            text = "Auto Mode",
+                            text = "وضع التنفيذ التلقائي",
                             fontSize = 15.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = TextPrimary
@@ -1885,7 +1885,7 @@ fun SettingsScreen(
                             AlertDialog(
                                 onDismissRequest = { showYoloWarning = false },
                                 containerColor = DarkSurface,
-                                title = { Text("Enable YOLO mode?", color = AccentRed, fontWeight = FontWeight.Bold) },
+                                title = { Text("تفعيل وضع التنفيذ الكامل؟", color = AccentRed, fontWeight = FontWeight.Bold) },
                                 text = {
                                     Text(
                                         "YOLO runs EVERY plan without asking — including actions that " +
@@ -1899,7 +1899,7 @@ fun SettingsScreen(
                                     TextButton(onClick = {
                                         showYoloWarning = false
                                         viewModel.setAutoMode(AutoMode.YOLO)
-                                    }) { Text("I understand, enable", color = AccentRed) }
+                                    }) { Text("فاهم، فعّل الوضع", color = AccentRed) }
                                 },
                                 dismissButton = {
                                     TextButton(onClick = { showYoloWarning = false }) {
@@ -1912,7 +1912,7 @@ fun SettingsScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         val grantedActions = config.effectiveGrantedActions()
                         Text(
-                            text = "ALLOWED ACTIONS (${grantedActions.size})",
+                            text = "الإجراءات المسموح بها (${grantedActions.size})",
                             fontSize = 11.sp,
                             fontFamily = FontFamily.Monospace,
                             color = AccentCyan
@@ -1957,7 +1957,7 @@ fun SettingsScreen(
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = "Multi-Agent Planning Mode",
+                                    text = "وضع التخطيط متعدد الوكلاء",
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.SemiBold,
                                     color = TextPrimary
@@ -1994,7 +1994,7 @@ fun SettingsScreen(
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = "Show Floating Button",
+                                    text = "إظهار الزر العائم",
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.SemiBold,
                                     color = TextPrimary
@@ -2031,7 +2031,7 @@ fun SettingsScreen(
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = if (config.isDarkMode) "Dark Mode" else "Light Mode",
+                                    text = if (config.isDarkMode) "الوضع الداكن" else "الوضع الفاتح",
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.SemiBold,
                                     color = TextPrimary
@@ -2076,7 +2076,7 @@ fun SettingsScreen(
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "AUTO-REPLY SETTINGS",
+                                text = "إعدادات الرد التلقائي",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -2084,7 +2084,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Configure AI auto-reply for WhatsApp, SMS & Email.",
+                                text = "إعداد الرد التلقائي الذكي لواتساب والرسائل والبريد.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -2117,7 +2117,7 @@ fun SettingsScreen(
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "NOTIFICATION HISTORY",
+                                text = "سجل الإشعارات",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -2125,7 +2125,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "View captured notifications and auto-reply log.",
+                                text = "عرض الإشعارات المحفوظة وسجل الردود التلقائية.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -2163,7 +2163,7 @@ fun SettingsScreen(
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "PERMISSIONS",
+                                text = "الصلاحيات",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -2171,7 +2171,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Review and grant microphone, storage, accessibility & other permissions.",
+                                text = "مراجعة صلاحيات الميكروفون والتخزين وإمكانية الوصول وغيرها.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -2204,7 +2204,7 @@ fun SettingsScreen(
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "HABITS & ROUTINES",
+                                text = "العادات والروتين",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -2212,7 +2212,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Detect repeated daily patterns & automate morning routines.",
+                                text = "اكتشاف عاداتك المتكررة وأتمتة المهام اليومية.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -2245,7 +2245,7 @@ fun SettingsScreen(
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "CRASH LOG",
+                                text = "سجل الأعطال",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -2253,7 +2253,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "View and share crashes recorded on this device.",
+                                text = "عرض الأعطال المسجلة على الجهاز ومشاركتها.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -2284,14 +2284,14 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Lock,
-                            contentDescription = "Privacy Policy",
+                            contentDescription = "سياسة الخصوصية",
                             tint = AccentCyan,
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "PRIVACY POLICY",
+                                text = "سياسة الخصوصية",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -2330,14 +2330,14 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Info,
-                            contentDescription = "Terms of Use",
+                            contentDescription = "شروط الاستخدام",
                             tint = AccentCyan,
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "TERMS OF USE",
+                                text = "شروط الاستخدام",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -2376,14 +2376,14 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Info,
-                            contentDescription = "Help Center",
+                            contentDescription = "مركز المساعدة",
                             tint = AccentCyan,
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "HELP CENTER",
+                                text = "مركز المساعدة",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -2391,7 +2391,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Guides, FAQs, and troubleshooting.",
+                                text = "شروحات وإجابات للأسئلة الشائعة وحلول للمشكلات.",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -2422,14 +2422,14 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Info,
-                            contentDescription = "License",
+                            contentDescription = "التراخيص",
                             tint = AccentPurple,
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "LICENSE",
+                                text = "التراخيص",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -2468,14 +2468,14 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Info,
-                            contentDescription = "About",
+                            contentDescription = "عن التطبيق",
                             tint = AccentPurple,
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "ABOUT OPENDROID",
+                                text = "عن NOVA",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace,
@@ -2507,7 +2507,7 @@ fun SettingsScreen(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "SYSTEM INTEGRATION PERMISSIONS",
+                            text = "صلاحيات تكامل النظام",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
@@ -2530,7 +2530,7 @@ fun SettingsScreen(
     if (showAuthRequiredDialog != null) {
         AlertDialog(
             onDismissRequest = { showAuthRequiredDialog = null },
-            title = { Text("Authentication Required", color = TextPrimary) },
+            title = { Text("مطلوب تسجيل الدخول", color = TextPrimary) },
             text = {
                 Text(
                     text = "This model is gated on Hugging Face and needs an Access Token to download.\n\n" +
@@ -2544,7 +2544,7 @@ fun SettingsScreen(
                     onClick = { showAuthRequiredDialog = null },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
                 ) {
-                    Text("OK", color = DarkBackground)
+                    Text("حسناً", color = DarkBackground)
                 }
             },
             dismissButton = {
@@ -2562,7 +2562,7 @@ fun SettingsScreen(
         val modelIdToDownload = showCellularWarningDialog!!
         AlertDialog(
             onDismissRequest = { showCellularWarningDialog = null },
-            title = { Text("Cellular Network Warning", color = TextPrimary) },
+            title = { Text("تنبيه استخدام بيانات الهاتف", color = TextPrimary) },
             text = {
                 Text(
                     text = "You are downloading model on cellular network, data charges may apply.",
@@ -2577,7 +2577,7 @@ fun SettingsScreen(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
                 ) {
-                    Text("Download", color = DarkBackground)
+                    Text("تنزيل", color = DarkBackground)
                 }
             },
             dismissButton = {
@@ -2595,7 +2595,7 @@ fun SettingsScreen(
         val modelIdToResume = pendingCellularResumeModelId!!
         AlertDialog(
             onDismissRequest = { pendingCellularResumeModelId = null },
-            title = { Text("Cellular Network Warning", color = TextPrimary) },
+            title = { Text("تنبيه استخدام بيانات الهاتف", color = TextPrimary) },
             text = {
                 Text(
                     text = "You are downloading model on cellular network, data charges may apply.",
@@ -2625,7 +2625,7 @@ fun SettingsScreen(
     }
 
     if (localImportStatus != null) {
-        val isImporting = localImportStatus == "Importing..."
+        val isImporting = localImportStatus == "جاري الاستيراد..."
         val isSuccess = localImportStatus == "Success"
         AlertDialog(
             onDismissRequest = {
@@ -2637,8 +2637,8 @@ fun SettingsScreen(
                 Text(
                     text = when {
                         isImporting -> "Importing Model"
-                        isSuccess -> "Import Successful"
-                        else -> "Import Failed"
+                        isSuccess -> "تم الاستيراد بنجاح"
+                        else -> "فشل الاستيراد"
                     },
                     color = TextPrimary
                 )
@@ -2670,7 +2670,7 @@ fun SettingsScreen(
                         onClick = { viewModel.clearImportStatus() },
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF9800))
                     ) {
-                        Text("OK", color = DarkBackground)
+                        Text("حسناً", color = DarkBackground)
                     }
                 }
             },
@@ -2682,20 +2682,20 @@ fun SettingsScreen(
 }
 
 private fun connectionStatusLabel(state: ConnectionTestState?): String = when (state) {
-    is ConnectionTestState.Testing -> "Testing…"
+    is ConnectionTestState.Testing -> "جاري الاختبار…"
     is ConnectionTestState.Connected ->
-        "Connected with ${state.model} · ${state.latencyMs} ms"
+        "متصل بالنموذج ${state.model} · ${state.latencyMs} مللي ثانية"
     is ConnectionTestState.Failed -> when (state.error) {
-        LLMError.AuthInvalid -> "Key rejected"
-        LLMError.AuthMissing -> "Key required"
-        LLMError.QuotaExhausted -> "Quota exhausted"
-        LLMError.RateLimited -> "Rate limited"
-        LLMError.Network -> "Network error"
-        else -> "Connection failed"
+        LLMError.AuthInvalid -> "تم رفض المفتاح"
+        LLMError.AuthMissing -> "مطلوب مفتاح API"
+        LLMError.QuotaExhausted -> "تم استهلاك الحصة المتاحة"
+        LLMError.RateLimited -> "طلبات كتير في وقت قصير"
+        LLMError.Network -> "مشكلة في الشبكة"
+        else -> "فشل الاتصال"
     }
     is ConnectionTestState.ConfigMissing -> when (state.reason) {
-        LLMError.AuthMissing -> "Key required"
-        else -> "Configuration required"
+        LLMError.AuthMissing -> "مطلوب مفتاح API"
+        else -> "مطلوب إكمال الإعدادات"
     }
     else -> "Not tested"
 }
@@ -2731,7 +2731,7 @@ private fun SecureApiKeyField(
             IconButton(onClick = { visible = !visible }) {
                 Icon(
                     imageVector = if (visible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                    contentDescription = if (visible) "Hide API key" else "Show API key",
+                    contentDescription = if (visible) "إخفاء مفتاح API" else "إظهار مفتاح API",
                     tint = TextSecondary
                 )
             }
