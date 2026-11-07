@@ -97,9 +97,9 @@ fun SocialSettingsTab(
                     shape = RoundedCornerShape(16.dp),
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Default.Add, contentDescription = null, tint = AppTheme.colors.onAccent, modifier = Modifier.size(16.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("إضافة قاعدة", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text("إضافة قاعدة", color = AppTheme.colors.onAccent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -251,7 +251,7 @@ private fun RuleCard(
                     checked = rule.isEnabled,
                     onCheckedChange = onToggle,
                     colors = SwitchDefaults.colors(
-                        checkedThumbColor = Color.Black,
+                        checkedThumbColor = AppTheme.colors.onAccent,
                         checkedTrackColor = theme.accentCyan,
                         uncheckedThumbColor = theme.textSecondary,
                         uncheckedTrackColor = theme.surface
@@ -277,7 +277,7 @@ private fun RuleCard(
             Text(
                 "حد الثقة: ${(rule.confidenceThreshold * 100).toInt()}%",
                 color = theme.accentCyan,
-                fontSize = 10.sp,
+                fontSize = 11.sp,
                 fontWeight = FontWeight.SemiBold
             )
 
@@ -320,13 +320,13 @@ private fun AuditLogItem(log: SocialAuditEntry) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(log.action, color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 11.sp)
                     log.platform?.let { p ->
-                        Text(" • ${p.displayName}", color = theme.accentCyan, fontSize = 10.sp)
+                        Text(" • ${p.displayName}", color = theme.accentCyan, fontSize = 11.sp)
                     }
                 }
-                Text(log.details, color = theme.textSecondary, fontSize = 10.sp, maxLines = 1)
+                Text(log.details, color = theme.textSecondary, fontSize = 11.sp, maxLines = 1)
             }
 
-            Text(timeFormat.format(Date(log.timestamp)), color = theme.textSecondary, fontSize = 9.sp)
+            Text(timeFormat.format(Date(log.timestamp)), color = theme.textSecondary, fontSize = 10.sp)
         }
     }
 }
@@ -398,7 +398,7 @@ private fun AddRuleDialog(
                 enabled = ruleName.isNotBlank(),
                 colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
             ) {
-                Text("حفظ القاعدة", color = Color.Black, fontWeight = FontWeight.Bold)
+                Text("حفظ القاعدة", color = AppTheme.colors.onAccent, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {

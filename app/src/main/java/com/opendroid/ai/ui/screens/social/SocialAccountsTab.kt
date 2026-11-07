@@ -143,7 +143,7 @@ fun SocialAccountsTab(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = theme.accentRed)
                 ) {
-                    Text("إلغاء وحذف البيانات", color = Color.White, fontWeight = FontWeight.Bold)
+                    Text("إلغاء وحذف البيانات", color = AppTheme.colors.onDanger, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
@@ -228,7 +228,7 @@ private fun AccountCard(
                         shape = RoundedCornerShape(20.dp),
                         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp)
                     ) {
-                        Text("اتصال", color = Color.Black, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                        Text("اتصال", color = AppTheme.colors.onAccent, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -253,7 +253,7 @@ private fun AccountCard(
                                 .border(0.5.dp, theme.borderColor, RoundedCornerShape(6.dp))
                                 .padding(horizontal = 6.dp, vertical = 2.dp)
                         ) {
-                            Text(perm.title, color = theme.textSecondary, fontSize = 9.sp)
+                            Text(perm.title, color = theme.textSecondary, fontSize = 10.sp)
                         }
                     }
                 }
@@ -313,7 +313,7 @@ private fun StatusBadge(status: AccountStatus) {
             .background(bgColor)
             .padding(horizontal = 6.dp, vertical = 2.dp)
     ) {
-        Text(text, color = textColor, fontSize = 10.sp, fontWeight = FontWeight.SemiBold)
+        Text(text, color = textColor, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
     }
 }
 
@@ -380,7 +380,7 @@ private fun ConnectAccountDialog(
                     Spacer(modifier = Modifier.width(6.dp))
                     Column {
                         Text("استخدام وضع المحاكاة التجريبي", color = theme.textPrimary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
-                        Text("محاكاة الاتصال دون ربط حسابات خارجية", color = theme.textSecondary, fontSize = 10.sp)
+                        Text("محاكاة الاتصال دون ربط حسابات خارجية", color = theme.textSecondary, fontSize = 11.sp)
                     }
                 }
 
@@ -445,7 +445,7 @@ private fun ConnectAccountDialog(
                             onClick = {
                                 if (isChecked) selectedPermissions.remove(perm) else selectedPermissions.add(perm)
                             },
-                            label = { Text(perm.title, fontSize = 10.sp) },
+                            label = { Text(perm.title, fontSize = 11.sp) },
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = theme.accentCyan.copy(alpha = 0.2f),
                                 selectedLabelColor = theme.accentCyan
@@ -464,7 +464,7 @@ private fun ConnectAccountDialog(
                 enabled = useSandboxMock || tokenOrKey.isNotBlank(),
                 colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
             ) {
-                Text("السماح والاتصال", color = Color.Black, fontWeight = FontWeight.Bold)
+                Text("السماح والاتصال", color = AppTheme.colors.onAccent, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {

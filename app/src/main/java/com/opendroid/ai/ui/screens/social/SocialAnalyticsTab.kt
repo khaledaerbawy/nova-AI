@@ -249,7 +249,7 @@ fun SocialAnalyticsTab(
 
                         Column(horizontalAlignment = Alignment.End) {
                             Text("${accountPosts.size} منشور", color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
-                            Text("مزامنة نشطة", color = theme.accentCyan, fontSize = 10.sp)
+                            Text("مزامنة نشطة", color = theme.accentCyan, fontSize = 11.sp)
                         }
                     }
                 }
@@ -276,7 +276,7 @@ private fun AnalyticsMetricBox(
             Spacer(modifier = Modifier.height(4.dp))
             Text(value, color = theme.textPrimary, fontSize = 18.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(delta, color = theme.accentCyan, fontSize = 10.sp, fontWeight = FontWeight.SemiBold)
+            Text(delta, color = theme.accentCyan, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
         }
     }
 }

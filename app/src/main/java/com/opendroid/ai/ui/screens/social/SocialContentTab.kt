@@ -154,7 +154,7 @@ fun SocialContentTab(
                             FilterChip(
                                 selected = selectedTone == tone,
                                 onClick = { selectedTone = tone },
-                                label = { Text(tone.name.lowercase().capitalize(Locale.ROOT), fontSize = 10.sp) },
+                                label = { Text(tone.name.lowercase().capitalize(Locale.ROOT), fontSize = 11.sp) },
                                 colors = FilterChipDefaults.filterChipColors(
                                     selectedContainerColor = theme.surface,
                                     selectedLabelColor = theme.textPrimary
@@ -177,9 +177,9 @@ fun SocialContentTab(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
+                        Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = AppTheme.colors.onAccent, modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("إنشاء منشور للمنصة", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                        Text("إنشاء منشور للمنصة", color = AppTheme.colors.onAccent, fontWeight = FontWeight.Bold, fontSize = 13.sp)
                     }
 
                     Spacer(modifier = Modifier.height(14.dp))
@@ -329,7 +329,7 @@ fun SocialContentTab(
                             shape = RoundedCornerShape(12.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
                         ) {
-                            Text("نشر الآن", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                            Text("نشر الآن", color = AppTheme.colors.onAccent, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                         }
                     }
                 }
@@ -443,7 +443,7 @@ private fun ModifierChip(title: String, icon: androidx.compose.ui.graphics.vecto
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(icon, contentDescription = null, tint = theme.accentCyan, modifier = Modifier.size(13.dp))
             Spacer(modifier = Modifier.width(4.dp))
-            Text(title, color = theme.textPrimary, fontSize = 10.sp, fontWeight = FontWeight.Medium)
+            Text(title, color = theme.textPrimary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
         }
     }
 }
@@ -495,7 +495,7 @@ private fun PostItemCard(
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(post.platform.displayName, color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
-                    Text(dateString, color = theme.textSecondary, fontSize = 10.sp)
+                    Text(dateString, color = theme.textSecondary, fontSize = 11.sp)
                 }
 
                 PostStatusBadge(post.status)
@@ -552,7 +552,7 @@ private fun PostItemCard(
                             colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan),
                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                         ) {
-                            Text("نشر الآن", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Text("نشر الآن", color = AppTheme.colors.onAccent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }
                     } else if (post.status == PostStatus.SCHEDULED) {
                         OutlinedButton(
@@ -570,7 +570,7 @@ private fun PostItemCard(
                             colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan),
                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                         ) {
-                            Text("نشر الآن", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Text("نشر الآن", color = AppTheme.colors.onAccent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }
                     } else if (post.status == PostStatus.FAILED) {
                         Button(
@@ -579,7 +579,7 @@ private fun PostItemCard(
                             colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan),
                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                         ) {
-                            Text("إعادة المحاولة", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Text("إعادة المحاولة", color = AppTheme.colors.onAccent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }
                     } else if (post.status == PostStatus.PUBLISHING) {
                         OutlinedButton(
@@ -624,7 +624,7 @@ private fun PostStatusBadge(status: PostStatus) {
             .background(color.copy(alpha = 0.15f))
             .padding(horizontal = 6.dp, vertical = 2.dp)
     ) {
-        Text(text, color = color, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+        Text(text, color = color, fontSize = 10.sp, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -675,7 +675,7 @@ internal fun ScheduleTimeDialog(
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
             ) {
-                Text("جدولة", color = Color.Black, fontWeight = FontWeight.Bold)
+                Text("جدولة", color = AppTheme.colors.onAccent, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {

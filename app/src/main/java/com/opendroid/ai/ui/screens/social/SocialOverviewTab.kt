@@ -119,7 +119,7 @@ fun SocialOverviewTab(
                         }
                         Text(
                             text = "تحليل مبني على البيانات",
-                            fontSize = 10.sp,
+                            fontSize = 11.sp,
                             color = theme.textSecondary
                         )
                     }
@@ -209,7 +209,7 @@ fun SocialOverviewTab(
                                 Box(
                                     modifier = Modifier.clip(RoundedCornerShape(4.dp)).background(theme.surface).padding(horizontal = 4.dp, vertical = 2.dp)
                                 ) {
-                                    Text(item.category.name, fontSize = 9.sp, color = theme.accentCyan)
+                                    Text(item.category.name, fontSize = 10.sp, color = theme.accentCyan)
                                 }
                             }
                             Text(item.content, maxLines = 1, fontSize = 12.sp, color = theme.textSecondary)
@@ -252,7 +252,7 @@ fun SocialOverviewTab(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(post.platform.displayName, fontWeight = FontWeight.Bold, fontSize = 12.sp, color = theme.accentCyan)
-                            Text(if (post.requiresApproval) "بانتظار الموافقة" else "مجدول", fontSize = 10.sp, color = theme.textSecondary)
+                            Text(if (post.requiresApproval) "بانتظار الموافقة" else "مجدول", fontSize = 11.sp, color = theme.textSecondary)
                         }
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(post.content, fontSize = 13.sp, color = theme.textPrimary, maxLines = 2)
@@ -294,7 +294,7 @@ fun SocialOverviewTab(
                         }
                         Column(horizontalAlignment = Alignment.End) {
                             Text("${post.reach} وصول", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = theme.textPrimary)
-                            Text("${String.format(locale, "%.1f", post.engagementRate)}%", fontSize = 10.sp, color = theme.textSecondary)
+                            Text("${String.format(locale, "%.1f", post.engagementRate)}%", fontSize = 11.sp, color = theme.textSecondary)
                         }
                     }
                 }

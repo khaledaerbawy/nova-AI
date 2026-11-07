@@ -177,7 +177,7 @@ fun SocialInboxTab(
                     enabled = replyText.isNotBlank(),
                     colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
                 ) {
-                    Text("إرسال الرد", color = Color.Black, fontWeight = FontWeight.Bold)
+                    Text("إرسال الرد", color = AppTheme.colors.onAccent, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
@@ -240,7 +240,7 @@ private fun InteractionCard(
                     Text(
                         "${interaction.category.name} • $timeFormatted",
                         color = theme.textSecondary,
-                        fontSize = 10.sp
+                        fontSize = 11.sp
                     )
                 }
 
@@ -317,7 +317,7 @@ private fun InteractionCard(
                         shape = RoundedCornerShape(14.dp),
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
                     ) {
-                        Text("رد", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        Text("رد", color = AppTheme.colors.onAccent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -341,7 +341,7 @@ private fun PriorityBadge(priority: InteractionPriority) {
             .background(color.copy(alpha = 0.15f))
             .padding(horizontal = 4.dp, vertical = 1.dp)
     ) {
-        Text(text, color = color, fontSize = 8.sp, fontWeight = FontWeight.Bold)
+        Text(text, color = color, fontSize = 9.sp, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -361,6 +361,6 @@ private fun InteractionStatusBadge(status: String) {
             .background(color.copy(alpha = 0.15f))
             .padding(horizontal = 6.dp, vertical = 3.dp)
     ) {
-        Text(text, color = color, fontSize = 9.sp, fontWeight = FontWeight.SemiBold)
+        Text(text, color = color, fontSize = 10.sp, fontWeight = FontWeight.SemiBold)
     }
 }

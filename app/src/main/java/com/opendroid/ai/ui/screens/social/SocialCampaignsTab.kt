@@ -58,9 +58,9 @@ fun SocialCampaignsTab(
                     shape = RoundedCornerShape(16.dp),
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Default.Add, contentDescription = null, tint = AppTheme.colors.onAccent, modifier = Modifier.size(16.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("حملة جديدة", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text("حملة جديدة", color = AppTheme.colors.onAccent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -105,9 +105,9 @@ fun SocialCampaignsTab(
                             colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan),
                             shape = RoundedCornerShape(12.dp)
                         ) {
-                            Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
+                            Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = AppTheme.colors.onAccent, modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(6.dp))
-                            Text("إنشاء أول حملة", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                            Text("إنشاء أول حملة", color = AppTheme.colors.onAccent, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                         }
                     }
                 }
@@ -183,8 +183,8 @@ private fun CampaignCard(campaign: SocialCampaign) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("تقدم الجدول الزمني", color = theme.textSecondary, fontSize = 10.sp)
-                Text("${(progress * 100).toInt()}%", color = theme.accentCyan, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                Text("تقدم الجدول الزمني", color = theme.textSecondary, fontSize = 11.sp)
+                Text("${(progress * 100).toInt()}%", color = theme.accentCyan, fontSize = 11.sp, fontWeight = FontWeight.Bold)
             }
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -212,7 +212,7 @@ private fun CampaignCard(campaign: SocialCampaign) {
                             .border(0.5.dp, theme.borderColor, RoundedCornerShape(6.dp))
                             .padding(horizontal = 6.dp, vertical = 2.dp)
                     ) {
-                        Text(platform.displayName, color = theme.textPrimary, fontSize = 9.sp)
+                        Text(platform.displayName, color = theme.textPrimary, fontSize = 10.sp)
                     }
                 }
             }
@@ -222,7 +222,7 @@ private fun CampaignCard(campaign: SocialCampaign) {
                 Text(
                     "الجمهور المستهدف: ${campaign.targetAudience}",
                     color = theme.accentCyan,
-                    fontSize = 10.sp
+                    fontSize = 11.sp
                 )
             }
         }
@@ -245,7 +245,7 @@ private fun CampaignStatusBadge(status: CampaignStatus) {
             .background(color.copy(alpha = 0.15f))
             .padding(horizontal = 6.dp, vertical = 2.dp)
     ) {
-        Text(text, color = color, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+        Text(text, color = color, fontSize = 10.sp, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -313,7 +313,7 @@ private fun CreateCampaignDialog(
                         FilterChip(
                             selected = durationDays == days,
                             onClick = { durationDays = days },
-                            label = { Text("$days أيام", fontSize = 10.sp) },
+                            label = { Text("$days أيام", fontSize = 11.sp) },
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = theme.accentCyan.copy(alpha = 0.2f),
                                 selectedLabelColor = theme.accentCyan
@@ -331,7 +331,7 @@ private fun CreateCampaignDialog(
                             onClick = {
                                 if (isSelected) selectedPlatforms.remove(platform) else selectedPlatforms.add(platform)
                             },
-                            label = { Text(platform.displayName, fontSize = 10.sp) },
+                            label = { Text(platform.displayName, fontSize = 11.sp) },
                             colors = FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = theme.accentCyan.copy(alpha = 0.2f),
                                 selectedLabelColor = theme.accentCyan
@@ -352,9 +352,9 @@ private fun CreateCampaignDialog(
                 colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
             ) {
                 if (isGenerating) {
-                    CircularProgressIndicator(modifier = Modifier.size(16.dp), color = Color.Black, strokeWidth = 2.dp)
+                    CircularProgressIndicator(modifier = Modifier.size(16.dp), color = AppTheme.colors.onAccent, strokeWidth = 2.dp)
                 } else {
-                    Text("إنشاء الاستراتيجية", color = Color.Black, fontWeight = FontWeight.Bold)
+                    Text("إنشاء الاستراتيجية", color = AppTheme.colors.onAccent, fontWeight = FontWeight.Bold)
                 }
             }
         },

@@ -94,10 +94,10 @@ class SocialViewModel @Inject constructor(
             val result = socialManager.connectAccount(platform, credentials, permissions)
             _isGenerating.value = false
             if (result.isSuccess) {
-                _statusMessage.value = "Connected to ${platform.displayName}!"
+                _statusMessage.value = "تم ربط حساب ${platform.displayName} بنجاح."
                 loadAnalyticsAndInsights()
             } else {
-                _statusMessage.value = "Failed: ${result.exceptionOrNull()?.message}"
+                _statusMessage.value = "تعذر إتمام العملية. تحقق من الاتصال والصلاحيات ثم حاول مرة أخرى."
             }
         }
     }
@@ -105,14 +105,14 @@ class SocialViewModel @Inject constructor(
     fun disconnectAccount(accountId: String, platform: SocialPlatform) {
         viewModelScope.launch {
             socialManager.disconnectAccount(accountId, platform)
-            _statusMessage.value = "Disconnected from ${platform.displayName}"
+            _statusMessage.value = "تم فصل حساب ${platform.displayName}."
         }
     }
 
     fun revokeAccount(accountId: String, platform: SocialPlatform) {
         viewModelScope.launch {
             socialManager.revokeAccess(accountId, platform)
-            _statusMessage.value = "Revoked access and deleted tokens for ${platform.displayName}"
+            _statusMessage.value = "تم إلغاء صلاحيات ${platform.displayName} وحذف رموز الوصول."
         }
     }
 
@@ -133,9 +133,9 @@ class SocialViewModel @Inject constructor(
                     content = generated.content,
                     contentType = contentType
                 )
-                _statusMessage.value = "Drafted post for ${platform.displayName}!"
+                _statusMessage.value = "تم إنشاء مسودة على ${platform.displayName}."
             } catch (e: Exception) {
-                _statusMessage.value = "Error generating post: ${e.message}"
+                _statusMessage.value = "تعذر إنشاء المنشور حالياً. حاول مرة أخرى."
             } finally {
                 _isGenerating.value = false
             }
@@ -158,9 +158,9 @@ class SocialViewModel @Inject constructor(
             )
             if (scheduledTime != null) {
                 socialManager.schedulePost(draft.id, scheduledTime)
-                _statusMessage.value = "Post scheduled for ${platform.displayName}!"
+                _statusMessage.value = "تمت جدولة المنشور على ${platform.displayName}."
             } else {
-                _statusMessage.value = "Draft saved for ${platform.displayName}!"
+                _statusMessage.value = "تم حفظ المسودة على ${platform.displayName}."
             }
         }
     }
@@ -216,9 +216,9 @@ class SocialViewModel @Inject constructor(
         viewModelScope.launch {
             val result = socialManager.approvePost(postId, immediatePublish)
             if (result.isSuccess) {
-                _statusMessage.value = if (immediatePublish) "Post published successfully!" else "Post approved for scheduling."
+                _statusMessage.value = if (immediatePublish) "تم نشر المنشور بنجاح." else "تمت الموافقة على المنشور وجدولته."
             } else {
-                _statusMessage.value = "Failed: ${result.exceptionOrNull()?.message}"
+                _statusMessage.value = "تعذر إتمام العملية. تحقق من الاتصال والصلاحيات ثم حاول مرة أخرى."
             }
         }
     }
@@ -229,7 +229,7 @@ class SocialViewModel @Inject constructor(
             if (result.isSuccess) {
                 _statusMessage.value = "Post scheduled successfully."
             } else {
-                _statusMessage.value = "Scheduling failed: ${result.exceptionOrNull()?.message}"
+                _statusMessage.value = "تعذرت جدولة المنشور. تحقق من الموعد والاتصال."
             }
         }
     }
@@ -240,9 +240,9 @@ class SocialViewModel @Inject constructor(
             val result = socialManager.publishPost(postId, "USER")
             _isGenerating.value = false
             if (result.isSuccess) {
-                _statusMessage.value = "Published successfully!"
+                _statusMessage.value = "تم النشر بنجاح."
             } else {
-                _statusMessage.value = "Publication failed: ${result.exceptionOrNull()?.message}"
+                _statusMessage.value = "تعذر نشر المنشور. حاول مرة أخرى."
             }
         }
     }
@@ -251,9 +251,9 @@ class SocialViewModel @Inject constructor(
         viewModelScope.launch {
             val result = socialManager.resolveInterruptedPublish(postId, wasPublished)
             _statusMessage.value = if (result.isSuccess) {
-                if (wasPublished) "Post marked as published." else "Post marked as failed. Retry when you're ready."
+                if (wasPublished) "تم تسجيل المنشور على أنه منشور." else "تم تسجيل تعذر النشر. يمكنك المحاولة مرة أخرى."
             } else {
-                "Couldn't update post: ${result.exceptionOrNull()?.message}"
+                "تعذر تحديث حالة المنشور."
             }
         }
     }
@@ -261,14 +261,14 @@ class SocialViewModel @Inject constructor(
     fun cancelPost(postId: String) {
         viewModelScope.launch {
             socialRepository.cancelPost(postId)
-            _statusMessage.value = "Post cancelled."
+            _statusMessage.value = "تم إلغاء المنشور."
         }
     }
 
     fun deletePost(postId: String) {
         viewModelScope.launch {
             socialRepository.deletePost(postId)
-            _statusMessage.value = "Post deleted."
+            _statusMessage.value = "تم حذف المنشور."
         }
     }
 
@@ -276,9 +276,9 @@ class SocialViewModel @Inject constructor(
         viewModelScope.launch {
             val result = socialManager.replyToComment(commentId, text, actor = "USER")
             if (result.isSuccess) {
-                _statusMessage.value = "Reply sent!"
+                _statusMessage.value = "تم إرسال الرد بنجاح."
             } else {
-                _statusMessage.value = "Reply failed: ${result.exceptionOrNull()?.message}"
+                _statusMessage.value = "تعذر إرسال الرد. تحقق من الاتصال والصلاحيات."
             }
         }
     }
@@ -287,9 +287,9 @@ class SocialViewModel @Inject constructor(
         viewModelScope.launch {
             val result = socialManager.replyToInteraction(interactionId, text, actor = "USER")
             if (result.isSuccess) {
-                _statusMessage.value = "Reply sent!"
+                _statusMessage.value = "تم إرسال الرد بنجاح."
             } else {
-                _statusMessage.value = "Reply failed: ${result.exceptionOrNull()?.message}"
+                _statusMessage.value = "تعذر إرسال الرد. تحقق من الاتصال والصلاحيات."
             }
         }
     }
@@ -298,9 +298,9 @@ class SocialViewModel @Inject constructor(
         viewModelScope.launch {
             val result = socialManager.resolveInterruptedReply(commentId, wasSent)
             _statusMessage.value = if (result.isSuccess) {
-                if (wasSent) "Reply marked as sent." else "You can reply to this comment again."
+                if (wasSent) "تم تسجيل الرد على أنه مُرسل." else "يمكنك الرد على هذا التعليق مرة أخرى."
             } else {
-                "Couldn't update comment: ${result.exceptionOrNull()?.message}"
+                "تعذر تحديث حالة التعليق."
             }
         }
     }
@@ -308,21 +308,21 @@ class SocialViewModel @Inject constructor(
     fun ignoreComment(commentId: String) {
         viewModelScope.launch {
             socialRepository.ignoreComment(commentId)
-            _statusMessage.value = "Comment dismissed."
+            _statusMessage.value = "تم تجاهل التعليق."
         }
     }
 
     fun resolveInteraction(interactionId: String) {
         viewModelScope.launch {
             socialRepository.updateInteractionStatus(interactionId, "RESOLVED")
-            _statusMessage.value = "Interaction marked as resolved."
+            _statusMessage.value = "تم وضع علامة تمت المعالجة."
         }
     }
 
     fun dismissInteraction(interactionId: String) {
         viewModelScope.launch {
             socialRepository.updateInteractionStatus(interactionId, "DISMISSED")
-            _statusMessage.value = "Interaction dismissed."
+            _statusMessage.value = "تم تجاهل التفاعل."
         }
     }
 
@@ -333,9 +333,9 @@ class SocialViewModel @Inject constructor(
                 val plan = campaignGenerator.generateCampaignPlan(name, objective, durationDays, platforms)
                 socialRepository.saveCampaign(plan.campaign)
                 plan.plannedPosts.forEach { socialRepository.savePost(it) }
-                _statusMessage.value = "Created campaign '${plan.campaign.name}' with ${plan.plannedPosts.size} posts!"
+                _statusMessage.value = "تم إنشاء حملة '${plan.campaign.name}' وتجهيز ${plan.plannedPosts.size} منشوراً."
             } catch (e: Exception) {
-                _statusMessage.value = "Campaign generation failed: ${e.message}"
+                _statusMessage.value = "تعذر إنشاء الحملة حالياً. حاول مرة أخرى."
             } finally {
                 _isGenerating.value = false
             }
@@ -345,7 +345,7 @@ class SocialViewModel @Inject constructor(
     fun saveRule(rule: SocialAutomationRule) {
         viewModelScope.launch {
             socialRepository.saveRule(rule)
-            _statusMessage.value = "Automation rule saved."
+            _statusMessage.value = "تم حفظ قاعدة الأتمتة."
         }
     }
 
@@ -358,7 +358,7 @@ class SocialViewModel @Inject constructor(
     fun deleteRule(ruleId: String) {
         viewModelScope.launch {
             socialRepository.deleteRule(ruleId)
-            _statusMessage.value = "Rule deleted."
+            _statusMessage.value = "تم حذف القاعدة."
         }
     }
 
@@ -372,7 +372,7 @@ class SocialViewModel @Inject constructor(
             val result = socialManager.syncAllAccounts()
             loadAnalyticsAndInsights()
             _isGenerating.value = false
-            _statusMessage.value = result.exceptionOrNull()?.let { "Refresh failed: ${it.message}" } ?: "Refreshed social data."
+            _statusMessage.value = result.exceptionOrNull()?.let { "تعذرت مزامنة البيانات. تحقق من الاتصال وحاول مرة أخرى." } ?: "تم تحديث بيانات الحسابات والمنشورات."
         }
     }
 }

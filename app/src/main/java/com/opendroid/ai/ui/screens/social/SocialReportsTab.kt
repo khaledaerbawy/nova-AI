@@ -134,9 +134,9 @@ fun SocialReportsTab(
                             shape = RoundedCornerShape(12.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
                         ) {
-                            Icon(Icons.Default.Share, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
+                            Icon(Icons.Default.Share, contentDescription = null, tint = AppTheme.colors.onAccent, modifier = Modifier.size(14.dp))
                             Spacer(modifier = Modifier.width(6.dp))
-                            Text("مشاركة التقرير", color = Color.Black, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            Text("مشاركة التقرير", color = AppTheme.colors.onAccent, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }

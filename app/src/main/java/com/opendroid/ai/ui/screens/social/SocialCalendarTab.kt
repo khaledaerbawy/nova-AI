@@ -157,9 +157,9 @@ fun SocialCalendarTab(
                     shape = RoundedCornerShape(16.dp),
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Default.Add, contentDescription = null, tint = AppTheme.colors.onAccent, modifier = Modifier.size(16.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("جدولة منشور", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text("جدولة منشور", color = AppTheme.colors.onAccent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -255,14 +255,14 @@ private fun DayCard(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 day.dayOfWeek,
-                color = if (isSelected) Color.Black else theme.textSecondary,
+                color = if (isSelected) AppTheme.colors.onAccent else theme.textSecondary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Medium
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 day.dayOfMonth,
-                color = if (isSelected) Color.Black else theme.textPrimary,
+                color = if (isSelected) AppTheme.colors.onAccent else theme.textPrimary,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -276,7 +276,7 @@ private fun DayCard(
                     .clip(CircleShape)
                     .background(
                         when {
-                            hasPosts && isSelected -> Color.Black
+                            hasPosts && isSelected -> AppTheme.colors.onAccent
                             hasPosts -> theme.accentCyan
                             else -> Color.Transparent
                         }
@@ -341,7 +341,7 @@ private fun ScheduledPostCard(
                             .background(theme.accentOrange.copy(alpha = 0.15f))
                             .padding(horizontal = 6.dp, vertical = 2.dp)
                     ) {
-                        Text("مطلوب موافقة", color = theme.accentOrange, fontSize = 8.sp, fontWeight = FontWeight.Bold)
+                        Text("مطلوب موافقة", color = theme.accentOrange, fontSize = 9.sp, fontWeight = FontWeight.Bold)
                     }
                 } else {
                     Box(
@@ -350,7 +350,7 @@ private fun ScheduledPostCard(
                             .background(theme.accentCyan.copy(alpha = 0.15f))
                             .padding(horizontal = 6.dp, vertical = 2.dp)
                     ) {
-                        Text("نشر تلقائي", color = theme.accentCyan, fontSize = 8.sp, fontWeight = FontWeight.Bold)
+                        Text("نشر تلقائي", color = theme.accentCyan, fontSize = 9.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -395,7 +395,7 @@ private fun ScheduledPostCard(
                         colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan),
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
                     ) {
-                        Text("نشر الآن", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        Text("نشر الآن", color = AppTheme.colors.onAccent, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
