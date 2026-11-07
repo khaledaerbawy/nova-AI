@@ -3,13 +3,12 @@ package com.opendroid.ai.ui.theme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 
 /**
- * OpenDroid color palette — resolved via CompositionLocal so all screens
- * automatically adapt to the active theme (light / dark).
+ * NOVA visual system: midnight navy surfaces, cool cyan highlights and restrained violet.
+ * A single semantic palette keeps every screen visually consistent.
  */
 data class OpenDroidColors(
     val background: Color,
@@ -19,62 +18,54 @@ data class OpenDroidColors(
     val textPrimary: Color,
     val textSecondary: Color,
     val accentNeonGreen: Color,
-    /** Calmer green for large filled button surfaces (neon is for thin marks only). */
     val accentGreenButton: Color,
     val accentPurple: Color,
     val accentCyan: Color,
     val accentRed: Color,
-    val accentOrange: Color = Color(0xFFFF9500),
+    val accentOrange: Color = Color(0xFFFFB454),
     val isDark: Boolean
 )
 
-// ── Dark palette: Classic Pure Black (#000000) ───────────────
 val DarkPalette = OpenDroidColors(
-    background = Color(0xFF000000),      // Classic pure OLED black
-    surface = Color(0xFF0A0A0A),         // Deep charcoal surface
-    cardBackground = Color(0xFF141416),  // Elevated card surface
-    borderColor = Color(0xFF27272A),     // Zinc 800 hairline border
-    textPrimary = Color(0xFFFFFFFF),     // Pure white
-    textSecondary = Color(0xFFA1A1AA),   // Zinc 400 silver
-    accentNeonGreen = Color(0xFFFFFFFF), // High-contrast monochrome (replaces green)
-    accentGreenButton = Color(0xFFFFFFFF), // Crisp white button
-    accentPurple = Color(0xFFA855F7),    // Electric purple
-    accentCyan = Color(0xFF38BDF8),      // Sky sapphire
-    accentRed = Color(0xFFEF4444),       // Clean alert red
-    accentOrange = Color(0xFFFF9500),
+    background = Color(0xFF080D18),
+    surface = Color(0xFF101A2B),
+    cardBackground = Color(0xFF152238),
+    borderColor = Color(0xFF263751),
+    textPrimary = Color(0xFFF4F7FC),
+    textSecondary = Color(0xFF9AAAC0),
+    accentNeonGreen = Color(0xFF67D8E8),
+    accentGreenButton = Color(0xFF42BFD2),
+    accentPurple = Color(0xFF9B8CFF),
+    accentCyan = Color(0xFF67D8E8),
+    accentRed = Color(0xFFFF6B78),
+    accentOrange = Color(0xFFFFB454),
     isDark = true
 )
 
-// ── Light palette: Classic Pure White (#FFFFFF) ─────────────
 val LightPalette = OpenDroidColors(
-    background = Color(0xFFFFFFFF),      // Classic pure white
-    surface = Color(0xFFF8F9FA),         // Crisp light surface
-    cardBackground = Color(0xFFFFFFFF),  // Pure white card
-    borderColor = Color(0xFFE4E4E7),     // Zinc 200 hairline border
-    textPrimary = Color(0xFF09090B),     // Deep obsidian black
-    textSecondary = Color(0xFF71717A),   // Zinc 500 slate
-    accentNeonGreen = Color(0xFF09090B), // High-contrast monochrome (replaces green)
-    accentGreenButton = Color(0xFF09090B), // Crisp black button
-    accentPurple = Color(0xFF7E22CE),    // Purple
-    accentCyan = Color(0xFF0284C7),      // Ocean sapphire
-    accentRed = Color(0xFFDC2626),       // Clean alert red
-    accentOrange = Color(0xFFD97706),
+    background = Color(0xFFF3F6FB),
+    surface = Color(0xFFFFFFFF),
+    cardBackground = Color(0xFFFFFFFF),
+    borderColor = Color(0xFFDCE4EF),
+    textPrimary = Color(0xFF142238),
+    textSecondary = Color(0xFF65758B),
+    accentNeonGreen = Color(0xFF168FA3),
+    accentGreenButton = Color(0xFF168FA3),
+    accentPurple = Color(0xFF7564D8),
+    accentCyan = Color(0xFF168FA3),
+    accentRed = Color(0xFFD94A5A),
+    accentOrange = Color(0xFFB87520),
     isDark = false
 )
 
 val LocalOpenDroidColors = compositionLocalOf { DarkPalette }
 
-/** Access the active palette from any @Composable */
 object AppTheme {
     val colors: OpenDroidColors
         @Composable
         @ReadOnlyComposable
         get() = LocalOpenDroidColors.current
 }
-
-// ── Dynamic Composable top-level aliases ────────────────────
-// These allow all existing screens and composables to automatically
-// adapt to Light / Dark theme dynamically without hardcoding DarkPalette!
 
 val DarkBackground: Color
     @Composable
@@ -135,4 +126,3 @@ val AccentOrange: Color
     @Composable
     @ReadOnlyComposable
     get() = AppTheme.colors.accentOrange
-
