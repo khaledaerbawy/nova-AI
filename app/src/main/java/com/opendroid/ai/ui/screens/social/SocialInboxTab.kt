@@ -61,7 +61,7 @@ fun SocialInboxTab(
                     FilterChip(
                         selected = selectedCategory == null,
                         onClick = { selectedCategory = null },
-                        label = { Text("All (${interactions.size})", fontSize = 12.sp) },
+                        label = { Text("الكل (${interactions.size})", fontSize = 12.sp) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = theme.accentCyan.copy(alpha = 0.2f),
                             selectedLabelColor = theme.accentCyan
@@ -277,7 +277,7 @@ private fun InteractionCard(
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            "Suggested: \"${interaction.suggestedAction}\"",
+                            "اقتراح: \"${interaction.suggestedAction}\"",
                             color = theme.textSecondary,
                             fontSize = 11.sp,
                             maxLines = 2
