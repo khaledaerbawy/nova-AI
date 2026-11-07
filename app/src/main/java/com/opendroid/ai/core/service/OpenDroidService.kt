@@ -249,7 +249,7 @@ class OpenDroidService : Service() {
             onError = { _ ->
                 agentLoop.setAgentState(AgentState.Idle)
                 // Resume wake word detection only if floating button is disabled
-                if (!showFloatingButton) {
+                if (wakeWordEnabled) {
                     wakeWordDetector.startListening {
                         textToSpeechEngine.speak("أيوه، معاك.")
                         startListeningForQuery()
@@ -278,7 +278,7 @@ class OpenDroidService : Service() {
                 if (wakeWordEnabled) startWakeWordDetection()
             },
             onError = { _ ->
-                if (!showFloatingButton) startWakeWordDetection()
+                if (wakeWordEnabled) startWakeWordDetection()
             }
         )
     }
@@ -289,7 +289,7 @@ class OpenDroidService : Service() {
         when (intent?.action) {
             ACTION_USER_START -> {
                 if (promoteToMicrophoneForeground()) {
-                    if (!showFloatingButton) startWakeWordDetection()
+                    if (wakeWordEnabled) startWakeWordDetection()
                 } else {
                     updateVoiceNotification()
                 }
