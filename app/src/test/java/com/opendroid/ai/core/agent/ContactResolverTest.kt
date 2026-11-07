@@ -71,6 +71,16 @@ class ContactResolverTest {
     }
 
     @Test
+    fun `Arabic hamza variants are matched but still require confirmation for partial names`() = runBlocking {
+        LookupKeyContactsProvider.rows += LookupKeyContactRow("أحمد علي", "5550177", "key-ahmed")
+
+        val resolved = resolver().resolveWithDisambiguation("احمد")
+
+        val confirmation = resolved as ContactResolution.Ambiguous
+        assertEquals("أحمد علي", confirmation.matches.single().name)
+    }
+
+    @Test
     fun `a sentence with digits in it is not a phone number`() = runBlocking {
         val resolved = resolver().resolveWithDisambiguation("mom about the 2pm 4512 meeting")
 
