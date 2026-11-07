@@ -350,7 +350,7 @@ private fun PermissionsPanelContent(
                 .fillMaxWidth()
                 .heightIn(min = 50.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = TextPrimary,
+                containerColor = AccentGreenButton,
                 contentColor = DarkBackground,
                 disabledContainerColor = BorderColor,
                 disabledContentColor = TextSecondary,
