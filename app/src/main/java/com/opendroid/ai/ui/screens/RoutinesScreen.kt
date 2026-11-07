@@ -110,7 +110,7 @@ fun RoutinesScreen(
                         routine = routine,
                         onApprove = {
                             viewModel.approveRoutine(routine.id)
-                            Toast.makeText(context, "تم تفعيل الروتين ${routine.name} تلقائياً!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "تم تفعيل الروتين ${routineNameArabic(routine.name)} تلقائياً!", Toast.LENGTH_SHORT).show()
                         },
                         onDismiss = {
                             viewModel.dismissRoutine(routine.id)
@@ -342,7 +342,7 @@ fun SuggestedRoutineCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "⚡ ${routine.triggerLabel}",
+                text = "⚡ ${routineTriggerArabic(routine.triggerLabel)}",
                 color = AppTheme.colors.accentCyan,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -491,7 +491,7 @@ fun ActiveRoutineCard(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = routine.name,
+                        text = routineNameArabic(routine.name),
                         color = AppTheme.colors.textPrimary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
@@ -628,4 +628,18 @@ fun RoutineTemplateCard(
             }
         }
     }
+}
+
+private fun routineNameArabic(name: String): String = when (name) {
+    "Morning Routine" -> "روتين الصباح"
+    "Work Focus Routine" -> "روتين التركيز في العمل"
+    "Evening Wrap-up" -> "روتين نهاية اليوم"
+    else -> name
+}
+
+private fun routineTriggerArabic(trigger: String): String = when (trigger) {
+    "Every weekday at 9:00 AM" -> "كل يوم عمل الساعة 9 صباحاً"
+    "Every weekday at 9:30 AM" -> "كل يوم عمل الساعة 9:30 صباحاً"
+    "Daily at 9:00 PM" -> "يومياً الساعة 9 مساءً"
+    else -> trigger
 }
