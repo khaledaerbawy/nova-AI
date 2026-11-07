@@ -105,7 +105,7 @@ fun PermissionsScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "PERMISSIONS",
+                        text = "الصلاحيات",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -117,7 +117,7 @@ fun PermissionsScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = "رجوع",
                             tint = TextPrimary,
                         )
                     }
@@ -253,17 +253,17 @@ fun PermissionsPanel(
     }
 
     if (showGrantAllConfirm) {
-        // Mirrors the Benchmark "Test all configured?" confirmation: one explicit
+        // Mirrors the Benchmark "اختبار كل الصلاحيات؟" confirmation: one explicit
         // Cancel/Continue gate before the single batched Android dialog fires.
         val pendingGroups = visibleCards(sdkInt)
             .filter { card -> requestPlan(snapshot.granted, sdkInt, card).isNotEmpty() }
             .map { card -> cardTitle(card) }
         AlertDialog(
             onDismissRequest = { showGrantAllConfirm = false },
-            title = { Text("Grant all permissions?") },
+            title = { Text("تفعيل كل الصلاحيات؟") },
             text = {
                 Text(
-                    "Android will ask for the remaining runtime permissions in one batch:\n\n" +
+                    "أندرويد هيطلب منك الصلاحيات المتبقية مرة واحدة:\n\n" +
                         pendingGroups.joinToString("\n") { group -> "• $group" },
                 )
             },
@@ -276,10 +276,10 @@ fun PermissionsPanel(
                             isGrantAll = true,
                         )
                     },
-                ) { Text("Continue") }
+                ) { Text("متابعة") }
             },
             dismissButton = {
-                TextButton(onClick = { showGrantAllConfirm = false }) { Text("Cancel") }
+                TextButton(onClick = { showGrantAllConfirm = false }) { Text("إلغاء") }
             },
         )
     }
@@ -330,14 +330,14 @@ private fun PermissionsPanelContent(
             .padding(24.dp),
     ) {
         Text(
-            text = "Required Permissions",
+            text = "الصلاحيات المطلوبة",
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             color = TextPrimary,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Configure permissions below to enable full autonomous features.",
+            text = "فعّل الصلاحيات اللي تحتاجها عشان نوفا تقدر تنفّذ المهام اللي تختارها.",
             fontSize = 13.sp,
             color = TextSecondary,
         )
@@ -415,7 +415,7 @@ private fun PermissionsPanelContent(
             Spacer(modifier = Modifier.height(16.dp))
             if (!allRequirementsHeld) {
                 Text(
-                    text = "You can continue now and grant the rest later in Settings → Permissions.",
+                    text = "تقدر تكمل دلوقتي وتفعّل باقي الصلاحيات بعدين من الإعدادات ← الصلاحيات.",
                     fontSize = 12.sp,
                     color = TextSecondary,
                 )
@@ -434,7 +434,7 @@ private fun PermissionsPanelContent(
                 shape = RoundedCornerShape(8.dp),
             ) {
                 Text(
-                    text = "Proceed to OpenDroid Agent",
+                    text = "الدخول إلى نوفا",
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                 )
@@ -447,7 +447,7 @@ private fun PermissionsPanelContent(
 private fun ManualSettingsHeader() {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = "NEEDS A TRIP TO SETTINGS",
+            text = "محتاج تفعيل من إعدادات أندرويد",
             fontFamily = FontFamily.Monospace,
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
@@ -456,7 +456,7 @@ private fun ManualSettingsHeader() {
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "Android does not allow these to be granted from inside an app. " +
+            text = "أندرويد مش بيسمح للتطبيق بتفعيل الصلاحيات دي مباشرة. "  +
                 "\"Grant all permissions\" cannot cover them → open each one yourself.",
             fontSize = 12.sp,
             color = TextSecondary,
@@ -728,33 +728,33 @@ private fun isAccessibilityServiceEnabled(context: Context): Boolean {
 }
 
 private fun cardTitle(card: PermissionCardId): String = when (card) {
-    PermissionCardId.MICROPHONE -> "Microphone"
-    PermissionCardId.LOCATION -> "Location"
-    PermissionCardId.SMS_TELEPHONY -> "SMS & Telephony"
-    PermissionCardId.CONTACTS_CALENDAR -> "Contacts & Calendar"
-    PermissionCardId.CAMERA -> "Camera"
-    PermissionCardId.NOTIFICATIONS -> "Notifications"
-    PermissionCardId.STORAGE -> "Storage / Workspace"
-    PermissionCardId.WRITE_SETTINGS -> "System Settings Control"
-    PermissionCardId.ACCESSIBILITY -> "Accessibility Service"
+    PermissionCardId.MICROPHONE -> "الميكروفون"
+    PermissionCardId.LOCATION -> "الموقع"
+    PermissionCardId.SMS_TELEPHONY -> "الرسائل والمكالمات"
+    PermissionCardId.CONTACTS_CALENDAR -> "جهات الاتصال والتقويم"
+    PermissionCardId.CAMERA -> "الكاميرا"
+    PermissionCardId.NOTIFICATIONS -> "الإشعارات"
+    PermissionCardId.STORAGE -> "الملفات ومساحة العمل"
+    PermissionCardId.WRITE_SETTINGS -> "التحكم في إعدادات الجهاز"
+    PermissionCardId.ACCESSIBILITY -> "خدمة إمكانية الوصول"
 }
 
 private fun cardDescription(card: PermissionCardId): String = when (card) {
-    PermissionCardId.MICROPHONE -> "Needed for wake word and speech recognition."
-    PermissionCardId.LOCATION -> "Needed to fetch weather, directions, and maps."
-    PermissionCardId.SMS_TELEPHONY -> "Needed to read and send messages, and place calls."
+    PermissionCardId.MICROPHONE -> "مطلوبة لسماع كلمة التنبيه والتعرّف على صوتك."
+    PermissionCardId.LOCATION -> "مطلوبة لخدمات الطقس والاتجاهات والخرائط."
+    PermissionCardId.SMS_TELEPHONY -> "مطلوبة لقراءة الرسائل وإرسالها وإجراء المكالمات عند طلبك."
     PermissionCardId.CONTACTS_CALENDAR ->
-        "Needed to resolve recipient names and manage events."
+        "مطلوبة للوصول إلى جهات الاتصال وإدارة المواعيد."
 
-    PermissionCardId.CAMERA -> "Needed for image input and vision capabilities."
+    PermissionCardId.CAMERA -> "مطلوبة لاستخدام الصور ومزايا الرؤية."
     PermissionCardId.NOTIFICATIONS ->
-        "Needed to post system notifications and service status."
+        "مطلوبة لعرض إشعارات نوفا وحالة التشغيل."
 
     PermissionCardId.STORAGE ->
-        "App workspace storage is ready. You can also choose a custom folder (e.g. Documents) for agent files."
+        "مساحة ملفات التطبيق جاهزة. وتقدر تختار مجلداً آخر لحفظ ملفات المهام."
     PermissionCardId.WRITE_SETTINGS ->
-        "Needed to adjust brightness, volume, and other system settings."
+        "مطلوبة للتحكم في السطوع والصوت وبعض إعدادات الجهاز."
 
     PermissionCardId.ACCESSIBILITY ->
-        "Enables full agent screen automation (clicks & inputs)."
+        "تسمح لنوفا بالتفاعل مع الشاشة وتنفيذ النقرات والكتابة بعد موافقتك."
 }
