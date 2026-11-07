@@ -18,7 +18,7 @@ object VoiceApprovalParser {
     private const val AFFIRMATIVE = """approve|yes|haan|sí|si|sim|run|execute|go ahead|do it|ايوه|اه|تمام|موافق|موافقه|نفذ|نفذها|اعملها"""
 
     private val rejectPattern = Regex(
-        """\b(cancel|stop|reject|no)\b|\b(don['’]?t|do not)\s+(run|do|execute)\b|(?:^|\s)(لا|لأ|الغى|الغاء|وقف|بلاش|متنفذش|ماتنفذش)(?:$|\s)""",
+        """\b(cancel|stop|reject|no)\b|\b(don['’]?t|do not)\s+(run|do|execute)\b|(?:^|\s)(لا|لأ|ألغى|إلغاء|الغى|الغاء|وقف|بلاش|ما\\s+تنفذش|متنفذش|ماتنفذش)(?:$|\s)""",
         RegexOption.IGNORE_CASE
     )
     private val separators = Regex("""[^\p{L}\p{N}]+""")
