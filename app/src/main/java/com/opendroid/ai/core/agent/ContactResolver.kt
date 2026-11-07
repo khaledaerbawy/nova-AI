@@ -7,6 +7,7 @@ import android.provider.ContactsContract
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.opendroid.ai.core.memory.MemoryManager
+import com.opendroid.ai.core.voice.EgyptianArabicNormalizer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -254,7 +255,30 @@ open class ContactResolver @Inject constructor(
             }
         }
 
-        // Search 4: Relationship aliases (score=50)
+        // Search 4: Arabic orthographic variants and common ASR spelling noise.
+        // Query the contact list only for Arabic input, then compare normalized keys.
+        if (query.any { it in '\\u0600'..'\\u06FF' }) {
+            val queryKey = EgyptianArabicNormalizer.matchingKey(query)
+            queryContacts(
+                uri,
+                projection,
+                "${ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME} LIKE ?",
+                arrayOf("%")
+            ).forEach { contact ->
+                val contactKey = EgyptianArabicNormalizer.matchingKey(contact.name)
+                val score = when {
+                    contactKey == queryKey -> 92
+                    contactKey.startsWith("$queryKey ") -> 80
+                    contactKey.contains(" $queryKey ") -> 60
+                    else -> 0
+                }
+                if (score > 0 && seen.add(contact.phoneNumber)) {
+                    results.add(contact.copy(matchScore = score))
+                }
+            }
+        }
+
+        // Search 5: Relationship aliases (score=50)
         val aliases = getRelationshipAliases(query)
         aliases.forEach { alias ->
             queryContacts(uri, projection,
