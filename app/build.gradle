@@ -232,6 +232,10 @@ dependencies {
     ksp 'com.google.dagger:hilt-compiler:2.60.1'
     implementation 'androidx.hilt:hilt-navigation-compose:1.1.0'
 
+    // Local keyword spotting (Sherpa-ONNX) and first-run model archive extraction.
+    implementation 'com.github.k2-fsa.sherpa-onnx:sherpa-onnx:2.0.1'
+    implementation 'org.apache.commons:commons-compress:1.27.1'
+
     // Networking
     // The OkHttp BOM is the single source of truth for every com.squareup.okhttp3
     // module (including the ones Retrofit pulls in transitively), so okhttp,
