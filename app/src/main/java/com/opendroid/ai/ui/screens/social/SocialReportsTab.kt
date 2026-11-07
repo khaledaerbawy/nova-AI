@@ -47,19 +47,19 @@ fun SocialReportsTab(
     }
 
     val reportText = buildString {
-        appendLine("📊 OPENDROID SOCIAL EXECUTIVE REPORT")
-        appendLine("Period: $dateRange")
+        appendLine("📊 التقرير التنفيذي للتواصل الاجتماعي - NOVA")
+        appendLine("الفترة: $dateRange")
         appendLine("──────────────────────────────────────────")
         weeklyReport?.let { r ->
-            appendLine("• Total Published Posts: ${r.totalPostsPublished}")
-            appendLine("• Total Reach: ${r.totalReach}")
-            appendLine("• Average Engagement: ${r.averageEngagementRate}%")
-            appendLine("• Follower Growth: +${r.totalFollowersDelta}")
+            appendLine("• إجمالي المنشورات المنشورة: ${r.totalPostsPublished}")
+            appendLine("• إجمالي الوصول: ${r.totalReach}")
+            appendLine("• متوسط التفاعل: ${r.averageEngagementRate}%")
+            appendLine("• نمو المتابعين: +${r.totalFollowersDelta}")
             appendLine("──────────────────────────────────────────")
-            appendLine("Executive Summary:")
+            appendLine("الملخص التنفيذي:")
             appendLine(r.aiSummary)
             appendLine("──────────────────────────────────────────")
-            appendLine("AI Strategic Recommendations:")
+            appendLine("توصيات استراتيجية من الذكاء الاصطناعي:")
             r.recommendations.forEachIndexed { i, rec ->
                 appendLine("${i + 1}. $rec")
             }
@@ -86,7 +86,7 @@ fun SocialReportsTab(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column {
-                            Text("Executive Weekly Report", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                            Text("التقرير التنفيذي الأسبوعي", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                             Text(dateRange, color = theme.accentCyan, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                         }
 
@@ -94,7 +94,7 @@ fun SocialReportsTab(
                             onClick = onRegenerate,
                             modifier = Modifier.size(32.dp).background(theme.surface, CircleShape)
                         ) {
-                            Icon(Icons.Default.Refresh, contentDescription = "Regenerate", tint = theme.textPrimary, modifier = Modifier.size(16.dp))
+                            Icon(Icons.Default.Refresh, contentDescription = "إعادة الإنشاء", tint = theme.textPrimary, modifier = Modifier.size(16.dp))
                         }
                     }
 
@@ -108,9 +108,9 @@ fun SocialReportsTab(
                         OutlinedButton(
                             onClick = {
                                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                val clip = ClipData.newPlainText("Social Report", reportText)
+                                val clip = ClipData.newPlainText("تقرير التواصل الاجتماعي", reportText)
                                 clipboard.setPrimaryClip(clip)
-                                Toast.makeText(context, "Report copied to clipboard", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "تم نسخ التقرير", Toast.LENGTH_SHORT).show()
                             },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp),
@@ -118,7 +118,7 @@ fun SocialReportsTab(
                         ) {
                             Icon(Icons.Default.ContentCopy, contentDescription = null, tint = theme.textPrimary, modifier = Modifier.size(14.dp))
                             Spacer(modifier = Modifier.width(6.dp))
-                            Text("Copy Text", color = theme.textPrimary, fontSize = 12.sp)
+                            Text("نسخ النص", color = theme.textPrimary, fontSize = 12.sp)
                         }
 
                         Button(
@@ -128,7 +128,7 @@ fun SocialReportsTab(
                                     putExtra(Intent.EXTRA_TEXT, reportText)
                                     type = "text/plain"
                                 }
-                                context.startActivity(Intent.createChooser(shareIntent, "Share Social Report"))
+                                context.startActivity(Intent.createChooser(shareIntent, "مشاركة تقرير التواصل"))
                             },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp),
@@ -136,7 +136,7 @@ fun SocialReportsTab(
                         ) {
                             Icon(Icons.Default.Share, contentDescription = null, tint = Color.Black, modifier = Modifier.size(14.dp))
                             Spacer(modifier = Modifier.width(6.dp))
-                            Text("Share Report", color = Color.Black, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            Text("مشاركة التقرير", color = Color.Black, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -152,7 +152,7 @@ fun SocialReportsTab(
                 colors = CardDefaults.cardColors(containerColor = theme.cardBackground)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Executive Overview", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text("نظرة تنفيذية عامة", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         weeklyReport?.aiSummary ?: "Data is being aggregated from connected platforms. Insights will refresh automatically as activity logs accrue.",
@@ -176,7 +176,7 @@ fun SocialReportsTab(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Default.Lightbulb, contentDescription = null, tint = theme.accentCyan, modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Actionable Recommendations", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                        Text("توصيات قابلة للتنفيذ", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                     }
 
                     Spacer(modifier = Modifier.height(12.dp))
@@ -221,7 +221,7 @@ fun SocialReportsTab(
                 colors = CardDefaults.cardColors(containerColor = theme.cardBackground)
             ) {
                 Column(modifier = Modifier.padding(14.dp)) {
-                    Text("Grounded Insights Verification", color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                    Text("التحقق من دقة الرؤى", color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         "OpenDroid strictly distinguishes between Observed Metrics, Calculated Insights, and Strategic Suggestions to eliminate hallucinations.",
