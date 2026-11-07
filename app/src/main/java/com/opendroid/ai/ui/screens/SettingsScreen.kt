@@ -108,7 +108,7 @@ fun SettingsScreen(
         "Opencode-Go",
         "Custom OpenAI Compatible",
         "Ollama",
-        "ذكاء اصطناعي على الجهاز"
+        "On-Device AI"
     )
 
     var providerDropdownExpanded by remember { mutableStateOf(false) }
@@ -730,7 +730,7 @@ fun SettingsScreen(
             }
 
             // On-Device AI Status Card (Visible when On-Device AI or legacy Gemma provider is selected)
-            if (config.activeProvider == "ذكاء اصطناعي على الجهاز" || config.activeProvider == "Gemma 4 (على الجهاز)") {
+            if (config.activeProvider == "On-Device AI" || config.activeProvider == "Gemma 4 (On-device)") {
                 item {
                     Card(
                         modifier = Modifier
@@ -1696,7 +1696,7 @@ fun SettingsScreen(
                                 modifier = Modifier.padding(top = 16.dp),
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                val inputProviders = providers.filter { it != "Ollama" && it != "ذكاء اصطناعي على الجهاز" }
+                                val inputProviders = providers.filter { it != "Ollama" && it != "On-Device AI" }
                                 inputProviders.forEach { providerName ->
                                     val keyVal = config.apiKeys[providerName] ?: ""
                                     val connectionState = connectionResults[providerName]
