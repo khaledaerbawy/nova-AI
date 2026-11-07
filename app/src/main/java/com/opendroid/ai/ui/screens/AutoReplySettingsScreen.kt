@@ -63,10 +63,10 @@ fun AutoReplySettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Auto-Reply Settings", fontWeight = FontWeight.Bold) },
+                title = { Text("إعدادات الرد التلقائي", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "رجوع")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -103,7 +103,7 @@ fun AutoReplySettingsScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "SYSTEM PERMISSIONS REQUIRED",
+                                text = "صلاحيات النظام مطلوبة",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = themeColors.accentRed,
@@ -133,7 +133,7 @@ fun AutoReplySettingsScreen(
                                         colors = ButtonDefaults.buttonColors(containerColor = themeColors.accentRed),
                                         modifier = Modifier.weight(1f)
                                     ) {
-                                        Text("Grant Notification Access", fontSize = 10.sp, color = Color.White)
+                                        Text("السماح بالوصول إلى الإشعارات", fontSize = 10.sp, color = Color.White)
                                     }
                                 }
                                 if (!isAccessibilityPermissionGranted) {
@@ -148,7 +148,7 @@ fun AutoReplySettingsScreen(
                                         colors = ButtonDefaults.buttonColors(containerColor = themeColors.accentPurple),
                                         modifier = Modifier.weight(1f)
                                     ) {
-                                        Text("Grant Accessibility Access", fontSize = 10.sp, color = Color.White)
+                                        Text("تفعيل إمكانية الوصول", fontSize = 10.sp, color = Color.White)
                                     }
                                 }
                             }
@@ -179,15 +179,15 @@ fun AutoReplySettingsScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                "Auto-Reply",
+                                "الرد التلقائي",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = themeColors.textPrimary
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                if (config.globalEnabled) "AI will auto-reply to messages after ${config.replyDelayMinutes} minutes"
-                                else "Auto-reply is disabled",
+                                if (config.globalEnabled) "سيرد الذكاء الاصطناعي على الرسائل تلقائياً بعد ${config.replyDelayMinutes} دقيقة"
+                                else "الرد التلقائي متوقف",
                                 fontSize = 13.sp,
                                 color = themeColors.textSecondary
                             )
@@ -206,7 +206,7 @@ fun AutoReplySettingsScreen(
                 if (config.globalEnabled) {
                     // Per-App Toggles
                     Text(
-                        "Enabled Apps",
+                        "التطبيقات المفعّلة",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = themeColors.textPrimary
@@ -220,23 +220,23 @@ fun AutoReplySettingsScreen(
                         colors = CardDefaults.cardColors(containerColor = themeColors.cardBackground)
                     ) {
                         Column(modifier = Modifier.padding(8.dp)) {
-                            AppToggleRow("WhatsApp", "💬", config.whatsappEnabled, themeColors) {
+                            AppToggleRow("واتساب", "💬", config.whatsappEnabled, themeColors) {
                                 viewModel.saveConfig(config.copy(whatsappEnabled = it))
                             }
                             Divider(color = themeColors.borderColor.copy(alpha = 0.5f))
-                            AppToggleRow("Telegram", "✈️", config.telegramEnabled, themeColors) {
+                            AppToggleRow("تيليجرام", "✈️", config.telegramEnabled, themeColors) {
                                 viewModel.saveConfig(config.copy(telegramEnabled = it))
                             }
                             Divider(color = themeColors.borderColor.copy(alpha = 0.5f))
-                            AppToggleRow("Discord", "🎮", config.discordEnabled, themeColors) {
+                            AppToggleRow("ديسكورد", "🎮", config.discordEnabled, themeColors) {
                                 viewModel.saveConfig(config.copy(discordEnabled = it))
                             }
                             Divider(color = themeColors.borderColor.copy(alpha = 0.5f))
-                            AppToggleRow("SMS", "📱", config.smsEnabled, themeColors) {
+                            AppToggleRow("الرسائل النصية", "📱", config.smsEnabled, themeColors) {
                                 viewModel.saveConfig(config.copy(smsEnabled = it))
                             }
                             Divider(color = themeColors.borderColor.copy(alpha = 0.5f))
-                            AppToggleRow("Email", "📧", config.emailEnabled, themeColors) {
+                            AppToggleRow("البريد الإلكتروني", "📧", config.emailEnabled, themeColors) {
                                 viewModel.saveConfig(config.copy(emailEnabled = it))
                             }
                         }
@@ -244,7 +244,7 @@ fun AutoReplySettingsScreen(
 
                     // Reply Delay Slider
                     Text(
-                        "Reply Delay",
+                        "تأخير الرد",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = themeColors.textPrimary
@@ -263,13 +263,13 @@ fun AutoReplySettingsScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
-                                    "Wait before replying",
+                                    "الانتظار قبل الرد",
                                     fontSize = 14.sp,
                                     color = themeColors.textSecondary
                                 )
                                 Text(
-                                    if (config.replyDelayMinutes <= 0) "Immediately (0 sec)"
-                                    else "${config.replyDelayMinutes} minutes",
+                                    if (config.replyDelayMinutes <= 0) "فوراً (0 ثانية)"
+                                    else "${config.replyDelayMinutes} دقيقة",
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = themeColors.accentPurple
@@ -292,15 +292,15 @@ fun AutoReplySettingsScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text("0 sec (Instant)", fontSize = 12.sp, color = themeColors.textSecondary.copy(alpha = 0.6f))
-                                Text("60 min", fontSize = 12.sp, color = themeColors.textSecondary.copy(alpha = 0.6f))
+                                Text("0 ثانية (فوري)", fontSize = 12.sp, color = themeColors.textSecondary.copy(alpha = 0.6f))
+                                Text("60 دقيقة", fontSize = 12.sp, color = themeColors.textSecondary.copy(alpha = 0.6f))
                             }
                         }
                     }
 
                     // Rate Limit
                     Text(
-                        "Rate Limit",
+                        "حد معدل الردود",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = themeColors.textPrimary
@@ -319,7 +319,7 @@ fun AutoReplySettingsScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
-                                    "Max replies per contact/hour",
+                                    "أقصى عدد للردود لكل جهة اتصال في الساعة",
                                     fontSize = 14.sp,
                                     color = themeColors.textSecondary
                                 )
@@ -348,7 +348,7 @@ fun AutoReplySettingsScreen(
 
                     // Custom Prompt & Direct Reply
                     Text(
-                        "Reply Content",
+                        "محتوى الرد",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = themeColors.textPrimary
@@ -363,13 +363,13 @@ fun AutoReplySettingsScreen(
                     ) {
                         Column(modifier = Modifier.padding(20.dp)) {
                             Text(
-                                "Direct custom reply text (optional)",
+                                "نص رد مخصص (اختياري)",
                                 fontSize = 14.sp,
                                 color = themeColors.textSecondary
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                "When set, this exact text will be sent instead of generating an AI reply.",
+                                "عند تحديده، سيتم إرسال هذا النص كما هو بدلاً من إنشاء رد بالذكاء الاصطناعي.",
                                 fontSize = 12.sp,
                                 color = themeColors.textSecondary.copy(alpha = 0.7f)
                             )
@@ -382,7 +382,7 @@ fun AutoReplySettingsScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 placeholder = {
                                     Text(
-                                        "e.g., I'm currently driving. I'll get back to you soon!",
+                                        "مثال: أنا أقود السيارة حالياً، سأرد عليك قريباً!",
                                         color = themeColors.textSecondary.copy(alpha = 0.5f)
                                     )
                                 },
@@ -400,7 +400,7 @@ fun AutoReplySettingsScreen(
                             Spacer(modifier = Modifier.height(16.dp))
 
                             Text(
-                                "Custom reply style (optional)",
+                                "أسلوب الرد المخصص (اختياري)",
                                 fontSize = 14.sp,
                                 color = themeColors.textSecondary
                             )
@@ -413,7 +413,7 @@ fun AutoReplySettingsScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 placeholder = {
                                     Text(
-                                        "e.g., casual and friendly, use emojis",
+                                        "مثال: ودي وبلغة بسيطة مع استخدام الرموز التعبيرية",
                                         color = themeColors.textSecondary.copy(alpha = 0.5f)
                                     )
                                 },
