@@ -28,7 +28,7 @@ fun HelpCenterScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "HELP CENTER",
+                        text = "مركز المساعدة",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -40,7 +40,7 @@ fun HelpCenterScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = "رجوع",
                             tint = TextPrimary
                         )
                     }
@@ -74,20 +74,20 @@ fun HelpCenterScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.HelpOutline,
-                            contentDescription = "Help",
+                            contentDescription = "مساعدة",
                             tint = AccentCyan,
                             modifier = Modifier.size(32.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
-                                text = "How can we help?",
+                                text = "إزاي نقدر نساعدك؟",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = TextPrimary
                             )
                             Text(
-                                text = "Quick answers to common questions",
+                                text = "إجابات سريعة لأهم الأسئلة",
                                 fontSize = 12.sp,
                                 color = TextSecondary
                             )
@@ -98,7 +98,7 @@ fun HelpCenterScreen(
 
             item {
                 PolicySection(
-                    title = "GETTING STARTED",
+                    title = "البدء مع نوفا",
                     content = "1. Launch OpenDroid and complete the onboarding setup\n" +
                             "2. Grant the requested permissions (microphone, accessibility, etc.)\n" +
                             "3. Go to Settings and enter your LLM provider API key\n" +
@@ -109,7 +109,7 @@ fun HelpCenterScreen(
 
             item {
                 PolicySection(
-                    title = "VOICE COMMANDS",
+                    title = "الأوامر الصوتية",
                     content = "OpenDroid listens for the wake word \"Hey OpenDroid\" when the app is running.\n\n" +
                             "Examples of what you can say:\n\n" +
                             "• \"Send a WhatsApp message to Mom saying I'll be late\"\n" +
@@ -124,7 +124,7 @@ fun HelpCenterScreen(
 
             item {
                 PolicySection(
-                    title = "SETTING UP API KEYS",
+                    title = "إعداد مفاتيح API",
                     content = "OpenDroid needs an LLM API key to generate responses:\n\n" +
                             "1. Go to Settings → Provider API Keys\n" +
                             "2. Enter your API key for the provider you want to use\n" +
@@ -141,7 +141,7 @@ fun HelpCenterScreen(
 
             item {
                 PolicySection(
-                    title = "ACCESSIBILITY SERVICE",
+                    title = "خدمة إمكانية الوصول",
                     content = "The Accessibility Service lets OpenDroid tap buttons and type in other apps (e.g., sending WhatsApp messages automatically).\n\n" +
                             "To enable it:\n" +
                             "1. Go to Android Settings → Accessibility\n" +
@@ -153,7 +153,7 @@ fun HelpCenterScreen(
 
             item {
                 PolicySection(
-                    title = "MACROS & AUTOMATION",
+                    title = "الأوامر والأتمتة",
                     content = "You can create macros to run multiple actions in sequence:\n\n" +
                             "• Go to the Macros tab\n" +
                             "• Create a new macro with a name and list of steps\n" +
@@ -164,7 +164,7 @@ fun HelpCenterScreen(
 
             item {
                 PolicySection(
-                    title = "MEMORY SYSTEM",
+                    title = "نظام الذاكرة",
                     content = "OpenDroid has 4 types of memory:\n\n" +
                             "• Working Memory — Current session context (auto-cleared)\n" +
                             "• Episodic Memory — Conversation history\n" +
@@ -176,7 +176,7 @@ fun HelpCenterScreen(
 
             item {
                 PolicySection(
-                    title = "TROUBLESHOOTING",
+                    title = "حل المشكلات",
                     content = "\"OpenDroid isn't responding\"\n" +
                             "→ Check that your API key is valid and the provider is reachable.\n\n" +
                             "\"Voice commands don't work\"\n" +
@@ -190,11 +190,11 @@ fun HelpCenterScreen(
 
             item {
                 PolicySection(
-                    title = "CONTACT & SUPPORT",
+                    title = "التواصل والدعم",
                     content = "• GitHub: Report bugs and request features at github.com/JMAN730/opendroid\n" +
                             "• Discord: Join our community for live help and discussion\n" +
                             "• Security: Report vulnerabilities privately at github.com/JMAN730/opendroid/security/advisories/new, not in public issues or Discord\n\n" +
-                            "OpenDroid is open-source and community-driven. We welcome contributions!"
+                            "نوفا مشروع مفتوح المصدر ونرحب بالمساهمات والتطوير."
                 )
             }
         }
