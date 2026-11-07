@@ -74,12 +74,8 @@ internal class SherpaWakeWordDetector(
                 val pcm = ShortArray(WakeWordModelInstaller.SAMPLE_RATE / 10)
                 while (running.get() && isActive) {
                     val count = activeRecorder.read(pcm, 0, pcm.size, AudioRecord.READ_BLOCKING)
-                    if (count <= 0) {
-                        if (count == AudioRecord.ERROR_DEAD_OBJECT ||
-                            count == AudioRecord.ERROR_INVALID_OPERATION
-                        ) error("Microphone capture stopped unexpectedly")
-                        continue
-                    }
+                    if (count < 0) error("Microphone capture stopped unexpectedly: $count")
+                    if (count == 0) continue
 
                     val samples = FloatArray(count) { index -> pcm[index] / 32768.0f }
                     activeStream.acceptWaveform(samples, WakeWordModelInstaller.SAMPLE_RATE)
