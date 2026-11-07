@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://jman730.github.io/opendroid/sitemap.xml
+
+# Disallow crawling of non-page assets
+Disallow: /assets/*.mp4
