@@ -45,8 +45,17 @@ class AutoApprovalPolicyTest {
     }
 
     @Test
-    fun `AUTO never approves a neverAutoApprove action even if somehow granted`() {
-        assertFalse(AutoApprovalPolicy.shouldAutoApprove(AutoMode.AUTO, granted + "PAY_UPI", plan("PAY_UPI")))
+    fun `AUTO never approves outgoing communication even if granted`() {
+        for (action in listOf("MAKE_CALL", "SEND_WHATSAPP", "SEND_WHATSAPP_GROUP", "SEND_TELEGRAM", "SEND_SMS", "SEND_EMAIL", "MAKE_VIDEO_CALL")) {
+            assertFalse(action, AutoApprovalPolicy.shouldAutoApprove(AutoMode.AUTO, granted + action, plan(action)))
+        }
+    }
+
+    @Test
+    fun `AUTO never approves scheduled posts or running macros and routines`() {
+        for (action in listOf("SOCIAL_SCHEDULE_POST", "RUN_MACRO", "SCHEDULE_MACRO", "RUN_ROUTINE")) {
+            assertFalse(action, AutoApprovalPolicy.shouldAutoApprove(AutoMode.AUTO, granted + action, plan(action)))
+        }
     }
 
     @Test
@@ -67,7 +76,7 @@ class AutoApprovalPolicyTest {
 
     @Test
     fun `grantable excludes neverAutoApprove and unknown actions`() {
-        assertTrue(AutoApprovalPolicy.isGrantable("SEND_SMS"))
+        assertFalse(AutoApprovalPolicy.isGrantable("SEND_SMS"))
         assertFalse(AutoApprovalPolicy.isGrantable("PAY_UPI"))
         assertFalse(AutoApprovalPolicy.isGrantable("NOT_A_REAL_ACTION"))
     }
@@ -117,17 +126,17 @@ class AutoApprovalPolicyTest {
     }
 
     @Test
-    fun `AUTO still runs a conditional send once a data step checks the condition first`() {
+    fun `AUTO still requires approval for a conditional send even after a data step`() {
         val smsGranted = granted + "SEND_SMS"
         val conditional = "If it rains tomorrow, text my wife that I'll pick up the kids"
-        assertTrue(
+        assertFalse(
             AutoApprovalPolicy.shouldAutoApprove(AutoMode.AUTO, smsGranted, plan("GET_WEATHER", "SEND_SMS"), conditional)
         )
     }
 
     @Test
-    fun `AUTO still runs an unconditional granted send`() {
-        assertTrue(
+    fun `AUTO still requires approval for an unconditional send`() {
+        assertFalse(
             AutoApprovalPolicy.shouldAutoApprove(AutoMode.AUTO, granted + "SEND_SMS", plan("SEND_SMS"), "text my wife hi")
         )
     }
