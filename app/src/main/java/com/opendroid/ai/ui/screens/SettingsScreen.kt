@@ -106,7 +106,7 @@ fun SettingsScreen(
         "DeepSeek",
         "Copilot API",
         "Opencode-Go",
-        "متوافق مع OpenAI",
+        "Custom OpenAI Compatible",
         "Ollama",
         "ذكاء اصطناعي على الجهاز"
     )
@@ -312,7 +312,7 @@ fun SettingsScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = if (config.activeProvider == "ذكاء اصطناعي على الجهاز" || config.activeProvider == "Gemma 4 (على الجهاز)") "ذكاء اصطناعي على الجهاز" else config.activeProvider,
+                                    text = if (config.activeProvider == "On-Device AI" || config.activeProvider == "Gemma 4 (On-device)") "ذكاء اصطناعي على الجهاز" else config.activeProvider,
                                     color = TextPrimary,
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.SemiBold
@@ -348,7 +348,7 @@ fun SettingsScreen(
                                 DropdownMenuItem(
                                     text = { Text("ذكاء اصطناعي على الجهاز", color = TextPrimary, modifier = Modifier.padding(start = 8.dp)) },
                                     onClick = {
-                                        viewModel.updateActiveProvider("ذكاء اصطناعي على الجهاز")
+                                        viewModel.updateActiveProvider("On-Device AI")
                                         providerDropdownExpanded = false
                                     }
                                 )
@@ -368,9 +368,10 @@ fun SettingsScreen(
                                     enabled = false,
                                     onClick = {}
                                 )
-                                val cloudProvidersList = providers.filter { it != "ذكاء اصطناعي على الجهاز" }
+                                val cloudProvidersList = providers.filter { it != "On-Device AI" }
                                 cloudProvidersList.forEach { name ->
                                     val displayName = when (name) {
+                                        "Custom OpenAI Compatible" -> "متوافق مع OpenAI"
                                         "Google Gemini" -> "Gemini"
                                         "Anthropic Claude" -> "Claude"
                                         else -> name
@@ -557,7 +558,7 @@ fun SettingsScreen(
                             modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
                         )
                         providers
-                            .filter { it != config.activeProvider && it != "ذكاء اصطناعي على الجهاز" }
+                            .filter { it != config.activeProvider && it != "On-Device AI" }
                             .forEach { fallbackProvider ->
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -1619,7 +1620,7 @@ fun SettingsScreen(
             }
 
             // Custom OpenAI Compatible Endpoint Config Card (Visible only when Custom OpenAI Compatible is selected)
-            if (config.activeProvider == "متوافق مع OpenAI") {
+            if (config.activeProvider == "Custom OpenAI Compatible") {
                 item {
                     Card(
                         modifier = Modifier
@@ -1637,8 +1638,8 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.height(12.dp))
                             OutlinedTextField(
-                                value = config.customEndpoints["متوافق مع OpenAI"] ?: "",
-                                onValueChange = { viewModel.updateCustomEndpoint("متوافق مع OpenAI", it) },
+                                value = config.customEndpoints["Custom OpenAI Compatible"] ?: "",
+                                onValueChange = { viewModel.updateCustomEndpoint("Custom OpenAI Compatible", it) },
                                 label = { Text("الرابط الأساسي للخدمة", fontSize = 12.sp) },
                                 singleLine = true,
                                 colors = OutlinedTextFieldDefaults.colors(
