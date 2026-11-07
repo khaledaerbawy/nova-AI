@@ -7,9 +7,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.content.ContextCompat
 import com.opendroid.ai.core.service.OpenDroidService
 import com.opendroid.ai.data.repository.SettingsRepository
@@ -29,7 +32,6 @@ class MainActivity : ComponentActivity() {
         enableOpenDroidEdgeToEdge(isDarkTheme = true)
         super.onCreate(savedInstanceState)
 
-        // Start foreground assistant service only if RECORD_AUDIO permission is granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             OpenDroidService.start(this)
         }
@@ -40,11 +42,13 @@ class MainActivity : ComponentActivity() {
             )
 
             OpenDroidTheme(isDarkTheme = config.isDarkMode) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = AppTheme.colors.background
-                ) {
-                    OpenDroidNavigation()
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = AppTheme.colors.background
+                    ) {
+                        OpenDroidNavigation()
+                    }
                 }
             }
         }
@@ -52,9 +56,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // We want the foreground service to continue running even if UI is destroyed
-        // to maintain wake word tracking, but we can stop it if the user wants full quit.
-        // For production autonomous helper, we keep the service running in background.
+        // Keep the foreground service alive so the user can continue using voice activation.
     }
 }
-
