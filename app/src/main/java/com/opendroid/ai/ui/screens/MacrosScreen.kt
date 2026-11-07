@@ -298,7 +298,7 @@ fun MacrosScreen(
                                         stepFallback = ""
                                     }
                                 },
-                                colors = ButtonDefaults.buttonColors(containerColor = AccentPurple, contentColor = TextPrimary),
+                                colors = ButtonDefaults.buttonColors(containerColor = AccentPurple, contentColor = AppTheme.colors.onAccent),
                                 shape = RoundedCornerShape(8.dp),
                                 modifier = Modifier.align(Alignment.End)
                             ) {
@@ -336,7 +336,7 @@ fun MacrosScreen(
                                             isAddingMacro = false
                                         }
                                     },
-                                    colors = ButtonDefaults.buttonColors(containerColor = AccentGreenButton, contentColor = DarkBackground),
+                                    colors = ButtonDefaults.buttonColors(containerColor = AccentGreenButton, contentColor = AppTheme.colors.onAccent),
                                     shape = RoundedCornerShape(8.dp)
                                 ) {
                                     Text("حفظ الأمر", fontWeight = FontWeight.Bold)

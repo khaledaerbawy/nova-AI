@@ -341,7 +341,7 @@ private fun PriorityBadge(priority: InteractionPriority) {
             .background(color.copy(alpha = 0.15f))
             .padding(horizontal = 4.dp, vertical = 1.dp)
     ) {
-        Text(text, color = color, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+        Text(text, color = color, fontSize = 10.sp, fontWeight = FontWeight.Bold)
     }
 }
 

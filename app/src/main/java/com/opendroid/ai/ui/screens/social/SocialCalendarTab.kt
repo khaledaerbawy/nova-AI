@@ -341,7 +341,7 @@ private fun ScheduledPostCard(
                             .background(theme.accentOrange.copy(alpha = 0.15f))
                             .padding(horizontal = 6.dp, vertical = 2.dp)
                     ) {
-                        Text("مطلوب موافقة", color = theme.accentOrange, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                        Text("مطلوب موافقة", color = theme.accentOrange, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                     }
                 } else {
                     Box(
@@ -350,7 +350,7 @@ private fun ScheduledPostCard(
                             .background(theme.accentCyan.copy(alpha = 0.15f))
                             .padding(horizontal = 6.dp, vertical = 2.dp)
                     ) {
-                        Text("نشر تلقائي", color = theme.accentCyan, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                        Text("نشر تلقائي", color = theme.accentCyan, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
