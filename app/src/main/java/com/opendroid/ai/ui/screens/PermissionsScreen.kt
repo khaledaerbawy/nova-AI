@@ -89,6 +89,7 @@ import com.opendroid.ai.core.permissions.summaryHasBlocked
 import com.opendroid.ai.core.permissions.summaryLine
 import com.opendroid.ai.core.permissions.visibleCards
 import com.opendroid.ai.ui.theme.AccentRed
+import com.opendroid.ai.ui.theme.AccentGreenButton
 import com.opendroid.ai.ui.theme.BorderColor
 import com.opendroid.ai.ui.theme.CardBackground
 import com.opendroid.ai.ui.theme.DarkBackground
