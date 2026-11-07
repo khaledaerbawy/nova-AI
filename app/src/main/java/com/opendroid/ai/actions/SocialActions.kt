@@ -48,7 +48,7 @@ class SocialActions @Inject constructor(
             "بكرة", "بكره", "غدا", "بعد يوم", "بعد 24 ساعة" -> return 24L
             "بعد يومين", "بعد 48 ساعة" -> return 48L
         }
-        val match = Regex("""(\\d+)\\s*(ساعة|ساعات|ساعه|hour|hours)""").find(normalized)
+        val match = Regex("""(\d+)\s*(ساعة|ساعات|ساعه|hour|hours)""").find(normalized)
         return match?.groupValues?.get(1)?.toLongOrNull()
     }
 
