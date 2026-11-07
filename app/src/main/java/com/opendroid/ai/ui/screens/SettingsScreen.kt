@@ -1004,18 +1004,18 @@ fun SettingsScreen(
 
                                     // Status display
                                     val statusDisplay = when (validationStatus) {
-                                        "صالح" -> "✓ الرمز صالح"
-                                        "غير صالح" -> "✗ الرمز غير صالح"
-                                        "جاري التحقق..." -> "جاري فحص الرمز..."
-                                        "تعذر التحقق" -> "تعذر التحقق من الرمز."
+                                        "Valid" -> "✓ الرمز صالح"
+                                        "Invalid" -> "✗ الرمز غير صالح"
+                                        "Verifying..." -> "جاري فحص الرمز..."
+                                        "Unable to verify" -> "تعذر التحقق من الرمز."
                                         else -> "⚠ الرمز مطلوب"
                                     }
 
                                     val statusColor = when (validationStatus) {
-                                        "صالح" -> AccentCyan
-                                        "غير صالح" -> Color.Red
-                                        "جاري التحقق..." -> AccentCyan
-                                        "تعذر التحقق" -> Color.Yellow
+                                        "Valid" -> AccentCyan
+                                        "Invalid" -> Color.Red
+                                        "Verifying..." -> AccentCyan
+                                        "Unable to verify" -> Color.Yellow
                                         else -> TextSecondary
                                     }
 
@@ -1026,7 +1026,7 @@ fun SettingsScreen(
                                     ) {
                                         Column {
                                             Text("الحالة: $statusDisplay", fontSize = 11.sp, color = statusColor, fontWeight = FontWeight.Bold)
-                                            Text("آخر تحقق: $lastVerified", fontSize = 9.sp, color = TextSecondary)
+                                            Text("آخر تحقق: ${if (lastVerified == "Never") "لم يتم التحقق بعد" else lastVerified}", fontSize = 9.sp, color = TextSecondary)
                                             Text("التخزين: مشفر", fontSize = 9.sp, color = TextSecondary)
                                         }
 
