@@ -136,7 +136,7 @@ fun SocialOverviewTab(
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "Observed: ${topInsight.observedData}",
+                            text = "الملاحظة: ${topInsight.observedData}",
                             fontSize = 12.sp,
                             color = theme.textSecondary
                         )
@@ -148,7 +148,7 @@ fun SocialOverviewTab(
                                 .padding(10.dp)
                         ) {
                             Text(
-                                text = "👉 Recommendation: ${topInsight.aiRecommendation}",
+                                text = "👉 التوصية: ${topInsight.aiRecommendation}",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = theme.textPrimary
@@ -293,8 +293,8 @@ fun SocialOverviewTab(
                             Text(post.content, fontSize = 12.sp, color = theme.textPrimary, maxLines = 1)
                         }
                         Column(horizontalAlignment = Alignment.End) {
-                            Text("${post.reach} reach", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = theme.textPrimary)
-                            Text("${String.format(locale, "%.1f", post.engagementRate)}% engage", fontSize = 10.sp, color = theme.textSecondary)
+                            Text("${post.reach} وصول", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = theme.textPrimary)
+                            Text("${String.format(locale, "%.1f", تفاعل ${post.engagementRate)}%", fontSize = 10.sp, color = theme.textSecondary)
                         }
                     }
                 }
