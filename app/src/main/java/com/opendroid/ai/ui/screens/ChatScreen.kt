@@ -815,9 +815,9 @@ fun ChatBubble(
             ) {
                 if (isAgent && message.modelBadge != null) {
                     val displayName = when (message.modelBadge) {
-                        "Gemma 4 (على الجهاز)" -> "ذكاء على الجهاز"
-                        "ذكاء اصطناعي محلي" -> "ذكاء محلي"
-                        "LiteRT-LM (على الجهاز)" -> "محرك محلي LiteRT"
+                        "Gemma 4 (On-device)" -> "ذكاء على الجهاز"
+                        "On-Device AI" -> "ذكاء محلي"
+                        "LiteRT-LM (On-device)" -> "محرك محلي LiteRT"
                         else -> message.modelBadge.uppercase(Locale.getDefault())
                     }
                     Text(
