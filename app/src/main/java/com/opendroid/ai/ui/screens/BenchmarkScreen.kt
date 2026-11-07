@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Arrowرجوع
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.opendroid.ai.core.llm.ConnectionTestPlanner
-import com.opendroid.ai.core.llm.ConnectionTestState
+import com.opendroid.ai.core.llm.ConnectionاختبارPlanner
+import com.opendroid.ai.core.llm.ConnectionاختبارState
 import com.opendroid.ai.core.llm.error.LLMError
 import com.opendroid.ai.ui.theme.*
 import com.opendroid.ai.ui.viewmodel.SettingsViewModel
@@ -28,7 +28,7 @@ import com.opendroid.ai.ui.viewmodel.SettingsViewModel
 @Composable
 fun BenchmarkScreen(
     viewModel: SettingsViewModel,
-    onNavigateBack: () -> Unit,
+    onNavigateرجوع: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val config by viewModel.llmConfig.collectAsState()
@@ -36,15 +36,15 @@ fun BenchmarkScreen(
     val batchProgress by viewModel.connectionBatchProgress.collectAsState()
     var showConfirm by remember { mutableStateOf(false) }
 
-    val providers = ConnectionTestPlanner.cloudProviders()
-        .filter { it != "Custom OpenAI Compatible" }
+    val providers = ConnectionاختبارPlanner.cloudProviders()
+        .filter { it != "متوافق مع OpenAI" }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "BRAIN BENCHMARK",
+                        text = "اختبار أداء الذكاء الاصطناعي",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -53,50 +53,50 @@ fun BenchmarkScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = TextPrimary)
+                    IconButton(onClick = onNavigateرجوع) {
+                        Icon(Icons.Default.Arrowرجوع, contentDescription = "رجوع", tint = TextPrimary)
                     }
                 },
                 actions = {
                     if (batchProgress != null) {
-                        TextButton(onClick = { viewModel.cancelConnectionTests() }) {
-                            Text("Cancel", fontSize = 11.sp, color = AccentRed)
+                        TextButton(onClick = { viewModel.cancelConnectionاختبارs() }) {
+                            Text("إلغاء", fontSize = 11.sp, color = AccentRed)
                         }
                     } else {
                         Button(
                             onClick = { showConfirm = true },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = TextPrimary,
-                                contentColor = DarkBackground
+                                contentColor = Darkرجوعground
                             ),
                             shape = RoundedCornerShape(8.dp),
                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                         ) {
                             Icon(
                                 Icons.Default.PlayArrow,
-                                contentDescription = "Run Test",
+                                contentDescription = "بدء الاختبار",
                                 modifier = Modifier.size(16.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Test all configured", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Text("اختبار كل الخدمات المعدّة", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkBackground)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Darkرجوعground)
             )
         },
-        containerColor = DarkBackground,
+        containerColor = Darkرجوعground,
         modifier = modifier
     ) { padding ->
         if (showConfirm) {
-            val configuredCount = ConnectionTestPlanner.configuredProviders(config).size
+            val configuredCount = ConnectionاختبارPlanner.configuredProviders(config).size
             AlertDialog(
                 onDismissRequest = { showConfirm = false },
-                title = { Text("Test all configured?") },
+                title = { Text("اختبار كل الخدمات المعدّة?") },
                 text = {
                     Text(
-                        "This will send $configuredCount sequential provider requests. " +
-                            "Provider charges may apply."
+                        "سيتم إرسال $configuredCount طلبات متتالية إلى مزودي الخدمة. " +
+                            "قد تُحتسب رسوم من مزود الخدمة."
                     )
                 },
                 confirmButton = {
@@ -105,10 +105,10 @@ fun BenchmarkScreen(
                             showConfirm = false
                             viewModel.testAllConfigured()
                         }
-                    ) { Text("Continue") }
+                    ) { Text("متابعة") }
                 },
                 dismissButton = {
-                    TextButton(onClick = { showConfirm = false }) { Text("Cancel") }
+                    TextButton(onClick = { showConfirm = false }) { Text("إلغاء") }
                 }
             )
         }
@@ -126,11 +126,11 @@ fun BenchmarkScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, BorderColor, RoundedCornerShape(12.dp)),
-                    colors = CardDefaults.cardColors(containerColor = CardBackground)
+                    colors = CardDefaults.cardColors(containerColor = Cardرجوعground)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "DIAGNOSTIC REPORT SUMMARY",
+                            text = "ملخص تقرير التشخيص",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
@@ -139,9 +139,9 @@ fun BenchmarkScreen(
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = batchProgress?.let {
-                                "Testing ${it.index} of ${it.total}: ${it.provider}"
-                            } ?: "Explicit connection tests use each provider's own selected model. " +
-                                "Missing keys surface as configuration errors instead of silent skips.",
+                                "اختبار ${it.index} من ${it.total}: ${it.provider}"
+                            } ?: "تستخدم اختبارات الاتصال النموذج المحدد لكل مزود. " +
+                                "تظهر المفاتيح الناقصة كأخطاء إعداد واضحة بدلاً من تخطيها.",
                             fontSize = 12.sp,
                             color = TextSecondary
                         )
@@ -156,7 +156,7 @@ fun BenchmarkScreen(
                     providerName = provider,
                     state = result,
                     legacyLatencyMs = legacyLatency,
-                    onTest = { viewModel.testConnection(provider) }
+                    onاختبار = { viewModel.testConnection(provider) }
                 )
             }
         }
@@ -166,25 +166,25 @@ fun BenchmarkScreen(
 @Composable
 fun ProviderConnectionRow(
     providerName: String,
-    state: ConnectionTestState?,
+    state: ConnectionاختبارState?,
     legacyLatencyMs: Long?,
-    onTest: () -> Unit
+    onاختبار: () -> Unit
 ) {
     val statusText = when (state) {
-        is ConnectionTestState.Testing -> "Testing…"
-        is ConnectionTestState.Connected -> "Connected · ${state.latencyMs} ms · ${state.model}"
-        is ConnectionTestState.Failed -> connectionFailureLabel(state.error)
-        is ConnectionTestState.ConfigMissing -> when (state.reason) {
-            LLMError.AuthMissing -> "Key required"
-            else -> "Configuration required"
+        is ConnectionاختبارState.اختبارing -> "جاري الاختبار…"
+        is ConnectionاختبارState.Connected -> "متصل · ${state.latencyMs} مللي ثانية · ${state.model}"
+        is ConnectionاختبارState.فشل -> connectionFailureLabel(state.error)
+        is ConnectionاختبارState.ConfigMissing -> when (state.reason) {
+            LLMError.AuthMissing -> "مطلوب مفتاح API"
+            else -> "مطلوب إكمال الإعدادات"
         }
-        else -> legacyLatencyMs?.takeIf { it > 0 && it != 9999L }?.let { "Last latency $it ms" }
-            ?: "Not tested"
+        else -> legacyLatencyMs?.takeIf { it > 0 && it != 9999L }?.let { "آخر زمن استجابة $it مللي ثانية" }
+            ?: "لم يتم الاختبار"
     }
     val barColor = when (state) {
-        is ConnectionTestState.Connected -> AccentCyan
-        is ConnectionTestState.Failed, is ConnectionTestState.ConfigMissing -> AccentRed
-        is ConnectionTestState.Testing -> AccentCyan
+        is ConnectionاختبارState.Connected -> AccentCyan
+        is ConnectionاختبارState.فشل, is ConnectionاختبارState.ConfigMissing -> AccentRed
+        is ConnectionاختبارState.اختبارing -> AccentCyan
         else -> BorderColor
     }
 
@@ -192,7 +192,7 @@ fun ProviderConnectionRow(
         modifier = Modifier
             .fillMaxWidth()
             .border(1.dp, BorderColor, RoundedCornerShape(12.dp)),
-        colors = CardDefaults.cardColors(containerColor = CardBackground)
+        colors = CardDefaults.cardColors(containerColor = Cardرجوعground)
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
             Row(
@@ -206,8 +206,8 @@ fun ProviderConnectionRow(
                     fontWeight = FontWeight.Bold,
                     color = TextPrimary
                 )
-                TextButton(onClick = onTest) {
-                    Text("Test", fontSize = 11.sp)
+                TextButton(onClick = onاختبار) {
+                    Text("اختبار", fontSize = 11.sp)
                 }
             }
             Spacer(modifier = Modifier.height(4.dp))
@@ -226,10 +226,10 @@ fun ProviderConnectionRow(
                     .background(BorderColor)
             ) {
                 val fraction = when (state) {
-                    is ConnectionTestState.Connected ->
+                    is ConnectionاختبارState.Connected ->
                         (state.latencyMs / 3000f).coerceIn(0.1f, 1f)
-                    is ConnectionTestState.Failed, is ConnectionTestState.ConfigMissing -> 1f
-                    is ConnectionTestState.Testing -> 0.35f
+                    is ConnectionاختبارState.فشل, is ConnectionاختبارState.ConfigMissing -> 1f
+                    is ConnectionاختبارState.اختبارing -> 0.35f
                     else -> 0.05f
                 }
                 Box(
@@ -245,16 +245,16 @@ fun ProviderConnectionRow(
 }
 
 private fun connectionFailureLabel(error: LLMError): String = when (error) {
-    LLMError.AuthMissing -> "Key required"
-    LLMError.AuthInvalid -> "Invalid key"
-    LLMError.QuotaExhausted -> "Quota exhausted"
-    LLMError.RateLimited -> "Rate limited"
-    LLMError.ModelUnavailable -> "Model unavailable"
-    LLMError.RequestInvalid -> "Invalid request"
-    LLMError.Network -> "Network error"
-    LLMError.ServerError -> "Server error"
-    LLMError.MalformedResponse -> "Malformed response"
-    LLMError.SafeFallbackUnavailable -> "No safe fallback"
-    LLMError.ProviderUnrecognized -> "Provider not recognized"
-    LLMError.Unknown -> "Failed"
+    LLMError.AuthMissing -> "مطلوب مفتاح API"
+    LLMError.AuthInvalid -> "مفتاح غير صالح"
+    LLMError.QuotaExhausted -> "تم استهلاك الحصة"
+    LLMError.RateLimited -> "طلبات كثيرة في وقت قصير"
+    LLMError.ModelUnavailable -> "النموذج غير متاح"
+    LLMError.RequestInvalid -> "طلب غير صالح"
+    LLMError.Network -> "خطأ في الشبكة"
+    LLMError.ServerError -> "خطأ في الخادم"
+    LLMError.MalformedResponse -> "استجابة غير مفهومة"
+    LLMError.SafeFallbackUnavailable -> "لا يوجد بديل آمن"
+    LLMError.ProviderUnrecognized -> "مزود غير معروف"
+    LLMError.Unknown -> "فشل"
 }
