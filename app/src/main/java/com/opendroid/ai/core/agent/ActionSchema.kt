@@ -464,7 +464,7 @@ object ActionSchema {
                 ParamDefinition("datetime", ParamType.STRING, true, "When to remind"),
                 ParamDefinition("repeat", ParamType.STRING, false, "Repeat schedule")
             ),
-            examples = listOf("remind me to take medicine at 8pm"),
+            examples = listOf("remind me to take medicine at 8pm", "فكرني بكرة الساعة 8", "ذكرني أكلم محمد بعد ساعة"),
             category = ActionCategory.PRODUCTIVITY
         ),
         ActionDefinition(
@@ -474,7 +474,7 @@ object ActionSchema {
                 ParamDefinition("duration", ParamType.STRING, true, "Timer duration e.g. 5 minutes"),
                 ParamDefinition("label", ParamType.STRING, false, "Timer label", defaultValue = "Timer")
             ),
-            examples = listOf("set timer 5 minutes", "timer 30 seconds"),
+            examples = listOf("set timer 5 minutes", "timer 30 seconds", "اضبط تايمر خمس دقايق", "شغل مؤقت لمدة نص ساعة"),
             category = ActionCategory.PRODUCTIVITY
         ),
         ActionDefinition(
