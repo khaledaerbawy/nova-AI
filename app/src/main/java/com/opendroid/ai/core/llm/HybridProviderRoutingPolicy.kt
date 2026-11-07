@@ -12,7 +12,7 @@ import com.opendroid.ai.core.agent.QueryComplexity
  */
 object HybridProviderRoutingPolicy {
     private val highImpactIntent = Regex(
-        """\\b(send|message|text|whatsapp|telegram|sms|call|dial|pay|purchase|buy|delete|remove|transfer|publish|post)\\b|ابعت|ابعث|ارسل|أرسل|كلم|اتصل|ادفع|اشتري|احذف|امسح|حوّل|انشر""",
+        """\b(send|message|text|whatsapp|telegram|sms|call|dial|pay|purchase|buy|delete|remove|transfer|publish|post)\b|ابعت|ابعث|ارسل|أرسل|كلم|اتصل|ادفع|اشتري|احذف|امسح|حوّل|انشر""",
         RegexOption.IGNORE_CASE
     )
 
