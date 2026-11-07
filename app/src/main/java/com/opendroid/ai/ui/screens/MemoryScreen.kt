@@ -975,10 +975,20 @@ fun KnowledgeGraphView(
                     KnowledgeCategory.NOTE_FACT -> "📝"
                     KnowledgeCategory.USER_PREFERENCE -> "⭐"
                 }
+                val categoryLabel = when (cat) {
+                    KnowledgeCategory.CONTACT -> "جهات الاتصال"
+                    KnowledgeCategory.TASK_ROUTINE -> "المهام والروتين"
+                    KnowledgeCategory.APP_PREFERENCE -> "تفضيلات التطبيقات"
+                    KnowledgeCategory.SCHEDULE -> "المواعيد"
+                    KnowledgeCategory.PROJECT -> "المشروعات"
+                    KnowledgeCategory.RESOURCE -> "الموارد"
+                    KnowledgeCategory.NOTE_FACT -> "ملاحظات ومعلومات"
+                    KnowledgeCategory.USER_PREFERENCE -> "تفضيلاتك"
+                }
                 FilterChip(
                     selected = selectedCategoryFilter == cat,
                     onClick = { selectedCategoryFilter = if (selectedCategoryFilter == cat) null else cat },
-                    label = { Text("$icon ${cat.name.replace('_', ' ')}", fontSize = 10.sp) },
+                    label = { Text("$icon $categoryLabel", fontSize = 10.sp) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = AccentCyan.copy(alpha = 0.3f),
                         selectedLabelColor = AccentCyan,
@@ -1211,13 +1221,19 @@ fun KnowledgeNodeCard(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
+                    val tierLabel = when (node.tier) {
+                        MemoryTier.TEMPORARY -> "مؤقتة"
+                        MemoryTier.LONG_TERM -> "طويلة المدى"
+                        MemoryTier.LEARNED_PATTERN -> "أنماط متعلمة"
+                        MemoryTier.SENSITIVE -> "حساسة"
+                    }
                     Surface(
                         color = tierColor.copy(alpha = 0.15f),
                         shape = RoundedCornerShape(4.dp),
                         border = BorderStroke(1.dp, tierColor.copy(alpha = 0.4f))
                     ) {
                         Text(
-                            text = "$tierIcon ${node.tier.name}",
+                            text = "$tierIcon $tierLabel",
                             fontSize = 9.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Monospace,
