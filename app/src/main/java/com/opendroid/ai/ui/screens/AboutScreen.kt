@@ -131,7 +131,7 @@ fun AboutScreen(
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                            text = "Version ${BuildConfig.VERSION_NAME}",
+                            text = "الإصدار ${BuildConfig.VERSION_NAME}",
                             fontSize = 12.sp,
                             color = TextSecondary,
                             fontFamily = FontFamily.Monospace
@@ -220,14 +220,14 @@ fun AboutScreen(
                         )
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        TechItem("Language", "Kotlin")
-                        TechItem("UI Framework", "Jetpack Compose + Material 3")
-                        TechItem("Architecture", "MVVM + Hilt DI")
-                        TechItem("Database", "Room (SQLite)")
-                        TechItem("AI Integration", "Multi-provider LLM support")
-                        TechItem("Automation", "Android Accessibility Service")
-                        TechItem("Async", "Kotlin Coroutines + Flow")
-                        TechItem("Serialization", "kotlinx.serialization")
+                        TechItem("لغة البرمجة", "Kotlin")
+                        TechItem("إطار الواجهة", "Jetpack Compose + Material 3")
+                        TechItem("البنية البرمجية", "MVVM + Hilt DI")
+                        TechItem("قاعدة البيانات", "Room (SQLite)")
+                        TechItem("تكامل الذكاء الاصطناعي", "دعم عدة مزودي ذكاء اصطناعي")
+                        TechItem("الأتمتة", "خدمة إمكانية الوصول في أندرويد")
+                        TechItem("المهام غير المتزامنة", "Kotlin Coroutines + Flow")
+                        TechItem("تسلسل البيانات", "kotlinx.serialization")
                     }
                 }
             }
@@ -251,9 +251,9 @@ fun AboutScreen(
                         Spacer(modifier = Modifier.height(12.dp))
 
                         val providers = listOf(
-                            "Google Gemini", "OpenAI (GPT-4o, etc.)", "Anthropic Claude",
+                            "Google Gemini", "OpenAI (GPT-4o وغيرها)", "Anthropic Claude",
                             "Groq", "Mistral AI", "OpenRouter", "Together AI",
-                            "Cohere", "DeepSeek", "Copilot API", "Opencode-Go", "Ollama (Local)"
+                            "Cohere", "DeepSeek", "Copilot API", "Opencode-Go", "Ollama (محلي)"
                         )
                         providers.forEach { provider ->
                             Row(
@@ -301,7 +301,7 @@ fun AboutScreen(
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            text = "OpenDroid is open source software. Contributions, bug reports, and feature requests are welcome.",
+                            text = "NOVA مشروع مفتوح المصدر. نرحب بالمساهمات والإبلاغ عن الأخطاء وطلبات تطوير المميزات.",
                             fontSize = 13.sp,
                             color = TextPrimary,
                             textAlign = TextAlign.Center,
@@ -309,7 +309,7 @@ fun AboutScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "github.com/JMAN730/opendroid",
+                            text = "المستودع الأصلي على GitHub",
                             fontSize = 13.sp,
                             fontFamily = FontFamily.Monospace,
                             fontWeight = FontWeight.SemiBold,
