@@ -750,14 +750,14 @@ fun SettingsScreen(
                             // Show which model is active
                             val activeSpec = OnDeviceModelRegistry.findById(config.activeModel)
                             Text(
-                                text = "Active: ${activeSpec?.displayName ?: config.activeModel}",
+                                text = "النموذج النشط: ${activeSpec?.displayName ?: config.activeModel}",
                                 fontSize = 12.sp,
                                 color = AccentCyan,
                                 fontWeight = FontWeight.SemiBold
                             )
                             if (activeSpec != null) {
                                 Text(
-                                    text = "Backend: ${if (activeSpec.backend == OnDeviceBackend.AI_CORE) "Android AI Core" else "LiteRT-LM"}",
+                                    text = "المحرك: ${if (activeSpec.backend == OnDeviceBackend.AI_CORE) "Android AI Core" else "LiteRT-LM"}",
                                     fontSize = 11.sp,
                                     color = TextSecondary
                                 )
@@ -1536,7 +1536,7 @@ fun SettingsScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
-                                    text = "Used: ${formatBytes(totalSpace - freeSpace)} / ${formatBytes(totalSpace)}",
+                                    text = "المستخدم: ${formatBytes(totalSpace - freeSpace)} / ${formatBytes(totalSpace)}",
                                     fontSize = 11.sp,
                                     color = TextPrimary
                                 )
@@ -2156,7 +2156,7 @@ fun SettingsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Security,
-                            contentDescription = "Permissions",
+                            contentDescription = "الصلاحيات",
                             tint = AccentCyan,
                             modifier = Modifier.size(24.dp)
                         )
@@ -2701,7 +2701,7 @@ private fun connectionStatusLabel(state: ConnectionTestState?): String = when (s
 }
 
 private fun formatBytes(bytes: Long): String {
-    if (bytes <= 0) return "0 B"
+    if (bytes <= 0) return "0 بايت"
     val units = arrayOf("B", "KB", "MB", "GB", "TB")
     val digitGroups = (Math.log10(bytes.toDouble()) / Math.log10(1024.0)).toInt()
     return String.format(
