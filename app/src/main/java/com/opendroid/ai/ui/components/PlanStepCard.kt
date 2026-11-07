@@ -58,6 +58,16 @@ fun PlanStepCard(
         mutableStateOf(step.params.map { (key, value) -> key to value })
     }
     val displayState = getDisplayState(step)
+    val displayStateLabel = when (displayState) {
+        StepDisplayState.PENDING -> "في الانتظار"
+        StepDisplayState.RUNNING -> "قيد التنفيذ"
+        StepDisplayState.COMPLETED -> "مكتملة"
+        StepDisplayState.FAILED -> "فشلت"
+        StepDisplayState.AUTO_FIXING -> "جاري الإصلاح"
+        StepDisplayState.REPAIRED -> "تم الإصلاح"
+        StepDisplayState.SKIPPED -> "تم التخطي"
+        StepDisplayState.BLOCKED -> "محظورة"
+    }
 
     val statusColor = when (displayState) {
         StepDisplayState.COMPLETED -> AccentCyan
@@ -153,7 +163,7 @@ fun PlanStepCard(
                             StepDisplayState.BLOCKED -> Icons.Default.Warning
                             StepDisplayState.PENDING -> Icons.Default.PlayArrow
                         },
-                        contentDescription = displayState.name,
+                        contentDescription = displayStateLabel,
                         tint = statusColor,
                         modifier = Modifier.size(18.dp)
                     )
