@@ -110,7 +110,7 @@ fun HelpCenterScreen(
             item {
                 PolicySection(
                     title = "الأوامر الصوتية",
-                    content = "تستمع NOVA لعبارة التنبيه «نوفا» أو «Hey Nova» \"Hey OpenDroid\" عندما تكون خدمة الاستماع مفعّلة.\n\n" +
+                    content = "تستمع NOVA لعبارة التنبيه «نوفا» أو «Hey Nova» \"Hey Nova\" عندما تكون خدمة الاستماع مفعّلة.\n\n" +
                             "أمثلة لأوامر يمكنك قولها:\n\n" +
                             "• \"Send a WhatsApp message to Mom saying I'll be late\"\n" +
                             "• \"Set an alarm for 7 AM tomorrow\"\n" +
@@ -177,13 +177,13 @@ fun HelpCenterScreen(
             item {
                 PolicySection(
                     title = "حل المشكلات",
-                    content = "\"OpenDroid isn't responding\"\n" +
+                    content = "\"نوفا لا تستجيب\"\n" +
                             "← تأكد من صحة مفتاح API ومن اتصالك بمزود الخدمة.\n\n" +
-                            "\"Voice commands don't work\"\n" +
+                            "\"الأوامر الصوتية لا تعمل\"\n" +
                             "← تأكد من منح إذن الميكروفون وأن خدمة الاستماع تعمل.\n\n" +
-                            "\"WhatsApp messages aren't sending automatically\"\n" +
+                            "\"رسائل واتساب لا تُرسل تلقائياً\"\n" +
                             "← فعّل خدمة إمكانية الوصول من إعدادات أندرويد.\n\n" +
-                            "\"App crashes on startup\"\n" +
+                            "\"التطبيق يغلق عند التشغيل\"\n" +
                             "← تحقق من مساحة التخزين ثم أعد إدخال الإعدادات. قد تحتاج إلى إدخال مفاتيح API مرة أخرى إذا تعذر فك تشفيرها."
                 )
             }
