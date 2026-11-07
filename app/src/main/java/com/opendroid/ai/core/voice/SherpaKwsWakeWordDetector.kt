@@ -122,7 +122,8 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
         val shortBuffer = ShortArray(SAMPLE_RATE / 10)
         while (currentCoroutineContext().isActive) {
             val count = audio.read(shortBuffer, 0, shortBuffer.size)
-            if (count <= 0) continue
+            if (count == 0) continue
+            if (count < 0) throw IllegalStateException("تعذر قراءة الصوت من الميكروفون: $count")
             val samples = FloatArray(count) { index -> shortBuffer[index] / 32768.0f }
             stream.acceptWaveform(samples, sampleRate = SAMPLE_RATE)
             while (kws.isReady(stream)) {

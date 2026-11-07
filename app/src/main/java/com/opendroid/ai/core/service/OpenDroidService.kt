@@ -167,7 +167,7 @@ class OpenDroidService : Service() {
         sherpaWakeWordDetector.start(
             onWakeWordDetected = { handleWakeWordDetected() },
             onUnavailable = {
-                if (!showFloatingButton) wakeWordDetector.startListening { handleWakeWordDetected() }
+                if (voiceWakeEnabled) wakeWordDetector.startListening { handleWakeWordDetected() }
             }
         )
     }
@@ -195,14 +195,14 @@ class OpenDroidService : Service() {
             onResult = { query ->
                 agentLoop.processQuery(query, this)
                 // Resume wake word detection only if floating button is disabled
-                if (!showFloatingButton) startWakeWordDetection() else {
+                if (voiceWakeEnabled) startWakeWordDetection() else {
                     agentLoop.setAgentState(AgentState.Idle)
                 }
             },
             onError = { _ ->
                 agentLoop.setAgentState(AgentState.Idle)
                 // Resume wake word detection only if floating button is disabled
-                if (!showFloatingButton) startWakeWordDetection()
+                if (voiceWakeEnabled) startWakeWordDetection()
             }
         )
     }
@@ -222,10 +222,10 @@ class OpenDroidService : Service() {
                     VoiceApprovalIntent.REJECT -> agentLoop.rejectProposedPlan()
                     VoiceApprovalIntent.NONE -> Unit
                 }
-                if (!showFloatingButton) startWakeWordDetection()
+                if (voiceWakeEnabled) startWakeWordDetection()
             },
             onError = { _ ->
-                if (!showFloatingButton) startWakeWordDetection()
+                if (voiceWakeEnabled) startWakeWordDetection()
             }
         )
     }

@@ -109,7 +109,7 @@ class LLMProviderFactory @Inject constructor(
             reasoningMode = config.reasoningMode,
             risk = risk
         )
-        if (offlineProviderName != null) {
+        if (!deviceStateProvider.hasInternet && offlineProviderName != null) {
             val offlineProvider = getProviderByName(offlineProviderName)
             if (runCatching { offlineProvider.isAvailable() }.getOrDefault(false)) {
                 return listOf(offlineProvider)

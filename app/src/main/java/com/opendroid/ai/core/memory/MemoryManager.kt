@@ -140,7 +140,13 @@ class MemoryManager @Inject constructor(
             """.trimIndent()
         } else ""
 
-        val recentMessageContext = recallRecentMessageContext(currentGoal)
+        val recentMessageContext = try {
+            recallRecentMessageContext(currentGoal)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            ""
+        }
         val recentMessageSection = if (recentMessageContext.isNotBlank()) {
             """
 
@@ -185,9 +191,9 @@ class MemoryManager @Inject constructor(
      */
     private suspend fun recallRecentMessageContext(goal: String): String {
         val normalizedGoal = VoiceLanguagePolicy.normalizeTranscript(goal)
-        if (listOf("امبارح", "امس", "yesterday").none { normalizedGoal.contains(it) }) return ""
-        val ignored = setOf("نفس", "الرسالة", "رسالة", "ابعت", "ابعث", "بعت", "بعتها", "امبارح", "امس", "yesterday", "same", "message", "sent", "send", "him", "her", "to", "the", "له", "ليها", "اللي", "اليوم")
-        val queryTokens = normalizedGoal.split(" ").filter { it.length > 1 && it !in ignored }
+        if (listOf("امبارح", "مبارح", "امس", "yesterday").none { normalizedGoal.contains(it) }) return ""
+        val ignored = setOf("نفس", "الرسالة", "رسالة", "ابعت", "ابعث", "بعت", "بعتها", "امبارح", "مبارح", "امس", "yesterday", "ابعتله", "ابعثله", "بعتله", "same", "message", "sent", "send", "him", "her", "to", "the", "له", "ليها", "اللي", "اليوم")
+        val queryTokens = normalizedGoal.split(" ").filter { it.length > 1 && it !in ignored }.map { if (it.startsWith("ل") && it.length > 3) it.drop(1) else it }
         if (queryTokens.isEmpty()) return ""
         val calendar = java.util.Calendar.getInstance()
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 0)
