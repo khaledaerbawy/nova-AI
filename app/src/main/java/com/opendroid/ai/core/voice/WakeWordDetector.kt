@@ -11,7 +11,6 @@ import android.speech.SpeechRecognizer
 import java.util.Locale
 
 class WakeWordDetector(private val context: Context) {
-
     private var speechRecognizer: SpeechRecognizer? = null
     private var intent: Intent? = null
     private var onWakeWordDetectedCallback: (() -> Unit)? = null
@@ -19,26 +18,21 @@ class WakeWordDetector(private val context: Context) {
     private var wakeWordTriggered = false
 
     private val handler = Handler(Looper.getMainLooper())
-    private val restartRunnable = Runnable {
-        startSpeechListening()
-    }
+    private val restartRunnable = Runnable { startSpeechListening() }
 
-    init {
-        initializeRecognizer()
-    }
+    init { initializeRecognizer() }
 
     private fun initializeRecognizer() {
         intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
             putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
         }
     }
 
     fun startListening(onWakeWordDetected: () -> Unit) {
         if (isListening) return
-        this.onWakeWordDetectedCallback = onWakeWordDetected
+        onWakeWordDetectedCallback = onWakeWordDetected
         wakeWordTriggered = false
         isListening = true
         startSpeechListening()
@@ -46,13 +40,11 @@ class WakeWordDetector(private val context: Context) {
 
     private fun startSpeechListening() {
         if (!isListening || wakeWordTriggered) return
-
         cleanupRecognizer()
-
         if (SpeechRecognizer.isRecognitionAvailable(context)) {
             try {
                 speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 scheduleRestart()
                 return
             }
@@ -67,25 +59,16 @@ class WakeWordDetector(private val context: Context) {
             override fun onRmsChanged(rmsdB: Float) {}
             override fun onBufferReceived(buffer: ByteArray?) {}
             override fun onEndOfSpeech() {}
-
-            override fun onError(error: Int) {
-                scheduleRestart()
-            }
+            override fun onError(error: Int) { scheduleRestart() }
 
             override fun onResults(results: Bundle?) {
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                if (matches.orEmpty().any(::containsWakePhrase)) {
-                    triggerWakeWord()
-                } else {
-                    scheduleRestart()
-                }
+                if (matches.orEmpty().any(::containsNovaWakePhrase)) triggerWakeWord() else scheduleRestart()
             }
 
             override fun onPartialResults(partialResults: Bundle?) {
                 val matches = partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                if (matches.orEmpty().any(::containsWakePhrase)) {
-                    triggerWakeWord()
-                }
+                if (matches.orEmpty().any(::containsNovaWakePhrase)) triggerWakeWord()
             }
 
             override fun onEvent(eventType: Int, params: Bundle?) {}
@@ -93,20 +76,18 @@ class WakeWordDetector(private val context: Context) {
 
         try {
             speechRecognizer?.startListening(intent)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             scheduleRestart()
         }
     }
 
-    private fun containsWakePhrase(text: String): Boolean {
-        val normalized = text.lowercase(Locale.ROOT)
-            .replace(Regex("[^a-z0-9 ]"), " ")
+    private fun containsNovaWakePhrase(transcript: String): Boolean {
+        val normalized = transcript.lowercase(Locale.ROOT)
+            .replace(Regex("[^\\p{L}\\p{N}\\s]"), " ")
             .replace(Regex("\\s+"), " ")
             .trim()
-        return normalized.contains("hey nova") ||
-            normalized.contains("hey no va") ||
-            normalized.contains("hello nova") ||
-            normalized.contains("hi nova")
+        val englishNova = Regex("(^|\\s)(hey\\s+)?nova($|\\s)")
+        return englishNova.containsMatchIn(normalized) || normalized.contains("نوفا")
     }
 
     private fun triggerWakeWord() {
@@ -118,18 +99,12 @@ class WakeWordDetector(private val context: Context) {
 
     private fun scheduleRestart() {
         handler.removeCallbacks(restartRunnable)
-        if (isListening && !wakeWordTriggered) {
-            handler.postDelayed(restartRunnable, 1000)
-        }
+        if (isListening && !wakeWordTriggered) handler.postDelayed(restartRunnable, 1000)
     }
 
     private fun cleanupRecognizer() {
-        try {
-            speechRecognizer?.stopListening()
-        } catch (e: Exception) {}
-        try {
-            speechRecognizer?.destroy()
-        } catch (e: Exception) {}
+        try { speechRecognizer?.stopListening() } catch (_: Exception) {}
+        try { speechRecognizer?.destroy() } catch (_: Exception) {}
         speechRecognizer = null
     }
 
@@ -141,7 +116,5 @@ class WakeWordDetector(private val context: Context) {
         onWakeWordDetectedCallback = null
     }
 
-    fun destroy() {
-        stopListening()
-    }
+    fun destroy() = stopListening()
 }
