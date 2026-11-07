@@ -28,7 +28,7 @@ fun LicenseScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "LICENSE",
+                        text = "التراخيص",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -40,7 +40,7 @@ fun LicenseScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = "رجوع",
                             tint = TextPrimary
                         )
                     }
@@ -74,14 +74,14 @@ fun LicenseScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Code,
-                            contentDescription = "License",
+                            contentDescription = "الترخيص",
                             tint = AccentPurple,
                             modifier = Modifier.size(32.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
-                                text = "Open Source License",
+                                text = "ترخيص المصدر المفتوح",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = TextPrimary
@@ -98,7 +98,7 @@ fun LicenseScreen(
 
             item {
                 PolicySection(
-                    title = "APACHE LICENSE 2.0",
+                    title = "ترخيص Apache 2.0",
                     content = "Copyright (c) 2026 OpenDroid Contributors\n" +
                             "Last Updated: August 18, 2026\n\n" +
                             "Licensed under the Apache License, Version 2.0 (the \"License\"); " +
@@ -115,8 +115,8 @@ fun LicenseScreen(
 
             item {
                 PolicySection(
-                    title = "THIRD-PARTY LICENSES",
-                    content = "OpenDroid uses the following open-source libraries:\n\n" +
+                    title = "تراخيص المكتبات الخارجية",
+                    content = "تستخدم NOVA المكتبات مفتوحة المصدر التالية:\n\n" +
                             "• Jetpack Compose — Apache License 2.0\n" +
                             "• Dagger/Hilt — Apache License 2.0\n" +
                             "• Room Database — Apache License 2.0\n" +
@@ -130,24 +130,24 @@ fun LicenseScreen(
 
             item {
                 PolicySection(
-                    title = "CONTRIBUTION",
-                    content = "OpenDroid is a community-driven project. By contributing code, documentation, or other materials, " +
-                            "you agree that your contributions will be licensed under the same MIT License.\n\n" +
-                            "We welcome contributions of all kinds:\n\n" +
-                            "• Bug reports and feature requests\n" +
-                            "• Code contributions via pull requests\n" +
-                            "• Documentation improvements\n" +
-                            "• Translation and localization\n\n" +
-                            "Please refer to CONTRIBUTING.md in the repository for contribution guidelines."
+                    title = "المساهمة",
+                    content = "NOVA مشروع يرحب بمساهمات المجتمع. عند تقديم كود أو توثيق أو مواد أخرى، " +
+                            "تخضع مساهمتك لشروط الترخيص وإرشادات المساهمة المعتمدة في المستودع.\n\n" +
+                            "نرحب بجميع أنواع المساهمات:\n\n" +
+                            "• الإبلاغ عن الأخطاء واقتراح المميزات\n" +
+                            "• المساهمة بالكود عبر طلبات الدمج\n" +
+                            "• تحسين التوثيق والشروحات\n" +
+                            "• الترجمة والتعريب\n\n" +
+                            "راجع ملف CONTRIBUTING.md في المستودع لمعرفة إرشادات المساهمة."
                 )
             }
 
             item {
                 PolicySection(
-                    title = "ATTRIBUTION",
-                    content = "OpenDroid is built with ❤\uFE0F by the open-source community.\n\n" +
-                            "Special thanks to all contributors who have helped make this project possible. " +
-                            "Full contributor list is available on the GitHub repository."
+                    title = "شكر وتقدير",
+                    content = "تم تطوير NOVA بالاستفادة من مجتمع المصدر المفتوح.\n\n" +
+                            "شكراً لكل المساهمين الذين ساعدوا في تطوير هذا المشروع. " +
+                            "يمكن الاطلاع على قائمة المساهمين في مستودع GitHub."
                 )
             }
         }
