@@ -55,36 +55,36 @@ fun CrashLogScreen(
     fun share(text: String) {
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            putExtra(Intent.EXTRA_SUBJECT, "OpenDroid crash report")
+            putExtra(Intent.EXTRA_SUBJECT, "تقرير أعطال NOVA")
             putExtra(Intent.EXTRA_TEXT, text)
         }
-        context.startActivity(Intent.createChooser(intent, "Share crash report"))
+        context.startActivity(Intent.createChooser(intent, "مشاركة تقرير الأعطال"))
     }
 
     fun copy(text: String) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.setPrimaryClip(ClipData.newPlainText("OpenDroid crash report", text))
+        clipboard.setPrimaryClip(ClipData.newPlainText("تقرير أعطال NOVA", text))
         // Android 13+ shows its own copy confirmation; a Toast there would double up.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            Toast.makeText(context, "Crash report copied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "تم نسخ تقرير الأعطال", Toast.LENGTH_SHORT).show()
         }
     }
 
     if (showClearConfirmation) {
         AlertDialog(
             onDismissRequest = { showClearConfirmation = false },
-            title = { Text("Delete all crash reports?") },
-            text = { Text("This removes every stored crash report from this device. It cannot be undone.") },
+            title = { Text("حذف كل تقارير الأعطال؟") },
+            text = { Text("سيؤدي ذلك إلى حذف كل تقارير الأعطال المحفوظة على هذا الجهاز، ولا يمكن التراجع عن ذلك.") },
             confirmButton = {
                 TextButton(onClick = {
                     viewModel.clearAll()
                     showClearConfirmation = false
                 }) {
-                    Text("Delete", color = themeColors.accentRed)
+                    Text("حذف", color = themeColors.accentRed)
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showClearConfirmation = false }) { Text("Cancel") }
+                TextButton(onClick = { showClearConfirmation = false }) { Text("إلغاء") }
             },
             containerColor = themeColors.surface,
             titleContentColor = themeColors.textPrimary,
@@ -95,10 +95,10 @@ fun CrashLogScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Crash Log", fontWeight = FontWeight.Bold) },
+                title = { Text("سجل الأعطال", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "رجوع")
                     }
                 },
                 actions = {
@@ -108,7 +108,7 @@ fun CrashLogScreen(
                     ) {
                         Icon(
                             Icons.Default.Share,
-                            contentDescription = "Share all crash reports",
+                            contentDescription = "مشاركة كل تقارير الأعطال",
                             tint = if (crashes.isEmpty()) {
                                 themeColors.textSecondary.copy(alpha = 0.4f)
                             } else {
@@ -122,7 +122,7 @@ fun CrashLogScreen(
                     ) {
                         Icon(
                             Icons.Default.Delete,
-                            contentDescription = "Delete all crash reports",
+                            contentDescription = "حذف كل تقارير الأعطال",
                             tint = if (crashes.isEmpty()) {
                                 themeColors.textSecondary.copy(alpha = 0.4f)
                             } else {
@@ -152,13 +152,13 @@ fun CrashLogScreen(
                     Text("✅", fontSize = 48.sp)
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        "No crashes recorded",
+                        "لا توجد أعطال مسجلة",
                         fontSize = 16.sp,
                         color = themeColors.textSecondary
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        "Crashes are captured automatically and kept on this device.",
+                        "يتم تسجيل الأعطال تلقائياً والاحتفاظ بها على هذا الجهاز.",
                         fontSize = 13.sp,
                         color = themeColors.textSecondary.copy(alpha = 0.6f)
                     )
@@ -279,7 +279,7 @@ private fun CrashCard(
                                 tint = themeColors.accentCyan
                             )
                             Spacer(modifier = Modifier.width(6.dp))
-                            Text("Share", fontSize = 13.sp, color = themeColors.accentCyan)
+                            Text("مشاركة", fontSize = 13.sp, color = themeColors.accentCyan)
                         }
                         TextButton(onClick = onCopy) {
                             Icon(
@@ -289,7 +289,7 @@ private fun CrashCard(
                                 tint = themeColors.accentCyan
                             )
                             Spacer(modifier = Modifier.width(6.dp))
-                            Text("Copy", fontSize = 13.sp, color = themeColors.accentCyan)
+                            Text("نسخ", fontSize = 13.sp, color = themeColors.accentCyan)
                         }
                     }
                 }
