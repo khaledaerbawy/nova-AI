@@ -52,6 +52,7 @@ class OpenDroidService : Service() {
     private val approvalListenGate = ApprovalListenGate()
     private var foregroundStarted = false
     private var microphoneForegroundStarted = false
+    private var voiceStatus = "جاري تجهيز محرك الاستيقاظ المحلي"
 
     companion object {
         const val ACTION_TRIGGER_RECORD = "com.opendroid.ai.action.TRIGGER_RECORD"
@@ -92,7 +93,10 @@ class OpenDroidService : Service() {
         }
 
         // Initialize engines
-        wakeWordDetector = WakeWordDetector(this)
+        wakeWordDetector = WakeWordDetector(this) { status ->
+            voiceStatus = status
+            if (foregroundStarted) updateVoiceNotification()
+        }
         speechRecognitionEngine = SpeechRecognitionEngine(this)
         textToSpeechEngine = TextToSpeechEngine(this, settingsRepository)
 
@@ -340,7 +344,7 @@ class OpenDroidService : Service() {
             .setContentTitle("NOVA Active")
             .setContentText(
                 if (microphoneForegroundStarted && !showFloatingButton) {
-                    "NOVA جاهز لسماع كلمة التنبيه"
+                    voiceStatus
                 } else if (microphoneForegroundStarted) {
                     "NOVA نشط — اضغط زر الميكروفون للتحدث"
                 } else {
