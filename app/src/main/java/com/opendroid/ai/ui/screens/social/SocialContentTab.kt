@@ -93,7 +93,7 @@ fun SocialContentTab(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = theme.accentCyan, modifier = Modifier.size(18.dp))
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("AI Content Composer", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                            Text("محرر المحتوى الذكي", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                         }
 
                         if (isGenerating) {
@@ -104,7 +104,7 @@ fun SocialContentTab(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     // Platform Selector
-                    Text("Target Platform", color = theme.textSecondary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                    Text("المنصة المستهدفة", color = theme.textSecondary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
                     Spacer(modifier = Modifier.height(6.dp))
                     LazyRow(
                         modifier = Modifier.fillMaxWidth(),
@@ -129,7 +129,7 @@ fun SocialContentTab(
                     OutlinedTextField(
                         value = topicInput,
                         onValueChange = { topicInput = it },
-                        label = { Text("What would you like to post about?", fontSize = 12.sp) },
+                        label = { Text("تحب تنشر عن إيه؟", fontSize = 12.sp) },
                         placeholder = { Text("e.g. OpenDroid v2 release with local AI agent capabilities", fontSize = 12.sp) },
                         modifier = Modifier.fillMaxWidth(),
                         maxLines = 3,
@@ -144,7 +144,7 @@ fun SocialContentTab(
                     Spacer(modifier = Modifier.height(10.dp))
 
                     // Tone Selector
-                    Text("Tone", color = theme.textSecondary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                    Text("نبرة المحتوى", color = theme.textSecondary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
                     Spacer(modifier = Modifier.height(4.dp))
                     LazyRow(
                         modifier = Modifier.fillMaxWidth(),
@@ -179,7 +179,7 @@ fun SocialContentTab(
                     ) {
                         Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = Color.Black, modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Generate Platform Post", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                        Text("إنشاء منشور للمنصة", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 13.sp)
                     }
 
                     Spacer(modifier = Modifier.height(14.dp))
@@ -192,7 +192,7 @@ fun SocialContentTab(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Draft Content", color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                        Text("مسودة المحتوى", color = theme.textPrimary, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
                         val isOverLimit = currentContent.length > maxLimit
                         Text(
                             "${currentContent.length} / $maxLimit",
@@ -208,7 +208,7 @@ fun SocialContentTab(
                         value = currentContent,
                         onValueChange = { currentContent = it },
                         modifier = Modifier.fillMaxWidth().height(120.dp),
-                        placeholder = { Text("Generated or custom post text appears here...", fontSize = 12.sp) },
+                        placeholder = { Text("هيظهر نص المنشور هنا...", fontSize = 12.sp) },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = theme.textPrimary,
                             unfocusedTextColor = theme.textPrimary,
@@ -220,7 +220,7 @@ fun SocialContentTab(
                     Spacer(modifier = Modifier.height(10.dp))
 
                     // Quick AI Modifiers Row
-                    Text("AI Modifiers", color = theme.textSecondary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
+                    Text("تحسينات الذكاء الاصطناعي", color = theme.textSecondary, fontSize = 11.sp, fontWeight = FontWeight.Medium)
                     Spacer(modifier = Modifier.height(4.dp))
                     LazyRow(
                         modifier = Modifier.fillMaxWidth(),
@@ -228,7 +228,7 @@ fun SocialContentTab(
                     ) {
                         item {
                             ModifierChip(
-                                title = "Shorten",
+                                title = "اختصار",
                                 icon = Icons.Default.Compress,
                                 onClick = {
                                     if (currentContent.isNotBlank()) {
@@ -239,7 +239,7 @@ fun SocialContentTab(
                         }
                         item {
                             ModifierChip(
-                                title = "Expand",
+                                title = "توسيع",
                                 icon = Icons.Default.Expand,
                                 onClick = {
                                     if (currentContent.isNotBlank()) {
@@ -250,7 +250,7 @@ fun SocialContentTab(
                         }
                         item {
                             ModifierChip(
-                                title = "Add CTA",
+                                title = "إضافة دعوة لاتخاذ إجراء",
                                 icon = Icons.Default.TouchApp,
                                 onClick = {
                                     if (currentContent.isNotBlank()) {
@@ -261,7 +261,7 @@ fun SocialContentTab(
                         }
                         item {
                             ModifierChip(
-                                title = "Clean Hashtags",
+                                title = "تنسيق الوسوم",
                                 icon = Icons.Default.Tag,
                                 onClick = {
                                     if (currentContent.isNotBlank()) {
@@ -272,7 +272,7 @@ fun SocialContentTab(
                         }
                         item {
                             ModifierChip(
-                                title = "Make Excited",
+                                title = "نبرة حماسية",
                                 icon = Icons.Default.Celebration,
                                 onClick = {
                                     if (currentContent.isNotBlank()) {
@@ -303,7 +303,7 @@ fun SocialContentTab(
                             shape = RoundedCornerShape(12.dp),
                             border = androidx.compose.foundation.BorderStroke(1.dp, theme.borderColor)
                         ) {
-                            Text("Save Draft", color = theme.textPrimary, fontSize = 12.sp)
+                            Text("حفظ كمسودة", color = theme.textPrimary, fontSize = 12.sp)
                         }
 
                         OutlinedButton(
@@ -313,7 +313,7 @@ fun SocialContentTab(
                             shape = RoundedCornerShape(12.dp),
                             border = androidx.compose.foundation.BorderStroke(1.dp, theme.borderColor)
                         ) {
-                            Text("Schedule", color = theme.textPrimary, fontSize = 12.sp)
+                            Text("جدولة", color = theme.textPrimary, fontSize = 12.sp)
                         }
 
                         Button(
@@ -329,7 +329,7 @@ fun SocialContentTab(
                             shape = RoundedCornerShape(12.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
                         ) {
-                            Text("Post Now", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                            Text("نشر الآن", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                         }
                     }
                 }
@@ -343,7 +343,7 @@ fun SocialContentTab(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Post History & Queue", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("سجل المنشورات وقائمة الانتظار", color = theme.textPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
         }
 
@@ -386,7 +386,7 @@ fun SocialContentTab(
                     modifier = Modifier.fillMaxWidth().padding(vertical = 40.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("No posts found in this filter", color = theme.textSecondary, fontSize = 13.sp)
+                    Text("لا توجد منشورات تطابق التصفية", color = theme.textSecondary, fontSize = 13.sp)
                 }
             }
         } else {
@@ -461,9 +461,9 @@ private fun PostItemCard(
     val theme = AppTheme.colors
     val timeFormat = SimpleDateFormat("MMM d, HH:mm", LocalConfiguration.current.locales[0])
     val dateString = when {
-        post.publishedTime != null -> "Published " + timeFormat.format(Date(post.publishedTime))
-        post.scheduledPublishTime != null -> "Scheduled for " + timeFormat.format(Date(post.scheduledPublishTime))
-        else -> "Created " + timeFormat.format(Date(post.createdAt))
+        post.publishedTime != null -> "تم النشر " + timeFormat.format(Date(post.publishedTime))
+        post.scheduledPublishTime != null -> "مجدول في " + timeFormat.format(Date(post.scheduledPublishTime))
+        else -> "تم الإنشاء " + timeFormat.format(Date(post.createdAt))
     }
 
     Card(
@@ -532,7 +532,7 @@ private fun PostItemCard(
                     onClick = onDelete,
                     contentPadding = PaddingValues(horizontal = 6.dp, vertical = 2.dp)
                 ) {
-                    Text("Delete", color = theme.accentRed, fontSize = 11.sp)
+                    Text("حذف", color = theme.accentRed, fontSize = 11.sp)
                 }
 
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -543,7 +543,7 @@ private fun PostItemCard(
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                             border = androidx.compose.foundation.BorderStroke(0.5.dp, theme.borderColor)
                         ) {
-                            Text("Schedule", color = theme.textPrimary, fontSize = 11.sp)
+                            Text("جدولة", color = theme.textPrimary, fontSize = 11.sp)
                         }
 
                         Button(
@@ -552,7 +552,7 @@ private fun PostItemCard(
                             colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan),
                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                         ) {
-                            Text("Publish Now", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Text("نشر الآن", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }
                     } else if (post.status == PostStatus.SCHEDULED) {
                         OutlinedButton(
@@ -561,7 +561,7 @@ private fun PostItemCard(
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                             border = androidx.compose.foundation.BorderStroke(0.5.dp, theme.borderColor)
                         ) {
-                            Text("Cancel", color = theme.textSecondary, fontSize = 11.sp)
+                            Text("إلغاء", color = theme.textSecondary, fontSize = 11.sp)
                         }
 
                         Button(
@@ -570,7 +570,7 @@ private fun PostItemCard(
                             colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan),
                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                         ) {
-                            Text("Publish Now", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Text("نشر الآن", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }
                     } else if (post.status == PostStatus.FAILED) {
                         Button(
@@ -579,7 +579,7 @@ private fun PostItemCard(
                             colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan),
                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                         ) {
-                            Text("Retry", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            Text("إعادة المحاولة", color = Color.Black, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }
                     } else if (post.status == PostStatus.PUBLISHING) {
                         OutlinedButton(
@@ -588,7 +588,7 @@ private fun PostItemCard(
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                             border = androidx.compose.foundation.BorderStroke(0.5.dp, theme.borderColor)
                         ) {
-                            Text("Not live", color = theme.textPrimary, fontSize = 11.sp)
+                            Text("لم يُنشر", color = theme.textPrimary, fontSize = 11.sp)
                         }
 
                         OutlinedButton(
@@ -597,7 +597,7 @@ private fun PostItemCard(
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                             border = androidx.compose.foundation.BorderStroke(0.5.dp, theme.borderColor)
                         ) {
-                            Text("It's live", color = theme.textPrimary, fontSize = 11.sp)
+                            Text("تم النشر", color = theme.textPrimary, fontSize = 11.sp)
                         }
                     }
                 }
@@ -610,12 +610,12 @@ private fun PostItemCard(
 private fun PostStatusBadge(status: PostStatus) {
     val theme = AppTheme.colors
     val (color, text) = when (status) {
-        PostStatus.PUBLISHED -> theme.accentCyan to "PUBLISHED"
-        PostStatus.SCHEDULED -> theme.accentCyan to "SCHEDULED"
-        PostStatus.PUBLISHING -> theme.accentOrange to "PUBLISHING"
-        PostStatus.DRAFT -> theme.textSecondary to "DRAFT"
-        PostStatus.FAILED -> theme.accentRed to "FAILED"
-        PostStatus.CANCELLED -> theme.textSecondary to "CANCELLED"
+        PostStatus.PUBLISHED -> theme.accentCyan to "منشور"
+        PostStatus.SCHEDULED -> theme.accentCyan to "مجدول"
+        PostStatus.PUBLISHING -> theme.accentOrange to "جاري النشر"
+        PostStatus.DRAFT -> theme.textSecondary to "مسودة"
+        PostStatus.FAILED -> theme.accentRed to "فشل"
+        PostStatus.CANCELLED -> theme.textSecondary to "ملغي"
     }
 
     Box(
@@ -639,18 +639,18 @@ internal fun ScheduleTimeDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         containerColor = theme.cardBackground,
-        title = { Text("Schedule Post Time", color = theme.textPrimary, fontWeight = FontWeight.Bold) },
+        title = { Text("موعد نشر المنشور", color = theme.textPrimary, fontWeight = FontWeight.Bold) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                Text("Select when this post should be automatically published:", color = theme.textSecondary, fontSize = 12.sp)
+                Text("حدد موعد النشر التلقائي لهذا المنشور:", color = theme.textSecondary, fontSize = 12.sp)
 
                 listOf(
-                    1 to "In 1 hour",
-                    3 to "In 3 hours",
-                    6 to "In 6 hours",
-                    12 to "In 12 hours",
-                    24 to "Tomorrow (24 hours)",
-                    48 to "In 2 days"
+                    1 to "بعد ساعة",
+                    3 to "بعد 3 ساعات",
+                    6 to "بعد 6 ساعات",
+                    12 to "بعد 12 ساعة",
+                    24 to "غداً (بعد 24 ساعة)",
+                    48 to "بعد يومين"
                 ).forEach { (hours, label) ->
                     Row(
                         modifier = Modifier.fillMaxWidth().clickable { selectedOffsetHours = hours },
@@ -675,12 +675,12 @@ internal fun ScheduleTimeDialog(
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = theme.accentCyan)
             ) {
-                Text("Schedule", color = Color.Black, fontWeight = FontWeight.Bold)
+                Text("جدولة", color = Color.Black, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = theme.textSecondary)
+                Text("إلغاء", color = theme.textSecondary)
             }
         }
     )
