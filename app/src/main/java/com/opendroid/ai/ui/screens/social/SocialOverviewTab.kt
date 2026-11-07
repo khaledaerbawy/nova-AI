@@ -57,7 +57,7 @@ fun SocialOverviewTab(
                 )
                 MetricCard(
                     title = "إجمالي الوصول",
-                    value = summary?.totalReach?.let { formatCount(it) } ?: "0",
+                    value = summary?.totalReach?.let { formatCount(it.toLong()) } ?: "0",
                     delta = summary?.reachGrowthDelta?.let { if (it >= 0) "+$it" else "$it" } ?: "+0",
                     icon = Icons.Default.Visibility,
                     modifier = Modifier.weight(1f)
@@ -294,7 +294,7 @@ fun SocialOverviewTab(
                         }
                         Column(horizontalAlignment = Alignment.End) {
                             Text("${post.reach} وصول", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = theme.textPrimary)
-                            Text("${String.format(locale, "%.1f", تفاعل ${post.engagementRate)}%", fontSize = 10.sp, color = theme.textSecondary)
+                            Text("${String.format(locale, "%.1f", post.engagementRate)}%", fontSize = 10.sp, color = theme.textSecondary)
                         }
                     }
                 }
@@ -360,7 +360,7 @@ fun SectionHeader(
     }
 }
 
-private fun formatCount(count: Int): String {
+private fun formatCount(count: Long): String {
     return when {
         count >= 1_000_000 -> "${String.format(Locale.getDefault(), "%.1f", count / 1_000_000f)}M"
         count >= 1_000 -> "${String.format(Locale.getDefault(), "%.1f", count / 1_000f)}K"
