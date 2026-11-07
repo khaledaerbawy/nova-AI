@@ -349,9 +349,9 @@ private fun PriorityBadge(priority: InteractionPriority) {
 private fun InteractionStatusBadge(status: String) {
     val theme = AppTheme.colors
     val (color, text) = when (status.uppercase()) {
-        "غير مقروء" -> theme.accentCyan to "غير مقروء"
-        "تمت المعالجة" -> theme.textSecondary to "تمت المعالجة"
-        "تم الرد" -> theme.accentCyan to "تم الرد"
+        "UNREAD" -> theme.accentCyan to "غير مقروء"
+        "RESOLVED" -> theme.textSecondary to "تمت المعالجة"
+        "REPLIED" -> theme.accentCyan to "تم الرد"
         else -> theme.textSecondary to status
     }
 
