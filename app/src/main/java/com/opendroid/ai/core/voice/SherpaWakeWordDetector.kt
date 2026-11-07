@@ -28,7 +28,6 @@ internal class SherpaWakeWordDetector(
     private val installer: WakeWordModelInstaller = WakeWordModelInstaller(context),
     private val onStatus: (String) -> Unit = {}
 ) {
-    private val appContext = context.applicationContext
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val mainHandler = Handler(Looper.getMainLooper())
     private val running = AtomicBoolean(false)
@@ -89,7 +88,7 @@ internal class SherpaWakeWordDetector(
                     val result = activeSpotter.getResult(activeStream)
                     if (WakeWordMatcher.isMatch(result.keyword)) {
                         running.set(false)
-                        mainHandler.post(onWakeWordDetected)
+                        mainHandler.post { onWakeWordDetected() }
                         break
                     }
                     if (result.keyword.isNotBlank()) activeSpotter.reset(activeStream)
