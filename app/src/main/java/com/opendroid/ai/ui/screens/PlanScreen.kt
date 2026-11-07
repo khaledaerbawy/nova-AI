@@ -53,7 +53,7 @@ fun PlanScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "PLAN ENGINE",
+                        text = "محرك المهام",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -90,7 +90,7 @@ fun PlanScreen(
 
                 item {
                     Text(
-                        text = "PLAN SEQUENCE STAGE",
+                        text = "مراحل تنفيذ الخطة",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
@@ -123,7 +123,7 @@ fun PlanScreen(
             if (planHistory.isNotEmpty()) {
                 item {
                     Text(
-                        text = "AUTONOMOUS EXECUTION HISTORY",
+                        text = "سجل تنفيذ المهام",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
@@ -190,7 +190,7 @@ fun PlanHeaderCard(
                 }
                 if (!isCurrentActive) {
                     Text(
-                        text = "Viewing Past Run",
+                        text = "عرض تنفيذ سابق",
                         fontSize = 10.sp,
                         color = AccentPurple,
                         fontWeight = FontWeight.Bold,
@@ -203,7 +203,7 @@ fun PlanHeaderCard(
                     )
                 } else {
                     Text(
-                        text = "ACTIVE RUN",
+                        text = "تنفيذ جارٍ",
                         fontSize = 10.sp,
                         color = AccentCyan,
                         fontWeight = FontWeight.Bold,
@@ -230,11 +230,11 @@ fun PlanHeaderCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Steps", fontSize = 10.sp, color = TextSecondary)
-                    Text("${plan.steps.size} scheduled", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                    Text("الخطوات", fontSize = 10.sp, color = TextSecondary)
+                    Text("${plan.steps.size} خطوة مجدولة", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text("Estimated duration", fontSize = 10.sp, color = TextSecondary)
+                    Text("المدة المتوقعة", fontSize = 10.sp, color = TextSecondary)
                     Text(plan.estimatedDuration, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
                 }
             }
@@ -256,7 +256,7 @@ fun PlanHeaderCard(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "STOP TASK",
+                        text = "إيقاف المهمة",
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
                         fontSize = 12.sp,
@@ -284,20 +284,20 @@ fun EmptyPlanPlaceholder() {
         ) {
             Icon(
                 imageVector = Icons.Default.Info,
-                contentDescription = "No plan",
+                contentDescription = "لا توجد خطة",
                 tint = TextSecondary,
                 modifier = Modifier.size(36.dp)
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "No active plans running",
+                text = "لا توجد مهام قيد التنفيذ",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = "Plans formulated by the autonomous system will display here in real-time.",
+                text = "الخطط التي تجهزها نوفا ستظهر هنا مباشرة.",
                 fontSize = 11.sp,
                 color = TextSecondary,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
@@ -343,7 +343,7 @@ fun PastPlanRow(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = "${plan.steps.size} steps",
+                    text = "${plan.steps.size} خطوة",
                     fontSize = 10.sp,
                     color = AccentCyan,
                     fontFamily = FontFamily.Monospace
@@ -374,7 +374,7 @@ fun PastPlanRow(
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete Plan",
+                    contentDescription = "حذف الخطة",
                     tint = TextSecondary.copy(alpha = 0.5f),
                     modifier = Modifier.size(16.dp)
                 )
