@@ -813,9 +813,9 @@ class AgentLoop @Inject constructor(
                 // 2. Intent Classification
                 val requiresAction = intentClassifier.requiresAction(query)
                 if (requiresAction) {
-                    generatePlan(userMsg, context, sessionId)
+                    generatePlan(userMsg, context, sessionId, complexity)
                 } else {
-                    executeSimpleQuery(userMsg, sessionId)
+                    executeSimpleQuery(userMsg, sessionId, complexity)
                 }
     }
 
@@ -889,11 +889,11 @@ class AgentLoop @Inject constructor(
         _agentState.value = AgentState.Error(error.title())
     }
 
-    private suspend fun executeSimpleQuery(userMsg: ChatMessage, sessionId: String) {
+    private suspend fun executeSimpleQuery(userMsg: ChatMessage, sessionId: String, complexity: QueryComplexity) {
         val runId = UUID.randomUUID().toString()
         val requestId = userMsg.id
         try {
-            val provider = llmProviderFactory.getActiveProvider()
+            val provider = llmProviderFactory.getHybridProvider(userMsg.text, complexity)
             val relevantContext = memoryManager.getRelevantContext(userMsg.text)
             val autoModeLabel = settingsRepository.llmConfig.first().approvalSettings().mode.name
 
@@ -1022,7 +1022,7 @@ class AgentLoop @Inject constructor(
         }
     }
 
-    private suspend fun generatePlan(userMsg: ChatMessage, context: Context, sessionId: String) {
+    private suspend fun generatePlan(userMsg: ChatMessage, context: Context, sessionId: String, complexity: QueryComplexity) {
         try {
             val provider = llmProviderFactory.getActiveProvider()
             val relevantContext = memoryManager.getRelevantContext(userMsg.text)
