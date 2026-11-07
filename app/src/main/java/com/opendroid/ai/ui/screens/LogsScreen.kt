@@ -39,7 +39,7 @@ fun LogsScreen(
     modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf("Execution Logs", "Action Errors")
+    val tabs = listOf("سجل التنفيذ", "أخطاء الإجراءات")
 
     val history by viewModel.taskHistory.collectAsState()
     val actionErrors by viewModel.unknownActions.collectAsState()
@@ -57,7 +57,7 @@ fun LogsScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "SYSTEM LOGS",
+                        text = "سجل النظام",
                         fontFamily = FontFamily.Monospace,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary,
@@ -79,7 +79,7 @@ fun LogsScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = "Clear logs",
+                                contentDescription = "مسح السجل",
                                 tint = AccentRed
                             )
                         }
@@ -154,8 +154,8 @@ fun LogsScreen(
                         }
                     } else {
                         EmptyStateView(
-                            title = "No executions recorded yet",
-                            subtitle = "Every step OpenDroid executes is archived here.",
+                            title = "لا توجد عمليات تنفيذ مسجلة بعد",
+                            subtitle = "كل خطوة تنفذها نوفا يتم حفظها هنا.",
                             icon = Icons.Default.Info
                         )
                     }
@@ -172,8 +172,8 @@ fun LogsScreen(
                         }
                     } else {
                         EmptyStateView(
-                            title = "All systems fully aligned",
-                            subtitle = "OpenDroid's Repair Engine has not encountered any unrecognized commands.",
+                            title = "كل الأنظمة تعمل بشكل سليم",
+                            subtitle = "لم يواجه محرك إصلاح نوفا أوامر غير معروفة.",
                             icon = Icons.Default.CheckCircle,
                             iconColor = AccentCyan
                         )
@@ -190,16 +190,16 @@ fun LogsScreen(
                 selectedRunForMacro = null
                 macroSaveError = null
             },
-            title = { Text("Save completed task as macro") },
+            title = { Text("حفظ المهمة المكتملة كأمر") },
             text = {
                 Column {
                     Text(
-                        "Only successful steps will be recorded. Credential, API-key, and token values are removed.",
+                        "سيتم حفظ الخطوات الناجحة فقط، مع استبعاد كلمات المرور ومفاتيح API والرموز.",
                         fontSize = 12.sp,
                         color = TextSecondary
                     )
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text("Steps this macro will run:", fontSize = 12.sp, color = TextPrimary)
+                    Text("خطوات هذا الأمر:", fontSize = 12.sp, color = TextPrimary)
                     // Bounded and scrollable so a long run cannot push the name field off-screen.
                     Column(
                         modifier = Modifier
@@ -219,7 +219,7 @@ fun LogsScreen(
                     OutlinedTextField(
                         value = macroName,
                         onValueChange = { macroName = it },
-                        label = { Text("Macro name") },
+                        label = { Text("اسم الأمر") },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -247,12 +247,12 @@ fun LogsScreen(
                     },
                     enabled = macroName.isNotBlank()
                 ) {
-                    Text("Save macro")
+                    Text("حفظ الأمر")
                 }
             },
             dismissButton = {
                 TextButton(onClick = { selectedRunForMacro = null }) {
-                    Text("Cancel")
+                    Text("إلغاء")
                 }
             }
         )
@@ -303,24 +303,24 @@ fun UnknownActionCard(error: UnknownActionEntity) {
     val dateFormat = remember { SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) }
 
     val statusColor = when (error.fixStatus) {
-        "AUTO_FIXED" -> AccentCyan
-        "REPLANNED" -> AccentCyan
-        "FAILED" -> AccentRed
+        "تم الإصلاح تلقائياً" -> AccentCyan
+        "إعادة تخطيط" -> AccentCyan
+        "فشل" -> AccentRed
         else -> AccentCyan
     }
 
     val statusText = when (error.fixStatus) {
-        "AUTO_FIXED" -> "AUTO-FIXED"
-        "REPLANNED" -> "REPLANNED"
-        "FAILED" -> "FAILED"
+        "تم الإصلاح تلقائياً" -> "تم الإصلاح تلقائياً"
+        "إعادة تخطيط" -> "إعادة تخطيط"
+        "فشل" -> "فشل"
         else -> error.fixStatus
     }
 
     val explanation = when (error.fixStatus) {
-        "AUTO_FIXED" -> "Successfully auto-corrected by OpenDroid's Repair Engine."
-        "REPLANNED" -> "Dynamically replanned and bypassed the unrecognized command."
-        "FAILED" -> "Unrecognized system command failed execution."
-        else -> "System anomaly tracked."
+        "تم الإصلاح تلقائياً" -> "تم التصحيح تلقائياً بواسطة محرك الإصلاح."
+        "إعادة تخطيط" -> "تم إعادة تخطيط التنفيذ وتجاوز الأمر غير المعروف."
+        "فشل" -> "فشل تنفيذ أمر نظام غير معروف."
+        else -> "تم تسجيل خلل بالنظام."
     }
 
     Card(
@@ -391,7 +391,7 @@ fun UnknownActionCard(error: UnknownActionEntity) {
                     Divider(color = BorderColor, modifier = Modifier.padding(vertical = 4.dp))
                     
                     Text(
-                        text = "System Status Details:",
+                        text = "تفاصيل حالة النظام:",
                         fontSize = 11.sp,
                         color = TextSecondary
                     )
@@ -417,7 +417,7 @@ fun UnknownActionCard(error: UnknownActionEntity) {
             ) {
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                    contentDescription = "Expand info",
+                    contentDescription = "عرض التفاصيل",
                     tint = TextSecondary,
                     modifier = Modifier.size(16.dp)
                 )
@@ -462,7 +462,7 @@ fun HistoryLogCard(
                         .padding(horizontal = 6.dp, vertical = 2.dp)
                 ) {
                     Text(
-                        text = if (log.success) "SUCCESS" else "FAILED",
+                        text = if (log.success) "نجاح" else "فشل",
                         fontSize = 9.sp,
                         fontWeight = FontWeight.Bold,
                         color = if (log.success) AccentCyan else AccentRed,
@@ -503,7 +503,7 @@ fun HistoryLogCard(
                     colors = ButtonDefaults.buttonColors(containerColor = AccentPurple),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Save completed task as macro", fontSize = 11.sp)
+                    Text("حفظ المهمة المكتملة كأمر", fontSize = 11.sp)
                 }
             }
 
@@ -512,7 +512,7 @@ fun HistoryLogCard(
                     Divider(color = BorderColor, modifier = Modifier.padding(vertical = 4.dp))
                     
                     if (log.paramsJson.isNotBlank() && log.paramsJson != "{}") {
-                        Text("Parameters:", fontSize = 11.sp, color = TextSecondary)
+                        Text("المعاملات:", fontSize = 11.sp, color = TextSecondary)
                         Text(
                             text = log.paramsJson,
                             fontSize = 11.sp,
@@ -528,7 +528,7 @@ fun HistoryLogCard(
                     }
 
                     if (log.resultData != null) {
-                        Text("Execution Result Data:", fontSize = 11.sp, color = TextSecondary)
+                        Text("نتيجة التنفيذ:", fontSize = 11.sp, color = TextSecondary)
                         Text(
                             text = log.resultData,
                             fontSize = 11.sp,
@@ -543,7 +543,7 @@ fun HistoryLogCard(
                     }
 
                     if (log.errorMessage != null) {
-                        Text("Diagnostic Error Log:", fontSize = 11.sp, color = TextSecondary)
+                        Text("سجل الأخطاء التشخيصي:", fontSize = 11.sp, color = TextSecondary)
                         Text(
                             text = log.errorMessage,
                             fontSize = 11.sp,
@@ -567,7 +567,7 @@ fun HistoryLogCard(
             ) {
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                    contentDescription = "Expand info",
+                    contentDescription = "عرض التفاصيل",
                     tint = TextSecondary,
                     modifier = Modifier.size(16.dp)
                 )
