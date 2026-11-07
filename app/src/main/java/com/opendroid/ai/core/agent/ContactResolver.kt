@@ -125,10 +125,17 @@ open class ContactResolver @Inject constructor(
             allMatches.isEmpty() ->
                 ContactResolution.NotFound(query)
 
-            // Exactly one match → use it
+            // A single fuzzy/alias match is still not proof of identity.
+            // Require an explicit pick unless the name was exact (score >= 90).
             allMatches.size == 1 -> {
-                Log.d(TAG, "  → Single match: ${allMatches.first().name}")
-                ContactResolution.Found(allMatches.first())
+                val onlyMatch = allMatches.first()
+                if (onlyMatch.matchScore >= 90) {
+                    Log.d(TAG, "  → Exact single match: ${onlyMatch.name}")
+                    ContactResolution.Found(onlyMatch)
+                } else {
+                    Log.d(TAG, "  → Single fuzzy match requires confirmation: ${onlyMatch.name}")
+                    ContactResolution.Ambiguous(query = query, matches = allMatches)
+                }
             }
 
             else -> {
