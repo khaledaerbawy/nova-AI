@@ -50,6 +50,8 @@ class OpenDroidService : Service() {
 
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var assistantOperatingMode = "always"
+    private var configuredWakeWordPhrase = "NOVA"
+    private var configuredAssistantName = "NOVA"
     private val voiceWakeEnabled: Boolean get() = assistantOperatingMode.equals("always", ignoreCase = true)
     private val pendingApprovalListen = PendingApprovalListen()
     private val approvalListenGate = ApprovalListenGate()
@@ -119,6 +121,8 @@ class OpenDroidService : Service() {
         serviceScope.launch {
             settingsRepository.llmConfig.collectLatest { config ->
                 assistantOperatingMode = config.assistantOperatingMode
+                configuredWakeWordPhrase = config.wakeWordPhrase.trim().ifBlank { config.assistantDisplayName.trim().ifBlank { "NOVA" } }
+                configuredAssistantName = config.assistantDisplayName.trim().ifBlank { "NOVA" }
                 if (voiceWakeEnabled) startWakeWordDetection() else stopWakeWordDetection()
             }
         }
@@ -169,8 +173,9 @@ class OpenDroidService : Service() {
         sherpaWakeWordDetector.start(
             onWakeWordDetected = { handleWakeWordDetected() },
             onUnavailable = {
-                if (voiceWakeEnabled) wakeWordDetector.startListening { handleWakeWordDetected() }
-            }
+                if (voiceWakeEnabled) wakeWordDetector.startListening({ handleWakeWordDetected() }, configuredWakeWordPhrase)
+            },
+            wakeWordPhrase = configuredWakeWordPhrase
         )
     }
 
