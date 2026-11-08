@@ -19,8 +19,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: nova-apk-build
-  cancel-in-progress: true
+  # Keep builds isolated by Git ref and never terminate a running Android build.
+  group: nova-apk-build-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build-debug-apk:
