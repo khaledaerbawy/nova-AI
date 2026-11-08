@@ -38,7 +38,6 @@ import java.util.concurrent.TimeUnit
 class SherpaKwsWakeWordDetector(private val context: Context) {
     companion object {
         private const val SAMPLE_RATE = 16_000
-        private const val KEYWORD = "NOVA"
         private const val MODEL_DIR = "sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01"
         private const val MODEL_ARCHIVE = "https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2"
         private const val ENCODER_FLOAT = "encoder-epoch-12-avg-2-chunk-16-left-64.onnx"
@@ -59,12 +58,16 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
     @Volatile private var activeStream: OnlineStream? = null
     @Volatile private var onDetected: (() -> Unit)? = null
 
-    fun start(onWakeWordDetected: () -> Unit, onUnavailable: (String) -> Unit) {
+    fun start(onWakeWordDetected: () -> Unit, onUnavailable: (String) -> Unit, wakeWordPhrase: String = "NOVA") {
         if (worker?.isActive == true) return
         onDetected = onWakeWordDetected
         worker = scope.launch {
             try {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) throw IllegalStateException("Microphone permission is not granted")
+                val normalizedPhrase = wakeWordPhrase.trim().uppercase()
+                if (normalizedPhrase.isBlank() || !normalizedPhrase.matches(Regex("[A-Z0-9 ]+"))) {
+                    throw IllegalArgumentException("كلمة التنبيه العربية أو غير الإنجليزية ستستخدم محرك التعرف الاحتياطي على الجهاز")
+                }
                 val modelDir = ensureModelInstalled()
                 val modelConfig = OnlineModelConfig(
                     transducer = OnlineTransducerModelConfig(
@@ -80,7 +83,7 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
                 val vocabulary = File(modelDir, "tokens.txt").readLines()
                     .mapNotNull { line -> line.trim().split(Regex("\\s+")).firstOrNull() }
                     .toSet()
-                val encodedKeywords = listOf("NOVA", "YA NOVA", "HEY NOVA")
+                val encodedKeywords = listOf(normalizedPhrase, "HEY $normalizedPhrase", "YA $normalizedPhrase")
                     .flatMap { phrase -> BpeKeywordTokenizer.alternatives(phrase, vocabulary).map { "$it @NOVA" } }
                     .distinct()
                     .joinToString("/")
