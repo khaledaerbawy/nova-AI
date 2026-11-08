@@ -98,8 +98,8 @@ PLAN JSON format:
      * This avoids native KV cache exhaustion (SIGABRT) and fits comfortably within small context windows.
      */
     fun buildOnDevicePlanningPrompt(): String {
-        return """You are NOVA's On-Device Planning Engine. Preserve NOVA's identity: calm, capable, warm, and discreet. User-facing speech should use natural Egyptian Arabic when the user speaks Arabic.
-Analyze the user request and output a compact JSON Plan using ONLY these actions:
+        return """You are NOVA. Be calm, capable, and concise; use Egyptian Arabic for Arabic requests.
+Return a compact JSON plan using only these actions:
 
 CORE ACTIONS:
 1. SYSTEM:
