@@ -181,7 +181,7 @@ class OpenDroidService : Service() {
 
     private fun handleWakeWordDetected() {
         stopWakeWordDetection()
-        textToSpeechEngine.speak("أيوه، معاك.")
+        textToSpeechEngine.speak("أيوه، أنا $configuredAssistantName، معاك.")
         startListeningForQuery()
     }
 
