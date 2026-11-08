@@ -1830,7 +1830,7 @@ fun SettingsScreen(
                                     Button(
                                         onClick = {
                                             viewModel.updateAssistantIdentity(assistantNameDraft, wakeWordDraft)
-                                            wakeWordTestResult = "تم حفظ الاسم وكلمة الاستدعاء. أعد تشغيل خدمة NOVA لتطبيق التغيير."
+                                            wakeWordTestResult = "تم حفظ الاسم وكلمة الاستدعاء، وسيعاد تشغيل مستمع الاستدعاء تلقائيًا."
                                         },
                                         colors = ButtonDefaults.buttonColors(containerColor = AccentPurple)
                                     ) { Text("حفظ الهوية") }
