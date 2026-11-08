@@ -46,8 +46,8 @@ fun AutoReplySettingsScreen(
             if (event == Lifecycle.Event.ON_RESUME) {
                 isNotificationPermissionGranted = isNotificationServiceEnabled(context)
                 isAccessibilityPermissionGranted = isAccessibilityServiceEnabled(context)
-            } else if (event == Lifecycle.Event.ON_STOP) {
-                // The process may not survive the background long enough for the debounce.
+            } else if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_STOP) {
+                // Persist the last edit as soon as the screen leaves the foreground.
                 viewModel.flushPendingConfig()
             }
         }

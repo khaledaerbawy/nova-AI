@@ -14,6 +14,7 @@ class WakeWordDetector(private val context: Context) {
     private var speechRecognizer: SpeechRecognizer? = null
     private var intent: Intent? = null
     private var onWakeWordDetectedCallback: (() -> Unit)? = null
+    private var configuredWakePhrase: String = "NOVA"
     private var isListening = false
     private var wakeWordTriggered = false
 
@@ -34,8 +35,9 @@ class WakeWordDetector(private val context: Context) {
         }
     }
 
-    fun startListening(onWakeWordDetected: () -> Unit) {
+    fun startListening(onWakeWordDetected: () -> Unit, wakeWordPhrase: String = "NOVA") {
         if (isListening) return
+        configuredWakePhrase = wakeWordPhrase.trim().ifBlank { "NOVA" }
         onWakeWordDetectedCallback = onWakeWordDetected
         wakeWordTriggered = false
         isListening = true
@@ -86,7 +88,7 @@ class WakeWordDetector(private val context: Context) {
     }
 
     private fun containsNovaWakePhrase(transcript: String): Boolean =
-        VoiceLanguagePolicy.containsWakePhrase(transcript)
+        VoiceLanguagePolicy.containsWakePhrase(transcript, configuredWakePhrase)
 
     private fun triggerWakeWord() {
         if (wakeWordTriggered || !isListening) return

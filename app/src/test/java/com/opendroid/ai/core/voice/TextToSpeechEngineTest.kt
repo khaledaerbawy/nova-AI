@@ -16,6 +16,7 @@ import java.nio.file.Files
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -179,7 +180,9 @@ class TextToSpeechEngineTest {
         ),
         providerCredentialStore = ElevenLabsOnlyCredentialStore(),
         runStartupMigration = false
-    )
+    ).also { repository ->
+        runBlocking { repository.updateConfig { it.copy(elevenLabsVoiceId = "test-voice") } }
+    }
 
     private class ElevenLabsOnlyCredentialStore : ProviderCredentialStore {
         override val recoveryState: StateFlow<ProviderCredentialRecoveryState> =

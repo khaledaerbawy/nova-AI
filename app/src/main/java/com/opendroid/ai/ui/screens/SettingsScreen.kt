@@ -123,6 +123,23 @@ fun SettingsScreen(
     var activeImportModelId by remember { mutableStateOf<String?>(null) }
     var importAsCustomModel by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
+    var assistantNameDraft by remember(config.assistantDisplayName) { mutableStateOf(config.assistantDisplayName) }
+    var wakeWordDraft by remember(config.wakeWordPhrase) { mutableStateOf(config.wakeWordPhrase) }
+    var wakeWordTestResult by remember { mutableStateOf<String?>(null) }
+    val wakeWordTestLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val transcript = result.data?.getStringArrayListExtra(android.speech.RecognizerIntent.EXTRA_RESULTS)?.firstOrNull().orEmpty()
+        wakeWordTestResult = if (result.resultCode == android.app.Activity.RESULT_OK &&
+            com.opendroid.ai.core.voice.VoiceLanguagePolicy.containsWakePhrase(transcript, wakeWordDraft)
+        ) {
+            "تم التعرف على كلمة التنبيه: $transcript"
+        } else if (transcript.isNotBlank()) {
+            "لم تتطابق العبارة المسموعة ($transcript) مع كلمة التنبيه الحالية."
+        } else {
+            "لم يتم التقاط صوت. جرّب مرة أخرى وتأكد من إذن الميكروفون."
+        }
+    }
 
     val importLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
         contract = androidx.activity.result.contract.ActivityResultContracts.GetContent()
@@ -1781,6 +1798,65 @@ fun SettingsScreen(
                                 modifier = Modifier.padding(top = 16.dp),
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
+                                Text("هوية NOVA والاستدعاء الصوتي", color = AccentCyan, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                OutlinedTextField(
+                                    value = assistantNameDraft,
+                                    onValueChange = { assistantNameDraft = it },
+                                    label = { Text("اسم المساعدة") },
+                                    singleLine = true,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                OutlinedTextField(
+                                    value = wakeWordDraft,
+                                    onValueChange = { wakeWordDraft = it; wakeWordTestResult = null },
+                                    label = { Text("كلمة أو عبارة الاستدعاء") },
+                                    supportingText = { Text("مثال: NOVA أو يا ليلى. العبارة العربية تستخدم التعرف الصوتي الاحتياطي على الجهاز.") },
+                                    singleLine = true,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Button(
+                                        onClick = {
+                                            val intent = android.content.Intent(android.speech.RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                                                putExtra(android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL, android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                                                putExtra(android.speech.RecognizerIntent.EXTRA_LANGUAGE, "ar-EG")
+                                                putExtra(android.speech.RecognizerIntent.EXTRA_PROMPT, "قول كلمة الاستدعاء")
+                                                putExtra(android.speech.RecognizerIntent.EXTRA_PREFER_OFFLINE, true)
+                                            }
+                                            wakeWordTestLauncher.launch(intent)
+                                        },
+                                        colors = ButtonDefaults.buttonColors(containerColor = AccentCyan)
+                                    ) { Text("اختبار صوتي") }
+                                    Button(
+                                        onClick = {
+                                            viewModel.updateAssistantIdentity(assistantNameDraft, wakeWordDraft)
+                                            wakeWordTestResult = "تم حفظ الاسم وكلمة الاستدعاء، وسيعاد تشغيل مستمع الاستدعاء تلقائيًا."
+                                        },
+                                        colors = ButtonDefaults.buttonColors(containerColor = AccentPurple)
+                                    ) { Text("حفظ الهوية") }
+                                }
+                                wakeWordTestResult?.let { Text(it, color = TextSecondary, fontSize = 11.sp) }
+                                Text("اختيار شخصية NOVA", color = AccentCyan, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                    FilterChip(selected = config.personaStyle == "warm", onClick = { viewModel.updatePersonaStyle("warm") }, label = { Text("حنونة وودودة") })
+                                    FilterChip(selected = config.personaStyle == "professional", onClick = { viewModel.updatePersonaStyle("professional") }, label = { Text("احترافية") })
+                                    FilterChip(selected = config.personaStyle == "playful", onClick = { viewModel.updatePersonaStyle("playful") }, label = { Text("مرحة") })
+                                }
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text("تفضيل صوت بنت", color = TextPrimary, fontSize = 12.sp)
+                                        Text("يختار صوتًا عربيًا أنثويًا إذا كان محرك أندرويد المثبّت يوفّره.", color = TextSecondary, fontSize = 10.sp)
+                                    }
+                                    Switch(
+                                        checked = config.preferFemaleVoice,
+                                        onCheckedChange = { viewModel.updatePreferFemaleVoice(it) }
+                                    )
+                                }
+                                Divider(color = BorderColor)
                                 SecureApiKeyField(
                                     value = config.elevenLabsApiKey,
                                     onValueChange = { viewModel.updateElevenLabsApiKey(it) },

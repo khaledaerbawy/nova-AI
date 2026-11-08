@@ -22,6 +22,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
@@ -99,6 +100,7 @@ fun ChatScreen(
     var transcriptionText by remember { mutableStateOf("") }
     var voiceError by remember { mutableStateOf<String?>(null) }
     var showChatMenu by remember { mutableStateOf(false) }
+    var showLiveCamera by remember { mutableStateOf(false) }
     var sessionPendingDelete by remember { mutableStateOf<ChatSession?>(null) }
     var sessionPendingRename by remember { mutableStateOf<ChatSession?>(null) }
     var renameText by remember { mutableStateOf("") }
@@ -203,14 +205,14 @@ fun ChatScreen(
                 title = {
                     Column {
                         Text(
-                            text = "NOVA",
+                            text = llmConfig.assistantDisplayName.trim().ifBlank { "NOVA" },
                             fontFamily = FontFamily.Monospace,
                             fontWeight = FontWeight.Bold,
                             color = TextPrimary,
                             fontSize = 20.sp,
                             letterSpacing = 2.sp
                         )
-                        AgentStatusSubtitle(visibleAgentState, runningElsewhere)
+                        AgentStatusSubtitle(visibleAgentState, runningElsewhere, llmConfig.assistantDisplayName)
                     }
                 },
                 actions = {
@@ -237,6 +239,9 @@ fun ChatScreen(
                             fontFamily = FontFamily.Monospace,
                             fontWeight = FontWeight.Bold
                         )
+                    }
+                    IconButton(onClick = { showLiveCamera = true }) {
+                        Icon(Icons.Default.CameraAlt, contentDescription = "فتح الكاميرا الحية", tint = AccentCyan)
                     }
                     IconButton(onClick = { viewModel.newChat() }) {
                         Icon(
@@ -346,19 +351,28 @@ fun ChatScreen(
                         Text("مسح", color = TextSecondary, fontSize = 12.sp)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkBackground)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         },
-        containerColor = DarkBackground,
+        containerColor = Color.Transparent,
         modifier = modifier
     ) { padding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Brush.verticalGradient(listOf(Color(0xFF050A14), Color(0xFF0A1424), Color(0xFF080D18))))
                 .padding(padding)
                 .consumeWindowInsets(padding)
                 .imePadding()
         ) {
+            Box(
+                modifier = Modifier.align(Alignment.TopEnd).offset(x = 92.dp, y = 18.dp).size(260.dp)
+                    .background(Brush.radialGradient(listOf(Color(0x2639D9E8), Color.Transparent)), CircleShape)
+            )
+            Box(
+                modifier = Modifier.align(Alignment.BottomStart).offset(x = (-110).dp, y = 70.dp).size(280.dp)
+                    .background(Brush.radialGradient(listOf(Color(0x229B8CFF), Color.Transparent)), CircleShape)
+            )
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -374,6 +388,11 @@ fun ChatScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
                 ) {
+                    if (history.isEmpty()) {
+                        item(key = "nova-cinematic-welcome") {
+                            CinematicWelcomePanel(assistantName = llmConfig.assistantDisplayName)
+                        }
+                    }
                     items(history) { msg ->
                         ChatBubble(
                             message = msg,
@@ -622,6 +641,10 @@ fun ChatScreen(
         }
     }
 
+    if (showLiveCamera) {
+        LiveCameraDialog(onDismiss = { showLiveCamera = false })
+    }
+
     sessionPendingDelete?.let { session ->
         AlertDialog(
             onDismissRequest = { sessionPendingDelete = null },
@@ -688,7 +711,71 @@ fun ChatScreen(
 }
 
 @Composable
-fun AgentStatusSubtitle(state: AgentState, runningElsewhere: Boolean = false) {
+private fun CinematicWelcomePanel(assistantName: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(28.dp))
+            .background(
+                Brush.linearGradient(
+                    listOf(Color(0xDD14263B), Color(0xCC101A2B), Color(0xDD171B36))
+                )
+            )
+            .border(
+                1.dp,
+                Brush.linearGradient(listOf(Color(0x8878E7F5), Color(0x449B8CFF), Color(0x3378E7F5))),
+                RoundedCornerShape(28.dp)
+            )
+            .padding(22.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier.size(8.dp).clip(CircleShape).background(Color(0xFF5EF0C2))
+            )
+            Spacer(Modifier.width(8.dp))
+            Text(
+                "PERSONAL INTELLIGENCE · ONLINE",
+                color = Color(0xFF78E7F5),
+                fontFamily = FontFamily.Monospace,
+                fontSize = 10.sp,
+                letterSpacing = 1.4.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Text(
+            text = "أهلًا، أنا ${assistantName.trim().ifBlank { "NOVA" }}",
+            color = TextPrimary,
+            fontSize = 26.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            "اسألني، اتكلم معايا، أو خلّيني أنفّذ لك مهمة على موبايلك. أنا جاهزة أساعدك.",
+            color = TextSecondary,
+            fontSize = 14.sp,
+            lineHeight = 22.sp
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf("صوت وذكاء", "تحكم في الهاتف", "رؤية بالكاميرا").forEach { label ->
+                Surface(
+                    color = Color(0x331DCCDF),
+                    shape = RoundedCornerShape(30.dp),
+                    border = BorderStroke(1.dp, Color(0x4478E7F5))
+                ) {
+                    Text(
+                        label,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 7.dp),
+                        color = Color(0xFFD7F8FC),
+                        fontSize = 10.sp
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AgentStatusSubtitle(state: AgentState, runningElsewhere: Boolean = false, assistantName: String = "NOVA") {
     // runningElsewhere means [state] has already been forced to Idle because the real
     // activity belongs to a different chat (see ChatViewModel.visibleAgentState) - say
     // so explicitly instead of showing a plain "متصلة وجاهزة" that would hide the
@@ -698,11 +785,11 @@ fun AgentStatusSubtitle(state: AgentState, runningElsewhere: Boolean = false) {
     } else {
         when (state) {
             is AgentState.Idle -> "متصلة وجاهزة"
-            is AgentState.Listening -> "نوفا بتسمعك..."
+            is AgentState.Listening -> "$assistantName بتسمعك..."
             is AgentState.Thinking -> "بفهم طلبك وبجهّز الخطوات..."
             is AgentState.PlanProposed -> "محتاج موافقتك على الخطة"
             is AgentState.ExecutingPlan -> "بننفّذ: ${state.currentStepDesc}"
-            is AgentState.Speaking -> "نوفا بترد عليك: ${state.text.take(30)}..."
+            is AgentState.Speaking -> "$assistantName بترد عليك: ${state.text.take(30)}..."
             is AgentState.Error -> "حصل خطأ أثناء التنفيذ"
         }
     }
@@ -1084,9 +1171,10 @@ fun FloatingOrb(
 
     Box(
         modifier = Modifier
-            .size(56.dp)
+            .size(76.dp)
             .scale(shadowSize)
             .clip(CircleShape)
+            .border(1.5.dp, Brush.sweepGradient(listOf(colorPulse, AccentCyan, AccentPurple, colorPulse)), CircleShape)
             .background(
                 Brush.radialGradient(
                     colors = listOf(colorPulse, Color.Transparent),
@@ -1111,7 +1199,7 @@ fun FloatingOrb(
         ) {
             Box(
                 modifier = Modifier
-                    .size(20.dp)
+                    .size(24.dp)
                     .clip(CircleShape)
                     .background(DarkBackground)
             )

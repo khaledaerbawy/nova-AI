@@ -76,6 +76,29 @@ class TextToSpeechEngine(
             val result = if (egyptianResult == TextToSpeech.LANG_MISSING_DATA || egyptianResult == TextToSpeech.LANG_NOT_SUPPORTED) tts?.setLanguage(Locale("ar")) else egyptianResult
             if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
                 isInitialized = true
+                scope.launch {
+                    val preferFemale = runCatching { settingsRepository.llmConfig.first().preferFemaleVoice }.getOrDefault(true)
+                    applyVoicePreference(preferFemale)
+                }
+            }
+        }
+    }
+
+    /** Applies the user's preferred voice using voices exposed by the installed Android TTS engine. */
+    fun applyVoicePreference(preferFemale: Boolean) {
+        if (!isInitialized) return
+        scope.launch {
+            val selectedVoice = if (preferFemale) {
+                tts?.voices
+                    ?.filter { it.locale.language == "ar" }
+                    ?.firstOrNull { voice ->
+                        val descriptor = listOf(voice.name, voice.features.orEmpty().joinToString(" ")).joinToString(" ").lowercase(Locale.ROOT)
+                        listOf("female", "woman", "feminine", "soprano").any(descriptor::contains)
+                    }
+            } else null
+            kotlinx.coroutines.withContext(Dispatchers.Main) {
+                if (selectedVoice != null) tts?.voice = selectedVoice
+                else tts?.setLanguage(VoiceLanguagePolicy.locale)
             }
         }
     }

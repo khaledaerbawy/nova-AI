@@ -103,6 +103,9 @@ class LLMProviderFactory @Inject constructor(
         val config = settingsRepository.llmConfig.first()
         val activeName = ProviderCatalog.canonicalName(config.activeProvider)
         val active = getProviderByName(activeName)
+        // An unknown saved provider is a configuration error, not permission to silently
+        // route planning to a different vendor or local model.
+        if (active is UnknownProvider) return listOf(active)
         val risk = ActionSchema.highestRisk(actionNames)
         val offlineProviderName = ProviderSelectionPolicy.offlineHybridProvider(
             activeProvider = activeName,

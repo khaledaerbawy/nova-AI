@@ -55,6 +55,14 @@ data class LLMConfig(
     val assistantOperatingMode: String = "always",
     val reasoningMode: String = "hybrid",
     val voiceLocale: String = "ar-EG",
+    /** User-facing assistant name, used in prompts and voice interactions. */
+    val assistantDisplayName: String = "NOVA",
+    /** Wake phrase spoken by the user; English phrases use local KWS when supported. */
+    val wakeWordPhrase: String = "NOVA",
+    /** Prefer a feminine system TTS voice when the installed engine exposes one. */
+    val preferFemaleVoice: Boolean = true,
+    /** Stable conversational style selected by the user. */
+    val personaStyle: String = "warm",
     val showFloatingButton: Boolean = true,
     val isDarkMode: Boolean = true,
     val lastModelFetch: Map<String, Long> = emptyMap(), // Provider -> last fetch timestamp

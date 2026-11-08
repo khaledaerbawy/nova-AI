@@ -560,6 +560,10 @@ class FakeTaskHistoryDao : TaskHistoryDao {
     private val history = mutableListOf<TaskHistoryEntity>()
     override fun getTaskHistoryFlow(): Flow<List<TaskHistoryEntity>> = MutableStateFlow(history.toList())
     override suspend fun getTaskHistoryForPlan(planId: String): List<TaskHistoryEntity> = history.filter { it.planId == planId }
+    override suspend fun getSuccessfulMessagingHistory(fromTimestamp: Long, toTimestamp: Long, limit: Int): List<TaskHistoryEntity> =
+        history.filter { it.timestamp >= fromTimestamp && it.timestamp < toTimestamp && it.success && it.actionType in setOf("SEND_WHATSAPP", "SEND_SMS", "SEND_TELEGRAM") }
+            .sortedByDescending { it.timestamp }
+            .take(limit)
     override suspend fun insertHistory(task: TaskHistoryEntity) { history.add(task) }
     override suspend fun clearAll() { history.clear() }
 }

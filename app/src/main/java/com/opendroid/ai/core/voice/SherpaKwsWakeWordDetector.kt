@@ -21,6 +21,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,7 +39,6 @@ import java.util.concurrent.TimeUnit
 class SherpaKwsWakeWordDetector(private val context: Context) {
     companion object {
         private const val SAMPLE_RATE = 16_000
-        private const val KEYWORD = "NOVA"
         private const val MODEL_DIR = "sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01"
         private const val MODEL_ARCHIVE = "https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2"
         private const val ENCODER_FLOAT = "encoder-epoch-12-avg-2-chunk-16-left-64.onnx"
@@ -53,45 +53,75 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val mainHandler = Handler(Looper.getMainLooper())
     private val client = OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).readTimeout(5, TimeUnit.MINUTES).callTimeout(6, TimeUnit.MINUTES).build()
+    private val resourceLock = Any()
+    @Volatile private var generation = 0L
     @Volatile private var worker: Job? = null
     @Volatile private var recorder: AudioRecord? = null
-    @Volatile private var spotter: KeywordSpotter? = null
-    @Volatile private var activeStream: OnlineStream? = null
-    @Volatile private var onDetected: (() -> Unit)? = null
 
-    fun start(onWakeWordDetected: () -> Unit, onUnavailable: (String) -> Unit) {
-        if (worker?.isActive == true) return
-        onDetected = onWakeWordDetected
-        worker = scope.launch {
-            try {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) throw IllegalStateException("Microphone permission is not granted")
-                val modelDir = ensureModelInstalled()
-                val modelConfig = OnlineModelConfig(
-                    transducer = OnlineTransducerModelConfig(
-                        encoder = chooseModelFile(modelDir, ENCODER_INT8, ENCODER_FLOAT),
-                        decoder = File(modelDir, DECODER).absolutePath,
-                        joiner = chooseModelFile(modelDir, JOINER_INT8, JOINER_FLOAT)
-                    ),
-                    tokens = File(modelDir, "tokens.txt").absolutePath, numThreads = 1, provider = "cpu", modelType = "zipformer2"
-                )
-                val config = KeywordSpotterConfig(featConfig = FeatureConfig(sampleRate = SAMPLE_RATE, featureDim = 80), modelConfig = modelConfig, keywordsFile = File(modelDir, "keywords.txt").absolutePath, keywordsScore = 1.5f, keywordsThreshold = 0.25f)
-                val kws = KeywordSpotter(config = config)
-                spotter = kws
-                val vocabulary = File(modelDir, "tokens.txt").readLines()
-                    .mapNotNull { line -> line.trim().split(Regex("\\s+")).firstOrNull() }
-                    .toSet()
-                val encodedKeywords = listOf("NOVA", "YA NOVA", "HEY NOVA")
-                    .flatMap { phrase -> BpeKeywordTokenizer.alternatives(phrase, vocabulary).map { "$it @NOVA" } }
-                    .distinct()
-                    .joinToString("/")
-                if (encodedKeywords.isBlank()) throw IllegalStateException("تعذر ترميز كلمة التنبيه لنموذج الصوت")
-                val stream = kws.createStream(encodedKeywords)
-                activeStream = stream
-                runMicrophoneLoop(kws, stream)
-            } catch (cancelled: CancellationException) { throw cancelled }
-            catch (error: Exception) { mainHandler.post { onUnavailable(error.message ?: "تعذر تشغيل محرك كلمة التنبيه المحلي") } }
-            finally { releaseResources() }
+    fun start(onWakeWordDetected: () -> Unit, onUnavailable: (String) -> Unit, wakeWordPhrase: String = "NOVA") {
+        synchronized(resourceLock) {
+            if (worker?.isActive == true) return
+            generation += 1
+            val runId = generation
+            worker = scope.launch {
+                var kws: KeywordSpotter? = null
+                var stream: OnlineStream? = null
+                try {
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                        throw IllegalStateException("Microphone permission is not granted")
+                    }
+                    val normalizedPhrase = wakeWordPhrase.trim().uppercase()
+                    if (normalizedPhrase.isBlank() || !normalizedPhrase.matches(Regex("[A-Z0-9 ]+"))) {
+                        throw IllegalArgumentException("كلمة التنبيه العربية أو غير الإنجليزية ستستخدم محرك التعرف الاحتياطي على الجهاز")
+                    }
+                    val modelDir = ensureModelInstalled()
+                    currentCoroutineContext().ensureActive()
+                    if (!isCurrentRun(runId)) throw CancellationException()
+
+                    val modelConfig = OnlineModelConfig(
+                        transducer = OnlineTransducerModelConfig(
+                            encoder = chooseModelFile(modelDir, ENCODER_INT8, ENCODER_FLOAT),
+                            decoder = File(modelDir, DECODER).absolutePath,
+                            joiner = chooseModelFile(modelDir, JOINER_INT8, JOINER_FLOAT)
+                        ),
+                        tokens = File(modelDir, "tokens.txt").absolutePath, numThreads = 1, provider = "cpu", modelType = "zipformer2"
+                    )
+                    val config = KeywordSpotterConfig(featConfig = FeatureConfig(sampleRate = SAMPLE_RATE, featureDim = 80), modelConfig = modelConfig, keywordsFile = File(modelDir, "keywords.txt").absolutePath, keywordsScore = 1.5f, keywordsThreshold = 0.25f)
+                    val keywordSpotter = KeywordSpotter(config = config)
+                    kws = keywordSpotter
+                    currentCoroutineContext().ensureActive()
+                    if (!isCurrentRun(runId)) throw CancellationException()
+                    val vocabulary = File(modelDir, "tokens.txt").readLines()
+                        .mapNotNull { line -> line.trim().split(Regex("\\s+")).firstOrNull() }
+                        .toSet()
+                    val encodedKeywords = listOf(normalizedPhrase, "HEY $normalizedPhrase", "YA $normalizedPhrase")
+                        .flatMap { phrase -> BpeKeywordTokenizer.alternatives(phrase, vocabulary).map { "$it @NOVA" } }
+                        .distinct()
+                        .joinToString("/")
+                    if (encodedKeywords.isBlank()) throw IllegalStateException("تعذر ترميز كلمة التنبيه لنموذج الصوت")
+                    val keywordStream = keywordSpotter.createStream(encodedKeywords)
+                    stream = keywordStream
+                    currentCoroutineContext().ensureActive()
+                    if (!isCurrentRun(runId)) throw CancellationException()
+                    runMicrophoneLoop(keywordSpotter, keywordStream, runId, onWakeWordDetected)
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (error: Exception) {
+                    if (isCurrentRun(runId)) {
+                        mainHandler.post {
+                            if (isCurrentRun(runId)) onUnavailable(error.message ?: "تعذر تشغيل محرك كلمة التنبيه المحلي")
+                        }
+                    }
+                } finally {
+                    runCatching { stream?.release() }
+                    runCatching { kws?.release() }
+                }
+            }
         }
+    }
+
+    private fun isCurrentRun(runId: Long): Boolean = synchronized(resourceLock) {
+        generation == runId
     }
 
     private suspend fun ensureModelInstalled(): File = withContext(Dispatchers.IO) {
@@ -136,32 +166,69 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
         return File(directory, selected).absolutePath
     }
 
-    private suspend fun runMicrophoneLoop(kws: KeywordSpotter, stream: OnlineStream) {
+    private suspend fun runMicrophoneLoop(
+        kws: KeywordSpotter,
+        stream: OnlineStream,
+        runId: Long,
+        onWakeWordDetected: () -> Unit
+    ) {
         val minBytes = AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
         if (minBytes <= 0) throw IllegalStateException("الميكروفون لا يدعم إعدادات الصوت المطلوبة")
         val audio = AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, minBytes * 2)
-        if (audio.state != AudioRecord.STATE_INITIALIZED) { audio.release(); throw IllegalStateException("تعذر تهيئة الميكروفون") }
-        recorder = audio
-        audio.startRecording()
-        val shortBuffer = ShortArray(SAMPLE_RATE / 10)
-        while (currentCoroutineContext().isActive) {
-            val count = audio.read(shortBuffer, 0, shortBuffer.size)
-            if (count == 0) continue
-            if (count < 0) throw IllegalStateException("تعذر قراءة الصوت من الميكروفون: $count")
-            val samples = FloatArray(count) { index -> shortBuffer[index] / 32768.0f }
-            stream.acceptWaveform(samples, sampleRate = SAMPLE_RATE)
-            while (kws.isReady(stream)) {
-                kws.decode(stream)
-                if (kws.getResult(stream).keyword.isNotBlank()) { kws.reset(stream); mainHandler.post { onDetected?.invoke() }; return }
+        if (audio.state != AudioRecord.STATE_INITIALIZED) {
+            audio.release()
+            throw IllegalStateException("تعذر تهيئة الميكروفون")
+        }
+        val published = synchronized(resourceLock) {
+            if (generation != runId) false else { recorder = audio; true }
+        }
+        if (!published) {
+            audio.release()
+            throw CancellationException()
+        }
+        try {
+            audio.startRecording()
+            val shortBuffer = ShortArray(SAMPLE_RATE / 10)
+            while (currentCoroutineContext().isActive && isCurrentRun(runId)) {
+                val count = audio.read(shortBuffer, 0, shortBuffer.size)
+                if (count == 0) continue
+                if (count < 0) {
+                    if (!isCurrentRun(runId)) throw CancellationException()
+                    throw IllegalStateException("تعذر قراءة الصوت من الميكروفون: $count")
+                }
+                val samples = FloatArray(count) { index -> shortBuffer[index] / 32768.0f }
+                stream.acceptWaveform(samples, sampleRate = SAMPLE_RATE)
+                while (kws.isReady(stream)) {
+                    kws.decode(stream)
+                    if (kws.getResult(stream).keyword.isNotBlank()) {
+                        kws.reset(stream)
+                        mainHandler.post {
+                            if (isCurrentRun(runId)) onWakeWordDetected()
+                        }
+                        return
+                    }
+                }
             }
+        } finally {
+            synchronized(resourceLock) {
+                if (recorder === audio) recorder = null
+            }
+            runCatching { audio.stop() }
+            runCatching { audio.release() }
         }
     }
 
-    fun stop() { worker?.cancel(); worker = null; releaseResources(); onDetected = null }
-    fun destroy() { stop(); scope.cancel() }
-    private fun releaseResources() {
-        runCatching { recorder?.stop() }; runCatching { recorder?.release() }; recorder = null
-        runCatching { activeStream?.release() }; activeStream = null
-        runCatching { spotter?.release() }; spotter = null
+    fun stop() {
+        synchronized(resourceLock) {
+            generation += 1
+            worker?.cancel()
+            worker = null
+            // Stop the blocking read, but let that worker release its own stream and
+            // native model in its finally block before a replacement worker can own them.
+            runCatching { recorder?.stop() }
+            recorder = null
+        }
     }
+
+    fun destroy() { stop(); scope.cancel() }
 }

@@ -18,8 +18,13 @@ object VoiceLanguagePolicy {
         .replace(whitespace, " ")
         .trim()
 
-    fun containsWakePhrase(transcript: String): Boolean {
+    fun containsWakePhrase(transcript: String, configuredPhrase: String = "NOVA"): Boolean {
         val tokens = normalizeTranscript(transcript).split(' ').filter(String::isNotBlank)
+        val configured = normalizeTranscript(configuredPhrase).split(' ').filter(String::isNotBlank)
+        if (configured.isNotEmpty() && tokens.take(configured.size) == configured) return true
+        val defaultName = configured.isEmpty() || configured == listOf("nova") ||
+            configured == listOf("نوفا") || configured == listOf("نوفه")
+        if (!defaultName) return false
         return tokens.firstOrNull() in setOf("نوفا", "نوفه", "nova") ||
             tokens.take(2) == listOf("يا", "نوفا") ||
             tokens.take(2) == listOf("يا", "نوفه") ||

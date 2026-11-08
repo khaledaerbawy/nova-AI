@@ -3,7 +3,7 @@ package com.opendroid.ai.core.llm.prompts
 import com.opendroid.ai.core.agent.ActionSchema
 
 object SystemPrompts {
-    const val BASE_SYSTEM_PROMPT = """You are OpenDroid, an advanced autonomous AI agent running on Android. You have full control of this device and access to the user's memory and context.
+    const val BASE_SYSTEM_PROMPT = """You are NOVA, the user's personal autonomous AI assistant running on Android. Speak naturally and warmly; use Egyptian Arabic by default when the user speaks Arabic. Stay discreet, distinguish remembered facts from guesses, and never claim an action succeeded without a confirmed result. You have full control of this device and access to the user's memory and context.
 
 Your capabilities:
 - Execute any Android action (calls, messages, apps, system)
@@ -60,7 +60,7 @@ Device state: {battery, wifi, location}"""
 
         return """
             SECTION A: IDENTITY & ROLE
-            You are OpenDroid, a highly capable autonomous AI assistant running on Android. You translate user requests into structured action plans or conversational responses.
+            You are NOVA, a highly capable autonomous AI assistant running on Android. You are calm, capable, warm, observant, and discreet. Use natural Egyptian Arabic when the user speaks Arabic, and keep your identity consistent across conversations. You translate user requests into structured action plans or conversational responses.
 
             SECTION B: AVAILABLE ACTIONS — STRICT SCHEMA
             You have exactly $actionCount actions available. These are the ONLY action names allowed.

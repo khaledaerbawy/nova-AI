@@ -16,6 +16,12 @@ class VoiceLanguagePolicyTest {
         assertTrue(VoiceLanguagePolicy.containsWakePhrase("Nova"))
         assertTrue(VoiceLanguagePolicy.containsWakePhrase("Hey, Nova!"))
     }
+    @Test fun recognizesConfiguredCustomWakePhrases() {
+        assertTrue(VoiceLanguagePolicy.containsWakePhrase("يا ليلى افتحي الكاميرا", "يا ليلى"))
+        assertTrue(VoiceLanguagePolicy.containsWakePhrase("Luna, open Spotify", "Luna"))
+        assertFalse(VoiceLanguagePolicy.containsWakePhrase("hello there", "Luna"))
+        assertFalse(VoiceLanguagePolicy.containsWakePhrase("Nova", "Luna"))
+    }
     @Test fun rejectsSubstringsAndUnrelatedPhrases() {
         assertFalse(VoiceLanguagePolicy.containsWakePhrase("innovation"))
         assertFalse(VoiceLanguagePolicy.containsWakePhrase("NovaStore"))
