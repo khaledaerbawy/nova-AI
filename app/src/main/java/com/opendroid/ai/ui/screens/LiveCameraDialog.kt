@@ -195,7 +195,12 @@ private fun LiveCameraPreview(
             // This listener and Compose disposal both run on the main executor. If the
             // dialog closed while CameraX was initializing, do not bind a late session.
             if (disposed) return@Runnable
-            val provider = providerFuture.get()
+            val provider = try {
+                providerFuture.get()
+            } catch (error: Exception) {
+                if (!disposed) onCaptureStatus("تعذر تهيئة الكاميرا: ${error.localizedMessage ?: "خطأ غير معروف"}")
+                return@Runnable
+            }
             if (disposed) return@Runnable
             val preview = Preview.Builder().build().also { it.surfaceProvider = previewView.surfaceProvider }
             val capture = ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build()
