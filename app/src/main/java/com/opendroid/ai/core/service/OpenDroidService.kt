@@ -13,6 +13,7 @@ import com.opendroid.ai.core.agent.AgentState
 import com.opendroid.ai.core.agent.PlanApprovalSummary
 import com.opendroid.ai.core.voice.ApprovalListenGate
 import com.opendroid.ai.core.voice.SpeechRecognitionEngine
+import com.opendroid.ai.core.voice.SherpaKwsWakeWordDetector
 import com.opendroid.ai.core.voice.TextToSpeechEngine
 import com.opendroid.ai.core.voice.VoiceApprovalIntent
 import com.opendroid.ai.core.voice.PendingApprovalListen
