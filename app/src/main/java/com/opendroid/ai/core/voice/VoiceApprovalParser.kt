@@ -12,7 +12,7 @@ object VoiceApprovalParser {
     // JVM word boundaries do not reliably delimit Arabic words. Match English
     // phrases with regex and normalized Arabic with whole-token checks.
     private val englishRejectPattern = Regex(
-        """\\b(cancel|stop|reject|no)\\b|\\b(dont|do not)\\s+(run|do|execute)\\b""",
+        """\b(cancel|stop|reject|no)\b|\b(dont|do not)\s+(run|do|execute)\b""",
         RegexOption.IGNORE_CASE
     )
     private val arabicRejectWords = setOf("لا", "الغيه", "الغي", "متنفذش", "بلاش")
