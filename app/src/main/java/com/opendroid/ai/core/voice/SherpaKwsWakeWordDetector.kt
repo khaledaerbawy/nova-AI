@@ -56,17 +56,15 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
     @Volatile private var generation = 0L
     @Volatile private var worker: Job? = null
     @Volatile private var recorder: AudioRecord? = null
-    @Volatile private var spotter: KeywordSpotter? = null
-    @Volatile private var activeStream: OnlineStream? = null
-    @Volatile private var onDetected: (() -> Unit)? = null
 
     fun start(onWakeWordDetected: () -> Unit, onUnavailable: (String) -> Unit, wakeWordPhrase: String = "NOVA") {
         synchronized(resourceLock) {
             if (worker?.isActive == true) return
             generation += 1
             val runId = generation
-            onDetected = onWakeWordDetected
             worker = scope.launch {
+                var kws: KeywordSpotter? = null
+                var stream: OnlineStream? = null
                 try {
                     if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                         throw IllegalStateException("Microphone permission is not granted")
@@ -88,11 +86,9 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
                         tokens = File(modelDir, "tokens.txt").absolutePath, numThreads = 1, provider = "cpu", modelType = "zipformer2"
                     )
                     val config = KeywordSpotterConfig(featConfig = FeatureConfig(sampleRate = SAMPLE_RATE, featureDim = 80), modelConfig = modelConfig, keywordsFile = File(modelDir, "keywords.txt").absolutePath, keywordsScore = 1.5f, keywordsThreshold = 0.25f)
-                    val kws = KeywordSpotter(config = config)
-                    if (!publishSpotter(runId, kws)) {
-                        kws.release()
-                        throw CancellationException()
-                    }
+                    kws = KeywordSpotter(config = config)
+                    currentCoroutineContext().ensureActive()
+                    if (!isCurrentRun(runId)) throw CancellationException()
                     val vocabulary = File(modelDir, "tokens.txt").readLines()
                         .mapNotNull { line -> line.trim().split(Regex("\\s+")).firstOrNull() }
                         .toSet()
@@ -101,11 +97,9 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
                         .distinct()
                         .joinToString("/")
                     if (encodedKeywords.isBlank()) throw IllegalStateException("تعذر ترميز كلمة التنبيه لنموذج الصوت")
-                    val stream = kws.createStream(encodedKeywords)
-                    if (!publishStream(runId, stream)) {
-                        stream.release()
-                        throw CancellationException()
-                    }
+                    stream = kws.createStream(encodedKeywords)
+                    currentCoroutineContext().ensureActive()
+                    if (!isCurrentRun(runId)) throw CancellationException()
                     runMicrophoneLoop(kws, stream, runId, onWakeWordDetected)
                 } catch (cancelled: CancellationException) {
                     throw cancelled
@@ -116,7 +110,8 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
                         }
                     }
                 } finally {
-                    releaseResources(runId)
+                    runCatching { stream?.release() }
+                    runCatching { kws?.release() }
                 }
             }
         }
@@ -124,14 +119,6 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
 
     private fun isCurrentRun(runId: Long): Boolean = synchronized(resourceLock) {
         generation == runId
-    }
-
-    private fun publishSpotter(runId: Long, value: KeywordSpotter): Boolean = synchronized(resourceLock) {
-        if (generation != runId) false else { spotter = value; true }
-    }
-
-    private fun publishStream(runId: Long, value: OnlineStream): Boolean = synchronized(resourceLock) {
-        if (generation != runId) false else { activeStream = value; true }
     }
 
     private suspend fun ensureModelInstalled(): File = withContext(Dispatchers.IO) {
@@ -196,24 +183,35 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
             audio.release()
             throw CancellationException()
         }
-        audio.startRecording()
-        val shortBuffer = ShortArray(SAMPLE_RATE / 10)
-        while (currentCoroutineContext().isActive && isCurrentRun(runId)) {
-            val count = audio.read(shortBuffer, 0, shortBuffer.size)
-            if (count == 0) continue
-            if (count < 0) throw IllegalStateException("تعذر قراءة الصوت من الميكروفون: $count")
-            val samples = FloatArray(count) { index -> shortBuffer[index] / 32768.0f }
-            stream.acceptWaveform(samples, sampleRate = SAMPLE_RATE)
-            while (kws.isReady(stream)) {
-                kws.decode(stream)
-                if (kws.getResult(stream).keyword.isNotBlank()) {
-                    kws.reset(stream)
-                    mainHandler.post {
-                        if (isCurrentRun(runId)) onWakeWordDetected()
+        try {
+            audio.startRecording()
+            val shortBuffer = ShortArray(SAMPLE_RATE / 10)
+            while (currentCoroutineContext().isActive && isCurrentRun(runId)) {
+                val count = audio.read(shortBuffer, 0, shortBuffer.size)
+                if (count == 0) continue
+                if (count < 0) {
+                    if (!isCurrentRun(runId)) throw CancellationException()
+                    throw IllegalStateException("تعذر قراءة الصوت من الميكروفون: $count")
+                }
+                val samples = FloatArray(count) { index -> shortBuffer[index] / 32768.0f }
+                stream.acceptWaveform(samples, sampleRate = SAMPLE_RATE)
+                while (kws.isReady(stream)) {
+                    kws.decode(stream)
+                    if (kws.getResult(stream).keyword.isNotBlank()) {
+                        kws.reset(stream)
+                        mainHandler.post {
+                            if (isCurrentRun(runId)) onWakeWordDetected()
+                        }
+                        return
                     }
-                    return
                 }
             }
+        } finally {
+            synchronized(resourceLock) {
+                if (recorder === audio) recorder = null
+            }
+            runCatching { audio.stop() }
+            runCatching { audio.release() }
         }
     }
 
@@ -222,26 +220,12 @@ class SherpaKwsWakeWordDetector(private val context: Context) {
             generation += 1
             worker?.cancel()
             worker = null
-            onDetected = null
-            releaseResourcesLocked()
+            // Stop the blocking read, but let that worker release its own stream and
+            // native model in its finally block before a replacement worker can own them.
+            runCatching { recorder?.stop() }
+            recorder = null
         }
     }
 
     fun destroy() { stop(); scope.cancel() }
-
-    private fun releaseResources(runId: Long) {
-        synchronized(resourceLock) {
-            if (generation == runId) releaseResourcesLocked()
-        }
-    }
-
-    private fun releaseResourcesLocked() {
-        runCatching { recorder?.stop() }
-        runCatching { recorder?.release() }
-        recorder = null
-        runCatching { activeStream?.release() }
-        activeStream = null
-        runCatching { spotter?.release() }
-        spotter = null
-    }
 }
