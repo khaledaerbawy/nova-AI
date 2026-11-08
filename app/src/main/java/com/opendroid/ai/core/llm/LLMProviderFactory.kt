@@ -103,6 +103,10 @@ class LLMProviderFactory @Inject constructor(
         val config = settingsRepository.llmConfig.first()
         val activeName = ProviderCatalog.canonicalName(config.activeProvider)
         val active = getProviderByName(activeName)
+        // A persisted provider unknown to this build is a configuration error.
+        // Do not silently route it to the offline hybrid provider or any fallback.
+        if (!ProviderCatalog.isKnown(activeName)) return listOf(active)
+
         val risk = ActionSchema.highestRisk(actionNames)
         val offlineProviderName = ProviderSelectionPolicy.offlineHybridProvider(
             activeProvider = activeName,

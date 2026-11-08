@@ -74,6 +74,7 @@ class AutoReplySettingsScreenTest {
         val lifecycleOwner = object : LifecycleOwner {
             override val lifecycle = LifecycleRegistry(this)
         }
+        composeRule.waitUntil(WAIT_MILLIS) { !viewModel.isLoading }
         composeRule.runOnUiThread { lifecycleOwner.lifecycle.currentState = Lifecycle.State.RESUMED }
         composeRule.setContent {
             CompositionLocalProvider(LocalLifecycleOwner provides lifecycleOwner) {

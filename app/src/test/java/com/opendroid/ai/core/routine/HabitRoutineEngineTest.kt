@@ -557,9 +557,22 @@ class FakeMemoryDao : MemoryDao {
 }
 
 class FakeTaskHistoryDao : TaskHistoryDao {
+    private companion object {
+        val MESSAGING_ACTION_TYPES = setOf("SEND_WHATSAPP", "SEND_SMS", "SEND_TELEGRAM")
+    }
+
     private val history = mutableListOf<TaskHistoryEntity>()
     override fun getTaskHistoryFlow(): Flow<List<TaskHistoryEntity>> = MutableStateFlow(history.toList())
     override suspend fun getTaskHistoryForPlan(planId: String): List<TaskHistoryEntity> = history.filter { it.planId == planId }
+    // Mirrors the DAO's @Query: [from, to) window, successful messaging actions only, newest first.
+    override suspend fun getSuccessfulMessagingHistory(fromTimestamp: Long, toTimestamp: Long, limit: Int): List<TaskHistoryEntity> =
+        history
+            .filter {
+                it.timestamp >= fromTimestamp && it.timestamp < toTimestamp &&
+                    it.actionType in MESSAGING_ACTION_TYPES && it.success
+            }
+            .sortedByDescending { it.timestamp }
+            .take(limit)
     override suspend fun insertHistory(task: TaskHistoryEntity) { history.add(task) }
     override suspend fun clearAll() { history.clear() }
 }
