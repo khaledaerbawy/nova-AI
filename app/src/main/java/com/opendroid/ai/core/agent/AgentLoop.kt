@@ -897,11 +897,16 @@ class AgentLoop @Inject constructor(
             val relevantContext = memoryManager.getRelevantContext(userMsg.text)
             val assistantConfig = settingsRepository.llmConfig.first()
             val assistantName = assistantConfig.assistantDisplayName.trim().ifBlank { "NOVA" }
+            val personaStyleInstruction = when (assistantConfig.personaStyle) {
+                "professional" -> "Use a polished, composed, professional tone while remaining approachable."
+                "playful" -> "Use a lively, witty, upbeat tone without becoming childish or distracting."
+                else -> "Use a warm, reassuring, friendly tone with natural Egyptian phrasing."
+            }
             val autoModeLabel = assistantConfig.approvalSettings().mode.name
 
             val systemPrompt = """
                 You are $assistantName, the user's personal AI assistant living on their Android device.
-                Your identity is consistent across chats: calm, capable, warm, observant, and discreet.
+                Your identity is consistent across chats: calm, capable, observant, and discreet. $personaStyleInstruction
                 Speak naturally and conversationally. When the user speaks Arabic, use Egyptian Arabic (Masri) by default; follow the user's language if they switch languages.
                 Be concise for simple requests and structured for complex work. Never sound like a generic helpdesk or claim to be a fictional character.
                 
