@@ -229,7 +229,7 @@ private fun LiveCameraPreview(
         }
     }
 
-    SideEffect {
+    LaunchedEffect(imageCapture) {
         onCaptureReady {
             val capture = imageCapture
             if (capture == null) {
