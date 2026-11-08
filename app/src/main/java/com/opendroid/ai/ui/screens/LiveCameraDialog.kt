@@ -186,8 +186,17 @@ private fun LiveCameraPreview(
 
     DisposableEffect(lifecycleOwner, useFrontCamera, previewView) {
         val providerFuture = ProcessCameraProvider.getInstance(context)
+        var disposed = false
+        var boundProvider: ProcessCameraProvider? = null
+        var boundPreview: Preview? = null
+        var boundCapture: ImageCapture? = null
+        var boundAnalysis: ImageAnalysis? = null
         val listener = Runnable {
+            // This listener and Compose disposal both run on the main executor. If the
+            // dialog closed while CameraX was initializing, do not bind a late session.
+            if (disposed) return@Runnable
             val provider = providerFuture.get()
+            if (disposed) return@Runnable
             val preview = Preview.Builder().build().also { it.surfaceProvider = previewView.surfaceProvider }
             val capture = ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build()
             val analysis = ImageAnalysis.Builder()
@@ -209,7 +218,6 @@ private fun LiveCameraPreview(
                 }
             }
             try {
-                provider.unbindAll()
                 provider.bindToLifecycle(
                     lifecycleOwner,
                     if (useFrontCamera) CameraSelector.DEFAULT_FRONT_CAMERA else CameraSelector.DEFAULT_BACK_CAMERA,
@@ -217,14 +225,26 @@ private fun LiveCameraPreview(
                     capture,
                     analysis
                 )
+                boundProvider = provider
+                boundPreview = preview
+                boundCapture = capture
+                boundAnalysis = analysis
                 imageCapture = capture
             } catch (error: Exception) {
+                runCatching { provider.unbind(preview, capture, analysis) }
                 onCaptureStatus("تعذر تشغيل الكاميرا: ${error.localizedMessage ?: "خطأ غير معروف"}")
             }
         }
         providerFuture.addListener(listener, ContextCompat.getMainExecutor(context))
         onDispose {
-            runCatching { providerFuture.get().unbindAll() }
+            disposed = true
+            val provider = boundProvider
+            if (provider != null) {
+                val useCases = listOfNotNull(boundPreview, boundCapture, boundAnalysis)
+                if (useCases.isNotEmpty()) {
+                    runCatching { provider.unbind(*useCases.toTypedArray()) }
+                }
+            }
             imageCapture = null
         }
     }
