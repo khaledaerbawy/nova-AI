@@ -365,6 +365,14 @@ fun ChatScreen(
                 .consumeWindowInsets(padding)
                 .imePadding()
         ) {
+            Box(
+                modifier = Modifier.align(Alignment.TopEnd).offset(x = 92.dp, y = 18.dp).size(260.dp)
+                    .background(Brush.radialGradient(listOf(Color(0x2639D9E8), Color.Transparent)), CircleShape)
+            )
+            Box(
+                modifier = Modifier.align(Alignment.BottomStart).offset(x = (-110).dp, y = 70.dp).size(280.dp)
+                    .background(Brush.radialGradient(listOf(Color(0x229B8CFF), Color.Transparent)), CircleShape)
+            )
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -380,6 +388,11 @@ fun ChatScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
                 ) {
+                    if (history.isEmpty()) {
+                        item(key = "nova-cinematic-welcome") {
+                            CinematicWelcomePanel(assistantName = llmConfig.assistantDisplayName)
+                        }
+                    }
                     items(history) { msg ->
                         ChatBubble(
                             message = msg,
@@ -694,6 +707,70 @@ fun ChatScreen(
                 }
             }
         )
+    }
+}
+
+@Composable
+private fun CinematicWelcomePanel(assistantName: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(28.dp))
+            .background(
+                Brush.linearGradient(
+                    listOf(Color(0xDD14263B), Color(0xCC101A2B), Color(0xDD171B36))
+                )
+            )
+            .border(
+                1.dp,
+                Brush.linearGradient(listOf(Color(0x8878E7F5), Color(0x449B8CFF), Color(0x3378E7F5))),
+                RoundedCornerShape(28.dp)
+            )
+            .padding(22.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier.size(8.dp).clip(CircleShape).background(Color(0xFF5EF0C2))
+            )
+            Spacer(Modifier.width(8.dp))
+            Text(
+                "PERSONAL INTELLIGENCE · ONLINE",
+                color = Color(0xFF78E7F5),
+                fontFamily = FontFamily.Monospace,
+                fontSize = 10.sp,
+                letterSpacing = 1.4.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Text(
+            text = "أهلًا، أنا ${assistantName.trim().ifBlank { "NOVA" }}",
+            color = TextPrimary,
+            fontSize = 26.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            "اسألني، اتكلم معايا، أو خلّيني أنفّذ لك مهمة على موبايلك. أنا جاهزة أساعدك.",
+            color = TextSecondary,
+            fontSize = 14.sp,
+            lineHeight = 22.sp
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf("صوت وذكاء", "تحكم في الهاتف", "رؤية بالكاميرا").forEach { label ->
+                Surface(
+                    color = Color(0x331DCCDF),
+                    shape = RoundedCornerShape(30.dp),
+                    border = BorderStroke(1.dp, Color(0x4478E7F5))
+                ) {
+                    Text(
+                        label,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 7.dp),
+                        color = Color(0xFFD7F8FC),
+                        fontSize = 10.sp
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -1094,7 +1171,7 @@ fun FloatingOrb(
 
     Box(
         modifier = Modifier
-            .size(64.dp)
+            .size(76.dp)
             .scale(shadowSize)
             .clip(CircleShape)
             .border(1.5.dp, Brush.sweepGradient(listOf(colorPulse, AccentCyan, AccentPurple, colorPulse)), CircleShape)
@@ -1122,7 +1199,7 @@ fun FloatingOrb(
         ) {
             Box(
                 modifier = Modifier
-                    .size(20.dp)
+                    .size(24.dp)
                     .clip(CircleShape)
                     .background(DarkBackground)
             )
