@@ -22,6 +22,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
@@ -99,6 +100,7 @@ fun ChatScreen(
     var transcriptionText by remember { mutableStateOf("") }
     var voiceError by remember { mutableStateOf<String?>(null) }
     var showChatMenu by remember { mutableStateOf(false) }
+    var showLiveCamera by remember { mutableStateOf(false) }
     var sessionPendingDelete by remember { mutableStateOf<ChatSession?>(null) }
     var sessionPendingRename by remember { mutableStateOf<ChatSession?>(null) }
     var renameText by remember { mutableStateOf("") }
@@ -238,6 +240,9 @@ fun ChatScreen(
                             fontWeight = FontWeight.Bold
                         )
                     }
+                    IconButton(onClick = { showLiveCamera = true }) {
+                        Icon(Icons.Default.CameraAlt, contentDescription = "فتح الكاميرا الحية", tint = AccentCyan)
+                    }
                     IconButton(onClick = { viewModel.newChat() }) {
                         Icon(
                             imageVector = Icons.Default.Add,
@@ -346,7 +351,7 @@ fun ChatScreen(
                         Text("مسح", color = TextSecondary, fontSize = 12.sp)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkBackground)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         },
         containerColor = DarkBackground,
@@ -355,6 +360,7 @@ fun ChatScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Brush.verticalGradient(listOf(Color(0xFF050A14), Color(0xFF0A1424), Color(0xFF080D18))))
                 .padding(padding)
                 .consumeWindowInsets(padding)
                 .imePadding()
@@ -620,6 +626,10 @@ fun ChatScreen(
                 }
             }
         }
+    }
+
+    if (showLiveCamera) {
+        LiveCameraDialog(onDismiss = { showLiveCamera = false })
     }
 
     sessionPendingDelete?.let { session ->
