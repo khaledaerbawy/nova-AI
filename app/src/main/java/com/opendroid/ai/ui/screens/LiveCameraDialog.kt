@@ -1,8 +1,6 @@
 package com.opendroid.ai.ui.screens
 
 import android.content.Context
-import android.graphics.Color as AndroidColor
-import android.view.ViewGroup
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
@@ -13,7 +11,6 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -57,6 +54,7 @@ fun LiveCameraDialog(onDismiss: () -> Unit) {
     var detectedLabels by remember { mutableStateOf(emptyList<String>()) }
     var captureMessage by remember { mutableStateOf("الكاميرا جاهزة للتحليل") }
     var useFrontCamera by remember { mutableStateOf(false) }
+    var captureAction by remember { mutableStateOf<(() -> Unit)?>(null) }
     val executor = remember { Executors.newSingleThreadExecutor() }
     val detector = remember {
         ObjectDetection.getClient(
@@ -89,7 +87,8 @@ fun LiveCameraDialog(onDismiss: () -> Unit) {
                     detector = detector,
                     executor = executor,
                     onLabels = { labels -> detectedLabels = labels },
-                    onCaptureStatus = { captureMessage = it }
+                    onCaptureStatus = { captureMessage = it },
+                    onCaptureReady = { captureAction = it }
                 )
             } else {
                 Column(
@@ -155,7 +154,7 @@ fun LiveCameraDialog(onDismiss: () -> Unit) {
                         modifier = Modifier.size(52.dp).clip(CircleShape).background(Color(0xCC18263A))
                     ) { Icon(Icons.Default.FlipCameraAndroid, "تبديل الكاميرا", tint = Color.White) }
                     Surface(color = Color(0xFF78E7F5), shape = CircleShape, modifier = Modifier.size(72.dp)) {
-                        IconButton(onClick = { captureMessage = "استخدم زر الالتقاط داخل معاينة الكاميرا لحفظ لقطة." }) {
+                        IconButton(onClick = { captureAction?.invoke() ?: run { captureMessage = "الكاميرا لسه بتجهز…" } }) {
                             Icon(Icons.Default.PhotoCamera, "التقاط صورة", tint = Color(0xFF07111D), modifier = Modifier.size(30.dp))
                         }
                     }
@@ -173,7 +172,8 @@ private fun LiveCameraPreview(
     detector: com.google.mlkit.vision.objects.ObjectDetector,
     executor: java.util.concurrent.ExecutorService,
     onLabels: (List<String>) -> Unit,
-    onCaptureStatus: (String) -> Unit
+    onCaptureStatus: (String) -> Unit,
+    onCaptureReady: (() -> Unit) -> Unit
 ) {
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
     val previewView = remember { PreviewView(context).apply { scaleType = PreviewView.ScaleType.FILL_CENTER } }
@@ -229,32 +229,24 @@ private fun LiveCameraPreview(
         }
     }
 
-    // Capture button is exposed as a floating control over the preview.
-    Box(Modifier.fillMaxSize()) {
-        androidx.compose.material3.FloatingActionButton(
-            onClick = {
-                val capture = imageCapture
-                if (capture == null) {
-                    onCaptureStatus("الكاميرا لسه بتجهز…")
-                } else {
-                    val stamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-                    val file = File(context.cacheDir, "nova_vision_$stamp.jpg")
-                    val options = ImageCapture.OutputFileOptions.Builder(file).build()
-                    capture.takePicture(options, executor, object : ImageCapture.OnImageSavedCallback {
-                        override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                            onCaptureStatus("تم التقاط صورة وحفظها مؤقتًا داخل NOVA")
-                        }
-                        override fun onError(exception: ImageCaptureException) {
-                            onCaptureStatus("فشل التقاط الصورة: ${exception.message}")
-                        }
-                    })
-                }
-            },
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 126.dp),
-            containerColor = Color(0xFF78E7F5),
-            contentColor = Color(0xFF07111D)
-        ) {
-            Icon(Icons.Default.PhotoCamera, "التقاط صورة")
+    SideEffect {
+        onCaptureReady {
+            val capture = imageCapture
+            if (capture == null) {
+                onCaptureStatus("الكاميرا لسه بتجهز…")
+            } else {
+                val stamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+                val file = File(context.cacheDir, "nova_vision_$stamp.jpg")
+                val options = ImageCapture.OutputFileOptions.Builder(file).build()
+                capture.takePicture(options, executor, object : ImageCapture.OnImageSavedCallback {
+                    override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                        onCaptureStatus("تم التقاط صورة وحفظها مؤقتًا داخل NOVA")
+                    }
+                    override fun onError(exception: ImageCaptureException) {
+                        onCaptureStatus("فشل التقاط الصورة: ${exception.message}")
+                    }
+                })
+            }
         }
     }
 }
