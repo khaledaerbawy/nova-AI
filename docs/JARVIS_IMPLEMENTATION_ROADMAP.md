@@ -146,14 +146,22 @@ Exit gate: CI green on release candidate; APK signature verified; regression sui
 
 | Phase | Status at baseline |
 |---|---|
-| 0 — Baseline | In progress; repository inspected, duplicate CAMERA permission fix and this plan being committed |
+| 0 — Baseline | In progress; repository map and plan committed; duplicate CAMERA declaration removed in 4fac54f; latest validation run pending |
 | 1 — Intelligence and memory | Existing foundations; evaluation and targeted integration work needed |
 | 2 — Voice | Existing foundations; device validation and UX reliability work needed |
 | 3 — Vision | Partial; live camera exists, unified live-frame multimodal pipeline not verified |
 | 4 — Device control | Broad existing action layer; capability/permission/verification audit needed |
 | 5 — Autonomous agent | Existing planner/agent; durable execution and failure-injection validation needed |
-| 6 — Smart home | Partial action layer; connector and physical-device acceptance pending |
+| 6 — Smart home | Guarded: unconfigured actions now fail honestly instead of claiming device control (50a7c45); real Home Assistant/MQTT adapter and physical-device acceptance pending |
 | 7 — Windows | Not implemented |
 | 8 — Release hardening | CI pipeline exists; current run and physical-device/release gates pending |
 
 Update this ledger with commit links, CI run IDs, test evidence and explicit blockers as work progresses.
+
+
+## 8. Latest verified implementation activity
+
+- Roadmap and baseline audit: commit 416b16976ce4e7ce6d0c0c7f84cf296867c95fa5.
+- Duplicate CAMERA permission removed: commit 4fac54f702e11e5a6aef33ecb4891f648816d9c4.
+- Smart-home false-success behavior replaced with fail-closed behavior and regression tests: commit 50a7c453c4b224ee9f7880b70835e52302056bb2.
+- CI run for the latest code at the time of this update: https://github.com/khaledaerbawy/nova-AI/actions/runs/42450158781 (queued/pending when checked; no artifact available).
