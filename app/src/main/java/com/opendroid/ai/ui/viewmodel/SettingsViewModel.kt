@@ -534,6 +534,13 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun updatePersonaStyle(style: String) {
+        val safeStyle = style.lowercase().takeIf { it in setOf("warm", "professional", "playful") } ?: "warm"
+        _llmConfig.value = _llmConfig.value.copy(personaStyle = safeStyle)
+        viewModelScope.launch {
+            configSaver.save(revert = { stored -> copy(personaStyle = stored.personaStyle) }) { current -> current.copy(personaStyle = safeStyle) }
+        }
+    }
     fun updatePreferFemaleVoice(enabled: Boolean) {
         _llmConfig.value = _llmConfig.value.copy(preferFemaleVoice = enabled)
         viewModelScope.launch {
