@@ -30,4 +30,5 @@ object VoiceApprovalParser {
             normalized in affirmativeUtterances -> VoiceApprovalIntent.APPROVE
             else -> VoiceApprovalIntent.NONE
         }
+    }
 }
