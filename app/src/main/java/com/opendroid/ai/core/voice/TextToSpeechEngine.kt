@@ -76,6 +76,20 @@ class TextToSpeechEngine(
             val result = if (egyptianResult == TextToSpeech.LANG_MISSING_DATA || egyptianResult == TextToSpeech.LANG_NOT_SUPPORTED) tts?.setLanguage(Locale("ar")) else egyptianResult
             if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
                 isInitialized = true
+                scope.launch {
+                    val preferFemale = runCatching { settingsRepository.llmConfig.first().preferFemaleVoice }.getOrDefault(true)
+                    if (preferFemale) {
+                        val femaleVoice = tts?.voices
+                            ?.filter { it.locale.language == "ar" }
+                            ?.firstOrNull { voice ->
+                                val descriptor = listOf(voice.name, voice.features.orEmpty().joinToString(" ")).joinToString(" ").lowercase(Locale.ROOT)
+                                listOf("female", "woman", "feminine", "soprano").any(descriptor::contains)
+                            }
+                        if (femaleVoice != null) {
+                            kotlinx.coroutines.withContext(Dispatchers.Main) { tts?.voice = femaleVoice }
+                        }
+                    }
+                }
             }
         }
     }
