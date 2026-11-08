@@ -203,14 +203,14 @@ fun ChatScreen(
                 title = {
                     Column {
                         Text(
-                            text = "NOVA",
+                            text = llmConfig.assistantDisplayName.trim().ifBlank { "NOVA" },
                             fontFamily = FontFamily.Monospace,
                             fontWeight = FontWeight.Bold,
                             color = TextPrimary,
                             fontSize = 20.sp,
                             letterSpacing = 2.sp
                         )
-                        AgentStatusSubtitle(visibleAgentState, runningElsewhere)
+                        AgentStatusSubtitle(visibleAgentState, runningElsewhere, llmConfig.assistantDisplayName)
                     }
                 },
                 actions = {
@@ -688,7 +688,7 @@ fun ChatScreen(
 }
 
 @Composable
-fun AgentStatusSubtitle(state: AgentState, runningElsewhere: Boolean = false) {
+fun AgentStatusSubtitle(state: AgentState, runningElsewhere: Boolean = false, assistantName: String = "NOVA") {
     // runningElsewhere means [state] has already been forced to Idle because the real
     // activity belongs to a different chat (see ChatViewModel.visibleAgentState) - say
     // so explicitly instead of showing a plain "متصلة وجاهزة" that would hide the
@@ -698,11 +698,11 @@ fun AgentStatusSubtitle(state: AgentState, runningElsewhere: Boolean = false) {
     } else {
         when (state) {
             is AgentState.Idle -> "متصلة وجاهزة"
-            is AgentState.Listening -> "نوفا بتسمعك..."
+            is AgentState.Listening -> "$assistantName بتسمعك..."
             is AgentState.Thinking -> "بفهم طلبك وبجهّز الخطوات..."
             is AgentState.PlanProposed -> "محتاج موافقتك على الخطة"
             is AgentState.ExecutingPlan -> "بننفّذ: ${state.currentStepDesc}"
-            is AgentState.Speaking -> "نوفا بترد عليك: ${state.text.take(30)}..."
+            is AgentState.Speaking -> "$assistantName بترد عليك: ${state.text.take(30)}..."
             is AgentState.Error -> "حصل خطأ أثناء التنفيذ"
         }
     }
