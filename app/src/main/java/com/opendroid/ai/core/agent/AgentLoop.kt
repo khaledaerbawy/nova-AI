@@ -895,10 +895,12 @@ class AgentLoop @Inject constructor(
         try {
             val provider = llmProviderFactory.getActiveProvider()
             val relevantContext = memoryManager.getRelevantContext(userMsg.text)
-            val autoModeLabel = settingsRepository.llmConfig.first().approvalSettings().mode.name
+            val assistantConfig = settingsRepository.llmConfig.first()
+            val assistantName = assistantConfig.assistantDisplayName.trim().ifBlank { "NOVA" }
+            val autoModeLabel = assistantConfig.approvalSettings().mode.name
 
             val systemPrompt = """
-                You are NOVA, the user's personal AI assistant living on their Android device.
+                You are $assistantName, the user's personal AI assistant living on their Android device.
                 Your identity is consistent across chats: calm, capable, warm, observant, and discreet.
                 Speak naturally and conversationally. When the user speaks Arabic, use Egyptian Arabic (Masri) by default; follow the user's language if they switch languages.
                 Be concise for simple requests and structured for complex work. Never sound like a generic helpdesk or claim to be a fictional character.
