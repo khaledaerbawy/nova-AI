@@ -523,6 +523,23 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun updateAssistantIdentity(displayName: String, wakeWordPhrase: String) {
+        val safeName = displayName.trim().take(32).ifBlank { "NOVA" }
+        val safeWakeWord = wakeWordPhrase.trim().take(48).ifBlank { safeName }
+        _llmConfig.value = _llmConfig.value.copy(assistantDisplayName = safeName, wakeWordPhrase = safeWakeWord)
+        viewModelScope.launch {
+            configSaver.save(
+                revert = { stored -> copy(assistantDisplayName = stored.assistantDisplayName, wakeWordPhrase = stored.wakeWordPhrase) }
+            ) { current -> current.copy(assistantDisplayName = safeName, wakeWordPhrase = safeWakeWord) }
+        }
+    }
+
+    fun updatePreferFemaleVoice(enabled: Boolean) {
+        _llmConfig.value = _llmConfig.value.copy(preferFemaleVoice = enabled)
+        viewModelScope.launch {
+            configSaver.save(revert = { stored -> copy(preferFemaleVoice = stored.preferFemaleVoice) }) { current -> current.copy(preferFemaleVoice = enabled) }
+        }
+    }
     fun updateElevenLabsApiKey(key: String) {
         _llmConfig.value = _llmConfig.value.copy(elevenLabsApiKey = key)
         elevenLabsApiKeyJob?.cancel()
