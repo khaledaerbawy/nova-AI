@@ -1084,9 +1084,10 @@ fun FloatingOrb(
 
     Box(
         modifier = Modifier
-            .size(56.dp)
+            .size(64.dp)
             .scale(shadowSize)
             .clip(CircleShape)
+            .border(1.5.dp, Brush.sweepGradient(listOf(colorPulse, AccentCyan, AccentPurple, colorPulse)), CircleShape)
             .background(
                 Brush.radialGradient(
                     colors = listOf(colorPulse, Color.Transparent),
