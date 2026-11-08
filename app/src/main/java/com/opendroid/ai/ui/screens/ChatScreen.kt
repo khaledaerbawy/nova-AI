@@ -354,7 +354,7 @@ fun ChatScreen(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
         },
-        containerColor = DarkBackground,
+        containerColor = Color.Transparent,
         modifier = modifier
     ) { padding ->
         Box(
