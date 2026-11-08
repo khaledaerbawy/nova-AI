@@ -19,8 +19,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: nova-apk-build
-  cancel-in-progress: true
+  # Isolate branch builds; one PR must not cancel another PR's validation.
+  group: nova-apk-build-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build-debug-apk:
@@ -47,8 +48,25 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
+      - name: Stress-test AutoReply ViewModel cleanup (5 runs)
+        run: |
+          for attempt in 1 2 3 4 5; do
+            echo "AutoReplySettingsScreenTest attempt ${attempt}/5"
+            ./gradlew --no-daemon --no-configuration-cache --stacktrace :app:testDebugUnitTest --tests "*AutoReplySettingsScreenTest*" --rerun-tasks
+          done
+
+
       - name: Run unit tests and build debug APK
         run: ./gradlew --no-daemon --no-configuration-cache --stacktrace testDebugUnitTest assembleDebug
+
+      - name: Upload unit test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: NOVA-unit-test-reports
+          path: app/build/reports/tests/testDebugUnitTest/**
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4

@@ -81,13 +81,17 @@ class AutoReplyViewModel internal constructor(
 
     // A separate job, so cancelling the debounce can never interrupt a write already under way.
     private fun writePendingConfig() {
-        writeScope.launch {
-            // Each write takes the newest config, and the lock keeps an older write from landing
-            // after it.
+        // Start immediately so onCleared() hands the pending write to the independent scope
+        // before the ViewModel is fully torn down. The repository call may suspend and finish
+        // on Dispatchers.IO, but it is no longer waiting for a newly scheduled launch.
+        writeScope.launch(start = kotlinx.coroutines.CoroutineStart.UNDISPATCHED) {
             writeMutex.withLock {
-                val toWrite = pendingConfig.getAndSet(null) ?: return@withLock
+                // Keep the pending value until persistence succeeds. If a newer edit arrives
+                // while this write is suspended, compareAndSet won't erase that newer value.
+                val toWrite = pendingConfig.get() ?: return@withLock
                 try {
                     settingsRepository.updateAutoReplyConfig(toWrite)
+                    pendingConfig.compareAndSet(toWrite, null)
                 } catch (e: Exception) {
                     android.util.Log.e("AutoReplySettings", "Failed to save config: ${e.message}", e)
                 }
