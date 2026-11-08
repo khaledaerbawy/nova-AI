@@ -179,7 +179,9 @@ class TextToSpeechEngineTest {
         ),
         providerCredentialStore = ElevenLabsOnlyCredentialStore(),
         runStartupMigration = false
-    )
+    ).also { repository ->
+        runBlocking { repository.updateConfig { it.copy(elevenLabsVoiceId = "test-voice") } }
+    }
 
     private class ElevenLabsOnlyCredentialStore : ProviderCredentialStore {
         override val recoveryState: StateFlow<ProviderCredentialRecoveryState> =
