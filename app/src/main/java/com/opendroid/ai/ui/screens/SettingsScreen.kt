@@ -1836,6 +1836,12 @@ fun SettingsScreen(
                                     ) { Text("حفظ الهوية") }
                                 }
                                 wakeWordTestResult?.let { Text(it, color = TextSecondary, fontSize = 11.sp) }
+                                Text("اختيار شخصية NOVA", color = AccentCyan, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                    FilterChip(selected = config.personaStyle == "warm", onClick = { viewModel.updatePersonaStyle("warm") }, label = { Text("حنونة وودودة") })
+                                    FilterChip(selected = config.personaStyle == "professional", onClick = { viewModel.updatePersonaStyle("professional") }, label = { Text("احترافية") })
+                                    FilterChip(selected = config.personaStyle == "playful", onClick = { viewModel.updatePersonaStyle("playful") }, label = { Text("مرحة") })
+                                }
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
