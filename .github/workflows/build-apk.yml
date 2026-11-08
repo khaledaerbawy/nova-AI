@@ -50,10 +50,17 @@ jobs:
 
       - name: Stress-test AutoReply ViewModel cleanup (5 runs)
         run: |
+          failed=0
           for attempt in 1 2 3 4 5; do
             echo "AutoReplySettingsScreenTest attempt ${attempt}/5"
-            ./gradlew --no-daemon --no-configuration-cache --stacktrace :app:testDebugUnitTest --tests "*AutoReplySettingsScreenTest*" --rerun-tasks
+            if ./gradlew --no-daemon --no-configuration-cache --stacktrace :app:testDebugUnitTest --tests "*AutoReplySettingsScreenTest*" --rerun-tasks; then
+              echo "Attempt ${attempt}: PASS"
+            else
+              echo "Attempt ${attempt}: FAIL"
+              failed=1
+            fi
           done
+          exit "$failed"
 
 
       - name: Run unit tests and build debug APK
