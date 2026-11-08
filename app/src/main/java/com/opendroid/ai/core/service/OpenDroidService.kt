@@ -123,6 +123,7 @@ class OpenDroidService : Service() {
                 assistantOperatingMode = config.assistantOperatingMode
                 configuredWakeWordPhrase = config.wakeWordPhrase.trim().ifBlank { config.assistantDisplayName.trim().ifBlank { "NOVA" } }
                 configuredAssistantName = config.assistantDisplayName.trim().ifBlank { "NOVA" }
+                textToSpeechEngine.applyVoicePreference(config.preferFemaleVoice)
                 stopWakeWordDetection()
                 if (voiceWakeEnabled) startWakeWordDetection()
             }
